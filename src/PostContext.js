@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 
-export const PostContext = createContext();
+export const PostContext = createContext({});
 
 export function PostProvider(props) {
   let [posts, setPosts] = useState([]);

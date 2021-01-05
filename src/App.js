@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Users, Home } from './components/Pages';
+import { Saved, Home } from './components/Pages';
 import { PostProvider, PostContext } from './PostContext';
 import './styles.css';
 
@@ -11,7 +11,7 @@ export default function App() {
         <Router>
           <Switch>
             <Route path="/saved">
-              <Users />
+              <Saved />
             </Route>
             <Route path="/">
               <Home />
