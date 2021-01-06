@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Saved, Home, CreateNew } from './components/Pages';
+import { Saved } from './components/Pages/Saved';
+import { Home } from './components/Pages/Home';
+import { CreateNew } from './components/Pages/CreateNew';
 import { PostProvider, PostContext } from './PostContext';
 import './styles.css';
 
