@@ -36,18 +36,21 @@ export function Saved() {
 }
 
 function SavedPosts() {
-  let { posts, setPosts, savedPosts, setSavedPosts } = useContext(PostContext);
+  let { savedPosts, setSavedPosts } = useContext(PostContext);
+
+  return savedPosts.map((post) => (
+    <Post key={post.id} id={post.id} title={post.title} body={post.body} />
+  ));
+}
+
+export function CreateNew() {
   return (
-    posts &&
-    posts.map((post) => (
-      <Post
-        key={post.id}
-        id={post.id}
-        title={post.title}
-        body={post.body}
-        saved={savedPosts.find((el) => el === post.id) ? true : false}
-        savedPost={[savedPosts, setSavedPosts]}
-      />
-    ))
+    <Layout>
+      <TextEditor />
+    </Layout>
   );
+}
+
+function TextEditor() {
+  return <></>;
 }

@@ -3,7 +3,14 @@ import React, { useState, useEffect, createContext } from 'react';
 export const PostContext = createContext({});
 
 export function PostProvider(props) {
-  let [posts, setPosts] = useState([]);
+  let [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: 'This is a blog post',
+      body: "This is a blog post. It's hard coded, not taken from an API!"
+    }
+  ]);
+
   let [savedPosts, setSavedPosts] = useState([]);
 
   useEffect(() => {
@@ -14,23 +21,27 @@ export function PostProvider(props) {
     }
   }, [savedPosts]);
 
+  // ^^^^^^^^ ALSO ADD POSTS AS A DEPENDENCY SO WHENEVER POSTS IS UPDATED (AND A POST IS DELETED FOR EXAMPLE), SAVEDPOSTS WILL DELETE THE REMOVED POST FROM THERE TOO
+
   useEffect(() => {
     if (localStorage.getItem('saved posts')) {
-      setSavedPosts(JSON.parse(localStorage.getItem('saved posts')));
+      if (JSON.parse(localStorage.getItem('saved posts')).length > 0) {
+        setSavedPosts(JSON.parse(localStorage.getItem('saved posts')));
+      }
     } else {
       console.log('There is no local storage.');
     }
   }, []);
 
-  useEffect(() => {
-    const getPosts = async () => {
-      const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-      const data = await res.json();
-      setPosts(data);
-    };
+  // useEffect(() => {
+  //   const getPosts = async () => {
+  //     const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  //     const data = await res.json();
+  //     setPosts(data);
+  //   };
 
-    getPosts();
-  }, []);
+  //   getPosts();
+  // }, []);
 
   return (
     <PostContext.Provider
