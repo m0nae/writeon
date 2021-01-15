@@ -15,8 +15,6 @@ const { graphqlHTTP } = require("express-graphql");
 const Post = require("./models/Post");
 const User = require("./models/User");
 
-const validate = require("./utils");
-
 const app = express();
 
 const graphQlSchema = buildSchema(`
@@ -91,37 +89,50 @@ const graphQlResolvers = {
   },
 
   createUser: async (args) => {
-    let email = args.userInput.email;
-    let password = args.userInput.password;
-    let username = args.userInput.username;
-    let inputs = [email, username, password];
+    let validateUserInput = new (require("./utils")(inputs))();
+
+    let inputs = {
+      email: args.userInput.email,
+      username: args.userInput.username,
+      password: args.userInput.password,
+    };
 
     let user = {};
 
     try {
-      if (validate.hasEmptyInput(inputs)) {
-        throw `Inputs must not be empty.`;
-      }
-      // inputs.forEach((input) => {
-      //   if (validator.isEmpty(input, { ignore_whitespace: true })) {
-      //     throw `Inputs must not be empty.`;
-      //   }
-      // });
+      validateUserInput.hasEmptyInputs();
+      validateUserInput.isPasswordStrong();
+      validateUserInput.isUserLengthValid();
 
-      if (!validator.isEmail(email)) {
-        throw "The email is invalid.";
-        //! What is classified as a "strong password"???
-      } else if (!validator.isStrongPassword(password)) {
-        throw "Password is too weak.";
-      } else if (username.length > 20) {
-        throw "Username too long.";
-      } else {
-        user = {
-          email,
-          password,
-          username,
-        };
-      }
+      user = {
+        email: inputs.email,
+        username: inputs.username,
+        password: inputs.password,
+      };
+
+      // if (validate.hasEmptyInput(inputs)) {
+      //   throw `Inputs must not be empty.`;
+      // }
+      // // inputs.forEach((input) => {
+      // //   if (validator.isEmpty(input, { ignore_whitespace: true })) {
+      // //     throw `Inputs must not be empty.`;
+      // //   }
+      // // });
+
+      // if (!validator.isEmail(email)) {
+      //   throw "The email is invalid.";
+      //   //! What is classified as a "strong password"???
+      // } else if (!validator.isStrongPassword(password)) {
+      //   throw "Password is too weak.";
+      // } else if (username.length > 20) {
+      //   throw "Username too long.";
+      // } else {
+      //   user = {
+      //     email,
+      //     password,
+      //     username,
+      //   };
+      // }
 
       if (User.findOne({ username: username })) {
         throw `User with that username already exists.`;
