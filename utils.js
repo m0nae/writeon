@@ -5,9 +5,9 @@ class validateUserInput {
     this.inputs = inputs;
   }
 
-  hasEmptyInputs() {
-    let inputs = Object.values(inputs);
-    let hasEmptyInputs = !inputs.every((input) => {
+  areInputsFilled() {
+    let inputValues = Object.values(this.inputs);
+    let hasEmptyInputs = !!inputValues.every((input) => {
       !validator.isEmpty(input, {
         ignore_whitespace: true,
       });
@@ -15,20 +15,26 @@ class validateUserInput {
 
     if (hasEmptyInputs) {
       throw `Inputs must not be empty.`;
+    } else {
+      return true;
     }
   }
 
-  isPasswordStrong() {
+  isPasswordStrong(inputs) {
     if (!validator.isStrongPassword(inputs.password)) {
       throw `Password is too weak.`;
+    } else {
+      return true;
     }
   }
 
-  isUsernameLengthValid() {
+  isUsernameLengthValid(inputs) {
     if (username.length > 20) {
       throw `Username too long.`;
+    } else {
+      return true;
     }
   }
 }
 
-module.exports = validateUserInput();
+module.exports = validateUserInput;

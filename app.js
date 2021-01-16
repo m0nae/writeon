@@ -100,7 +100,7 @@ const graphQlResolvers = {
     let user = {};
 
     try {
-      validateUserInput.hasEmptyInputs();
+      validateUserInput.areInputsFilled();
       validateUserInput.isPasswordStrong();
       validateUserInput.isUserLengthValid();
 
