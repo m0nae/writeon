@@ -1,4 +1,5 @@
 const validator = require("validator");
+const User = require("../models/User");
 
 class validateUserInput {
   constructor(inputs) {
@@ -21,7 +22,7 @@ class validateUserInput {
   }
 
   isPasswordStrong() {
-    if (!validator.isStrongPassword(inputs.password)) {
+    if (!validator.isStrongPassword(this.inputs.password)) {
       throw `Password is too weak.`;
     } else {
       return true;
@@ -29,7 +30,7 @@ class validateUserInput {
   }
 
   isUsernameLengthValid() {
-    if (username.length > 20) {
+    if (this.inputs.username.length > 20) {
       throw `Username too long.`;
     } else {
       return true;
@@ -41,6 +42,26 @@ class validateUserInput {
       return true;
     } else {
       throw `Email is not valid.`;
+    }
+  }
+
+  async isUsernameAvailable() {
+    let userFound = await User.findOne({ username: this.inputs.username });
+
+    if (userFound) {
+      throw `This username is taken.`;
+    } else {
+      return true;
+    }
+  }
+
+  async isEmailAvailable() {
+    let userFound = await User.findOne({ email: this.inputs.email });
+
+    if (userFound) {
+      throw `A user with this email already exists.`;
+    } else {
+      return true;
     }
   }
 }

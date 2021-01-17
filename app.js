@@ -1,4 +1,3 @@
-const validator = require("validator");
 const bcrypt = require("bcrypt");
 
 const dotenv = require("dotenv");
@@ -9,70 +8,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 mongoose.set("returnOriginal", false);
 
-const { buildSchema } = require("graphql");
+const graphQlSchema = require("./schema/schema");
 const { graphqlHTTP } = require("express-graphql");
+
+const validateUserInput = require("./utils/utils");
 
 const Post = require("./models/Post");
 const User = require("./models/User");
 
 const app = express();
-
-const graphQlSchema = buildSchema(`
-type Post {
-  _id: ID!
-  title: String!
-  htmlContent: String!
-  deltaContent: String!
-  dateCreated: String!
-  dateModified: String
-  author: User
-}
-
-type User {
-  _id: ID!
-  username: String!
-  password: String
-  email: String!
-  createdPosts: [Post!]
-  savedPosts: [Post!]
-}
-
-input CreatePostInput {
-  title: String!
-  htmlContent: String!
-  deltaContent: String!
-}
-
-input UpdatePostInput {
-  title: String
-  htmlContent: String
-  deltaContent: String
-}
-
-input CreateUserInput {
-  username: String!
-  password: String!
-  email: String!
-}
-
-type RootQuery {
-  posts: [Post!]!
-  savedPosts: [Post!]!
-  me: User!
-}
-
-type RootMutation {
-  createUser(userInput: CreateUserInput): User
-  createPost(postInput: CreatePostInput): Post
-  updatePost(postInput: UpdatePostInput, id: ID): Post
-  deletePost(id: ID): Post
-}
-
-schema {
-  query: RootQuery,
-  mutation: RootMutation
-}
-`);
 
 const graphQlResolvers = {
   posts: async () => {
@@ -89,56 +33,28 @@ const graphQlResolvers = {
   },
 
   createUser: async (args) => {
-    let validateUserInput = new (require("./utils")(inputs))();
-
     let inputs = {
       email: args.userInput.email,
       username: args.userInput.username,
       password: args.userInput.password,
     };
 
-    let user = {};
+    const userInput = new validateUserInput(inputs);
 
     try {
-      validateUserInput.areInputsFilled();
-      validateUserInput.isPasswordStrong();
-      validateUserInput.isUserLengthValid();
+      userInput.areInputsFilled();
+      userInput.isPasswordStrong();
+      userInput.isUsernameLengthValid();
+      await userInput.isUsernameAvailable();
+      await userInput.isEmailAvailable();
 
-      user = {
+      let user = {
         email: inputs.email,
         username: inputs.username,
         password: inputs.password,
       };
 
-      // if (validate.hasEmptyInput(inputs)) {
-      //   throw `Inputs must not be empty.`;
-      // }
-      // // inputs.forEach((input) => {
-      // //   if (validator.isEmpty(input, { ignore_whitespace: true })) {
-      // //     throw `Inputs must not be empty.`;
-      // //   }
-      // // });
-
-      // if (!validator.isEmail(email)) {
-      //   throw "The email is invalid.";
-      //   //! What is classified as a "strong password"???
-      // } else if (!validator.isStrongPassword(password)) {
-      //   throw "Password is too weak.";
-      // } else if (username.length > 20) {
-      //   throw "Username too long.";
-      // } else {
-      //   user = {
-      //     email,
-      //     password,
-      //     username,
-      //   };
-      // }
-
-      if (User.findOne({ username: username })) {
-        throw `User with that username already exists.`;
-      }
-
-      let hashedPassword = await bcrypt.hash(password, 12);
+      let hashedPassword = await bcrypt.hash(user.password, 12);
       user.dateCreated = new Date(new Date().toISOString());
       user.dateModified = user.dateCreated;
 
@@ -148,6 +64,7 @@ const graphQlResolvers = {
       });
 
       let createdUser = await user.save();
+
       createdUser = {
         ...user._doc,
       };
