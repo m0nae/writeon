@@ -20,7 +20,7 @@ class validateUserInput {
     }
   }
 
-  isPasswordStrong(inputs) {
+  isPasswordStrong() {
     if (!validator.isStrongPassword(inputs.password)) {
       throw `Password is too weak.`;
     } else {
@@ -28,11 +28,19 @@ class validateUserInput {
     }
   }
 
-  isUsernameLengthValid(inputs) {
+  isUsernameLengthValid() {
     if (username.length > 20) {
       throw `Username too long.`;
     } else {
       return true;
+    }
+  }
+
+  isValidEmail() {
+    if (validator.isEmail(this.inputs.email)) {
+      return true;
+    } else {
+      throw `Email is not valid.`;
     }
   }
 }

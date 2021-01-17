@@ -1,27 +1,44 @@
 let validateUserInput = require("../utils");
 
+const inputs = (
+  username = "username",
+  password = "password",
+  email = "email@email.com"
+) => {
+  return {
+    username: username,
+    password: password,
+    email: email,
+  };
+};
+
 describe("Validate user inputs", () => {
   describe("Test for empty user inputs", () => {
-    test("Pass if no user inputs are empty", () => {
-      const inputs = {
-        username: "username",
-        password: "password",
-        email: "email@email.com",
-      };
+    test("Should pass if no user inputs are empty", () => {
+      let userInput = new validateUserInput(inputs());
 
-      let userInput = new validateUserInput(inputs);
-
-      expect(userInput.areInputsFilled()).toBeTruthy;
+      expect(userInput.areInputsFilled()).toBeTrue;
     });
 
-    test("Throw an error if any user input is empty", () => {
-      const inputs = {
-        username: "username",
-        password: "",
-        email: "email@email.com",
-      };
+    test("Should throw an error if any user input is empty", () => {
+      let userInput = new validateUserInput(inputs(""));
+      expect(() =>
+        userInput.areInputsFilled().toThrow(`Inputs must not be empty.`)
+      );
+    });
+  });
 
-      let userInput = new validateUserInput(inputs);
+  describe("Test for vaid email", () => {
+    test("Should pass if email is valid", () => {
+      let userInput = new validateUserInput(inputs());
+      expect(userInput.isValidEmail()).toBeTrue;
+    });
+
+    test("Should throw an error if email is not valid", () => {
+      let userInput = new validateUserInput(
+        inputs(undefined, undefined, "email")
+      );
+      expect(() => userInput.isValidEmail().toThrow(`Email is not valid.`));
     });
   });
 });
