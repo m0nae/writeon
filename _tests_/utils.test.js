@@ -1,4 +1,4 @@
-let validateUserInput = require("../utils");
+let validateUserInput = require("../utils/utils");
 
 const inputs = (
   username = "username",
@@ -39,6 +39,12 @@ describe("Validate user inputs", () => {
         inputs(undefined, undefined, "email")
       );
       expect(() => userInput.isValidEmail().toThrow(`Email is not valid.`));
+    });
+
+    describe("Create a user", () => {
+      test("Should return an object", () => {
+        expect();
+      });
     });
   });
 });
