@@ -14,6 +14,10 @@
   font-size: 3rem;
 }
 
+h2 {
+  font-size: 2rem;
+}
+
 .post {
   margin: 1rem;
   padding: 1rem;
@@ -70,4 +74,18 @@
   height: 40px;
   right: 3rem;
   cursor: pointer;
+}
+
+.post-title {
+  text-align: center;
+  /* font-family: 'Arial'; */
+}
+
+.post-title,
+div:focus {
+  outline: none;
+}
+
+.ql-container {
+  font-size: 1.2rem;
 }
