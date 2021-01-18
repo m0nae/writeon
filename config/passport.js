@@ -3,10 +3,6 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const LocalStrategy = require("passport-local").Strategy;
 
-const checkPassword = (password, user) => {
-  return bcrpyt.compare(password, user._doc.password);
-};
-
 module.exports = function usePassport(passport) {
   // passport.use(new LocalStrategy((username, password, done) => {
   // try {

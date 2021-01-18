@@ -8,7 +8,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
 module.exports = {
-  posts: async () => {
+  posts: async (args, request) => {
     try {
       let posts = await Post.find({});
       return posts.map((post) => {
@@ -32,8 +32,11 @@ module.exports = {
     }
   },
 
-  createPost: async (args) => {
+  createPost: async (args, request) => {
     try {
+      if (!request.user) {
+        throw `You must be logged in to create an entry.`;
+      }
       let post = new Post({
         title: args.postInput.title,
         htmlContent: args.postInput.htmlContent,
@@ -117,7 +120,22 @@ module.exports = {
     }
   },
 
-  // login: async (args, req) => {
+  login: async (args, request) => {
+    try {
+      const user = await User.findOne({ username: args.login.username });
 
-  // },
+      if (!user) {
+        throw `There is no user with that username.`;
+      }
+
+      if (!(await bcrypt.compare(args.login.password, user.password))) {
+        throw `Incorrect password.`;
+      } else {
+        request.login(user, (error) => (error ? error : user));
+        return user;
+      }
+    } catch (err) {
+      throw err;
+    }
+  },
 };
