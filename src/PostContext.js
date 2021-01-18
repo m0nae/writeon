@@ -11,6 +11,9 @@ export function PostProvider(props) {
     }
   ]);
 
+  // This should be taking from the current user's "createdPosts" in the DB and displaying them
+  // If there are no posts, display something like "You haven't written any posts yet."
+
   let [savedPosts, setSavedPosts] = useState([]);
 
   useEffect(() => {
@@ -22,7 +25,8 @@ export function PostProvider(props) {
   }, [savedPosts]);
 
   // ^^^^^^^^ ALSO ADD POSTS AS A DEPENDENCY SO WHENEVER POSTS IS UPDATED (AND A POST IS DELETED FOR EXAMPLE), SAVEDPOSTS WILL DELETE THE REMOVED POST FROM THERE TOO
-
+  // If there are no saved posts, display "You haven't saved any posts yet."
+  // !!!!MOVE SAVED POSTS TO DB INSTEAD OF LOCALSTORAGE!!!!
   useEffect(() => {
     if (localStorage.getItem('saved posts')) {
       if (JSON.parse(localStorage.getItem('saved posts')).length > 0) {
