@@ -3,6 +3,10 @@ const validateUserInput = require("../utils/utils");
 const User = require("../models/User");
 const Post = require("../models/Post");
 
+const passport = require("passport");
+
+const LocalStrategy = require("passport-local").Strategy;
+
 module.exports = {
   posts: async () => {
     try {
@@ -12,6 +16,17 @@ module.exports = {
           ...post._doc,
         };
       });
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  getPostById: async (args) => {
+    try {
+      let post = await Post.findOne({ _id: args.id });
+      return {
+        ...post._doc,
+      };
     } catch (err) {
       throw err;
     }
@@ -101,4 +116,8 @@ module.exports = {
       throw err;
     }
   },
+
+  // login: async (args, req) => {
+
+  // },
 };

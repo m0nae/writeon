@@ -1,25 +1,43 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const passport = require("passport");
 const express = require("express");
+const bodyParser = require("body-parser");
+var session = require("express-session");
 
 const mongoose = require("mongoose");
 mongoose.set("returnOriginal", false);
+
+const usePassport = require("./config/passport");
 
 const graphQlSchema = require("./schema/schema");
 const { graphqlHTTP } = require("express-graphql");
 const graphQlResolvers = require("./resolvers/index");
 
-const Post = require("./models/Post");
-
 const app = express();
 
+usePassport(passport);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ secret: process.env.SESSION_SECRET }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(
   "/graphql",
   graphqlHTTP({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
     graphiql: true,
+  })
+);
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: false,
   })
 );
 

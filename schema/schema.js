@@ -38,17 +38,24 @@ input CreateUserInput {
   email: String!
 }
 
+input LoginInput {
+  username: String!
+  password: String!
+}
+
 type RootQuery {
+  getPostById(id: ID!): Post
   posts: [Post!]!
-  savedPosts: [Post!]!
+  savedPosts: [Post]!
   me: User!
 }
 
 type RootMutation {
   createUser(userInput: CreateUserInput): User
+  login(login: LoginInput): User
   createPost(postInput: CreatePostInput): Post
-  updatePost(postInput: UpdatePostInput, id: ID): Post
-  deletePost(id: ID): Post
+  updatePost(postInput: UpdatePostInput, id: ID!): Post
+  deletePost(id: ID!): Post
 }
 
 schema {
