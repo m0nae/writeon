@@ -3,6 +3,8 @@ const validateUserInput = require("../utils/utils");
 const User = require("../models/User");
 const Post = require("../models/Post");
 
+const passport = require("passport");
+
 module.exports = {
   posts: async (args, request) => {
     try {
@@ -120,6 +122,7 @@ module.exports = {
 
   login: async (args, request) => {
     try {
+      passport.authenticate("local");
       const user = await User.findOne({ username: args.login.username });
 
       if (!user) {

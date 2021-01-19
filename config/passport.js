@@ -46,7 +46,7 @@ module.exports = function usePassport(passport) {
 
   passport.serializeUser(function (user, done) {
     console.log("I serialized!");
-    done(null, user.id);
+    done(null, user._id);
   });
 
   passport.deserializeUser(function (id, done) {
