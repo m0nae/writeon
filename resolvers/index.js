@@ -3,14 +3,12 @@ const validateUserInput = require("../utils/utils");
 const User = require("../models/User");
 const Post = require("../models/Post");
 
-const passport = require("passport");
-
-const LocalStrategy = require("passport-local").Strategy;
-
 module.exports = {
   posts: async (args, request) => {
     try {
       let posts = await Post.find({});
+      console.log(request);
+      console.log(request.user);
       return posts.map((post) => {
         return {
           ...post._doc,
@@ -131,7 +129,7 @@ module.exports = {
       if (!(await bcrypt.compare(args.login.password, user.password))) {
         throw `Incorrect password.`;
       } else {
-        request.login(user, (error) => (error ? error : user));
+        request.login({ ...user._doc }, (error) => (error ? error : user));
         return user;
       }
     } catch (err) {

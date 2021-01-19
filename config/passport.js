@@ -45,10 +45,12 @@ module.exports = function usePassport(passport) {
   );
 
   passport.serializeUser(function (user, done) {
+    console.log("I serialized!");
     done(null, user.id);
   });
 
   passport.deserializeUser(function (id, done) {
+    console.log("I deserialized!");
     User.findById(id, function (err, user) {
       done(err, user);
     });

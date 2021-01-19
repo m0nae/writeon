@@ -18,6 +18,8 @@ const graphQlSchema = require("./schema/schema");
 const { graphqlHTTP } = require("express-graphql");
 const graphQlResolvers = require("./resolvers/index");
 
+//TODO: MIGRATE EVERYTHING TO APOLLO CLIENT
+
 const app = express();
 
 usePassport(passport);
