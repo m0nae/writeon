@@ -25,18 +25,37 @@ const app = express();
 usePassport(passport);
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    secure: false,
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
-//TODO: add authentication middleware for the /graphql route
+
+//? Fix up the redirect routes
+app.post("/login", function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      //! Display this message on the frontend
+      return res.send(info.message);
+    }
+
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/");
+    });
+  })(req, res, next);
+});
+
 app.use(
   "/graphql",
   graphqlHTTP({
