@@ -15,7 +15,18 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  //TODO: Create CREATEDPOSTS and SAVEDPOSTS
+  createdPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+  savedPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);

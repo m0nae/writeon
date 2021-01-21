@@ -19,17 +19,15 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  //TODO: MAKE DATEMODIFIED REQUIRED. NEW POSTS' DATEMODIFIED WILL JUST BE EQUAL TO THEIR DATECREATED!!!
   dateModified: {
     type: String,
     required: false,
   },
-  //TODO: CREATE THE AUTHOR RELATIONSHIP
-  // author: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true
-  // }
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Post", postSchema);
