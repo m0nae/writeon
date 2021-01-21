@@ -9,7 +9,6 @@ module.exports = {
   posts: async (args, request) => {
     try {
       let posts = await Post.find({});
-      console.log(request);
       console.log(request.user);
       return posts.map((post) => {
         return {
@@ -37,25 +36,37 @@ module.exports = {
       if (!request.user) {
         throw `You must be logged in to create an entry.`;
       }
+      console.log(request.user._id);
+      console.log(request.user);
       let post = new Post({
         title: args.postInput.title,
         htmlContent: args.postInput.htmlContent,
         deltaContent: args.postInput.deltaContent,
         dateCreated: new Date(new Date().toISOString()),
-        //TODO: author: (insert hard coded string here for now after u create a user)
+        author: request.user._id,
       });
+
       let createdPost = post.save();
       createdPost = {
         ...post._doc,
         dateCreated: new Date(post._doc.dateCreated).toISOString(),
       };
+
+      const user = await User.findById(request.user._id.toString()).exec();
+      console.log(user);
+      if (!user) {
+        throw `User not found.`;
+      }
+      user.createdPosts.push(post);
+      user.save();
+
       return createdPost;
     } catch (err) {
       throw err;
     }
   },
 
-  updatePost: async (args) => {
+  updatePost: async (args, request) => {
     try {
       let newInput = {
         ...args.postInput,
@@ -63,6 +74,11 @@ module.exports = {
       };
 
       let updatedPost = await Post.findOneAndUpdate({ _id: args.id }, newInput);
+
+      if (updatedPost.author._id !== request.user._id) {
+        throw `You are not authorized to edit this post.`;
+      }
+
       return updatedPost;
     } catch (err) {
       throw err;

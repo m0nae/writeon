@@ -25,11 +25,12 @@ const postSchema = new Schema({
     required: false,
   },
   //TODO: CREATE THE AUTHOR RELATIONSHIP
-  // author: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true
-  // }
+
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Post", postSchema);

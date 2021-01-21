@@ -19,6 +19,8 @@ module.exports = function usePassport(passport) {
   // }
   // ))
 
+  //TODO: Remove the console.logs
+
   passport.use(
     new LocalStrategy(function (username, password, done) {
       User.findOne({ username: username }, async function (err, user) {
