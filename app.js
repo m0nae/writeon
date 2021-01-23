@@ -6,7 +6,8 @@ const connectDB = require("./config/db");
 const passport = require("passport");
 const express = require("express");
 const bodyParser = require("body-parser");
-var session = require("express-session");
+const session = require("express-session");
+const cors = require("cors");
 
 const mongoose = require("mongoose");
 connectDB();
@@ -22,6 +23,7 @@ const app = express();
 
 usePassport(passport);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(

@@ -5,14 +5,45 @@ const Post = require("../models/Post");
 
 const passport = require("passport");
 
+const user = async (userId) => {
+  try {
+    let user = await User.findById(userId).exec();
+    return {
+      ...user._doc,
+      createdPosts: posts.bind(this, user.createdPosts),
+    };
+  } catch (err) {
+    throw err;
+  }
+};
+
+const posts = async (postIds) => {
+  try {
+    let posts = await Post.find({ _id: { $in: eventIds } }).exec();
+    posts.map((post) => {
+      return {
+        ...post._doc,
+        _id: post.id,
+        author: user.bind(this, post.author),
+      };
+    });
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports = {
   posts: async (args, request) => {
     try {
-      let posts = await Post.find({});
-      console.log(request.user);
+      if (!request.user) {
+        throw `You must be logged in to view posts.`;
+      }
+
+      let posts = await Post.find({ author: request.user._id });
       return posts.map((post) => {
         return {
           ...post._doc,
+          author: user.bind(this, post._doc.author),
         };
       });
     } catch (err) {
@@ -25,6 +56,7 @@ module.exports = {
       let post = await Post.findOne({ _id: args.id });
       return {
         ...post._doc,
+        author: user.bind(this, post._doc.author),
       };
     } catch (err) {
       throw err;
@@ -36,8 +68,6 @@ module.exports = {
       if (!request.user) {
         throw `You must be logged in to create an entry.`;
       }
-      console.log(request.user._id);
-      console.log(request.user);
       let post = new Post({
         title: args.postInput.title,
         htmlContent: args.postInput.htmlContent,
@@ -49,16 +79,13 @@ module.exports = {
       let createdPost = post.save();
       createdPost = {
         ...post._doc,
+        author: user.bind(this, post._doc.author),
         dateCreated: new Date(post._doc.dateCreated).toISOString(),
       };
 
-      const user = await User.findById(request.user._id.toString()).exec();
-      console.log(user);
-      if (!user) {
-        throw `User not found.`;
-      }
-      user.createdPosts.push(post);
-      user.save();
+      let author = await User.findById(request.user._id).exec();
+      author.createdPosts.push(post);
+      author.save();
 
       return createdPost;
     } catch (err) {
