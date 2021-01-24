@@ -63,6 +63,18 @@ module.exports = {
     }
   },
 
+  isLoggedIn: (args, request) => {
+    try {
+      if (request.user) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      throw err;
+    }
+  },
+
   currentUser: async (args, request) => {
     try {
       if (!request.user) {

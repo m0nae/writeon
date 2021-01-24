@@ -47,6 +47,7 @@ type RootQuery {
   getPostById(id: ID!): Post
   posts: [Post!]!
   savedPosts: [Post]!
+  isLoggedIn: Boolean!
   currentUser: User!
 }
 
