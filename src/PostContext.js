@@ -1,18 +1,46 @@
 import React, { useState, useEffect, createContext } from 'react';
+import { gql, useQuery } from '@apollo/client';
 
 export const PostContext = createContext({});
 
-export function PostProvider(props) {
-  let [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: 'This is a blog post',
-      body: "This is a blog post. It's hard coded, not taken from an API!"
+const GET_ALL_POSTS = gql`
+  {
+    posts {
+      title
+      htmlContent
     }
-  ]);
+  }
+`;
+
+export function PostProvider(props) {
+  const { loading, error, data } = useQuery(GET_ALL_POSTS);
+  let [posts, setPosts] = useState([]);
+
+  //TODO: implement error handling
+  useEffect(() => {
+    if (loading === false && data) {
+      setPosts(
+        data.posts.map((post) => {
+          return {
+            id: post._id,
+            title: post.title,
+            body: post.htmlContent
+          };
+        })
+      );
+    }
+
+    console.log(posts);
+  }, [data]);
 
   // This should be taking from the current user's "createdPosts" in the DB and displaying them
+
   // If there are no posts, display something like "You haven't written any posts yet."
+  /* 
+  if (data.posts.length === 0) {
+    <p>You haven't written any posts yet.</p>
+  }
+  */
 
   let [savedPosts, setSavedPosts] = useState([]);
 
