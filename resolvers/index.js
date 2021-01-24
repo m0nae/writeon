@@ -63,6 +63,17 @@ module.exports = {
     }
   },
 
+  currentUser: async (args, request) => {
+    try {
+      if (!request.user) {
+        throw `There is no currently logged in user.`;
+      }
+      return request.user;
+    } catch (err) {
+      throw err;
+    }
+  },
+
   createPost: async (args, request) => {
     try {
       if (!request.user) {

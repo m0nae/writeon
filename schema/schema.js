@@ -47,7 +47,7 @@ type RootQuery {
   getPostById(id: ID!): Post
   posts: [Post!]!
   savedPosts: [Post]!
-  me: User!
+  currentUser: User!
 }
 
 type RootMutation {
