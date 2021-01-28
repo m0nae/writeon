@@ -23,7 +23,13 @@ const app = express();
 
 usePassport(passport);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
@@ -51,9 +57,20 @@ app.post("/login", function (req, res, next) {
       if (err) {
         return next(err);
       }
-      return res.redirect("/");
+      return res.redirect("http://localhost:3000");
     });
   })(req, res, next);
+});
+
+app.get("/current", function (req, res, next) {
+  let user = req.user;
+  if (!user) {
+    // should I send a status code as well?
+    return res.json(false);
+  }
+  // console.log(user);
+  console.log(user);
+  return res.json(user);
 });
 
 app.use(
