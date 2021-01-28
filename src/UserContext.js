@@ -18,17 +18,31 @@ export function UserProvider(props) {
 
   //Or, instead of using subscriptions, just handle everything on the frontend. Create the login page. User submits their data, IF there are no errors and everything goes through, call the "refetch" function for the GET_USER query (which should now return actual user data instead of null).
 
-  const [user, setUser] = useState(null);
-  const { loading, error, data } = useQuery(GET_USER);
+  const [user, setUser] = useState(false);
+  // const { loading, error, data } = useQuery(GET_USER);
 
   useEffect(() => {
-    if (loading === false && data) {
+    async function getUser() {
+      console.log('fetching!');
+      let response = await fetch('http://localhost:5000/current', {
+        credentials: 'include'
+      });
+      console.log(response.headers);
+      console.log(response.request);
+      let data = await response.json();
+      console.log(data);
       setUser(data);
     }
-    console.log(user);
-  }, [data]);
+    getUser();
+  }, []);
 
   return (
-    <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
+    <UserContext.Provider
+      value={{
+        user: user
+      }}
+    >
+      {props.children}
+    </UserContext.Provider>
   );
 }

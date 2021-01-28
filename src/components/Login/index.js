@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { UserContext } from '../../UserContext';
+import { useHistory } from 'react-router-dom';
 
-export default function Login() {
+export function Login() {
+  const history = useHistory();
+  const { user } = useContext(UserContext);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     history.push('/');
+  //   }
+  // }, []);
 
   return (
     <>
-      <form action="/" method="POST">
-        <label for="username">Username</label>
+      <form action="http://localhost:5000/login" method="POST">
+        <label htmlFor="username">Username</label>
         <input type="text" name="username" />
-        <label for="password">Password</label>
+        <label htmlFor="password">Password</label>
         <input type="password" name="password" />
         <input type="submit" value="Login" />
       </form>
     </>
-  )
+  );
 }
