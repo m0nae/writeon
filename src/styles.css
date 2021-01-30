@@ -141,3 +141,7 @@ div:focus {
 .number-input {
   margin-right: 1rem;
 }
+
+.word-count-progress-bar {
+  margin-bottom: 1.5em;
+}
