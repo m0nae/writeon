@@ -1,18 +1,32 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Layout } from "../../Pages";
+
+import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
+import { Stack, HStack } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { BiRefresh } from "react-icons/bi";
+
+import { Layout } from "../../Pages";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
 import ContentEditable from "react-contenteditable";
-import { unlink } from "fs";
 
 export function CreateNew() {
   let quillEditor = useRef(null);
   let postTitle = useRef(null);
   let [mode, setMode] = useState("");
+  // useReducer
 
   //! Modes should be put inside PostContext so that it doesn't wipe out everytime the component re-renders!!! It needs to be cached/remembered somehow!
 
@@ -78,11 +92,83 @@ export function CreateNew() {
 function WordCountMode() {
   return <p>This is the wordcountmode component.</p>;
   // Implement a Chakra UI progress bar to indicate how far along user is to meeting their word count goal.
-  // On every keystroke, call .getText Quill function?? and run it through some
 }
 
 function TimeLimitMode() {
-  return <p>This is the TimeLimitMode component.</p>;
+  const [timeLimit, setTimeLimit] = useState(null);
+  const [val, setVal] = useState(null);
+  const [isReadOnly, setIsReadOnly] = useState(false);
+
+  // create context state for each mode. if a radio button is clicked/mode is activated, then set the state to whatever mode was activated. when user clicks on another mode, the state updates. do this so that i can effectively cleanup any processes happening in the current state
+
+  //! THE COUNTDOWN CONTINUES TO RUN EVEN AFTER SWITCHING TO ANOTHER MODE!
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (timeLimit === 0) {
+      toast({
+        title: "Time is up!",
+        duration: 10000,
+        status: "info",
+        isClosable: true,
+      });
+    }
+  }, [timeLimit]);
+
+  function setCountdown() {
+    let minutes = val * 60 + 1;
+    setIsReadOnly(true);
+
+    const countdown = setInterval(() => {
+      minutes -= 1;
+      setTimeLimit(minutes);
+      if (minutes <= 0) {
+        clearInterval(countdown);
+        setIsReadOnly(false);
+      }
+
+      console.log(minutes);
+    }, 1000);
+
+    return () => {
+      clearInterval(countdown);
+    };
+  }
+
+  return (
+    <>
+      <HStack spacing="10px">
+        <CircularProgress
+          value={timeLimit !== null ? timeLimit : 0}
+          min={0}
+          max={val !== 0 ? val * 60 : 1}
+          size="5rem"
+          color="green.400"
+        >
+          <CircularProgressLabel />
+        </CircularProgress>
+
+        <NumberInput
+          allowMouseWheel
+          size="md"
+          maxW={24}
+          min={0}
+          value={val !== null ? val : 0}
+          defaultValue={0}
+          isReadOnly={isReadOnly}
+          onChange={(value) => setVal(Number(value))}
+        >
+          <NumberInputField />
+          <NumberInputStepper className="number-input-stepper">
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+        <Button onClick={() => setCountdown()}>Submit</Button>
+      </HStack>
+    </>
+  );
   // User sets time limit. Progress bar indicates how much time they have left. When time is up, lock the text editor. But ofc, give the user the option to unlock it if they want to.
 }
 
@@ -141,7 +227,7 @@ function PromptMode() {
         <input
           className="word-number-input"
           onChange={(e) => changeNumberOfWords(e)}
-          type="text"
+          type="number"
         />
         <p>words</p>
         <ul className="words-list">

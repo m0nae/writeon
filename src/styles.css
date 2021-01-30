@@ -117,7 +117,7 @@ div:focus {
 
 .word-number-input {
   height: 2em;
-  width: 2em;
+  width: 3em;
   margin-top: 0.7rem;
   margin-right: 0.5rem;
 }
@@ -136,4 +136,8 @@ div:focus {
 .words-list > li {
   list-style: none;
   margin-right: 1.5rem;
+}
+
+.number-input {
+  margin-right: 1rem;
 }

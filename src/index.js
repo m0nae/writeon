@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 import {
   ApolloClient,
   InMemoryCache,
@@ -19,9 +20,9 @@ const client = new ApolloClient({
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <React.StrictMode>
+    <ChakraProvider>
       <App />
-    </React.StrictMode>
+    </ChakraProvider>
   </ApolloProvider>,
   rootElement
 );

@@ -7,6 +7,10 @@
   "dependencies": {
     "@apollo/client": "3.3.7",
     "@apollo/react-hooks": "4.0.0",
+    "@chakra-ui/react": "^1.1.6",
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
+    "framer-motion": "^3.2.2-rc.1",
     "graphql": "15.4.0",
     "react": "17.0.0",
     "react-contenteditable": "3.3.5",
