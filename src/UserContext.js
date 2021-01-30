@@ -1,5 +1,5 @@
-import React, { useState, useEffect, createContext } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import React, { useState, useEffect, createContext } from "react";
+import { gql, useQuery } from "@apollo/client";
 
 export const UserContext = createContext({});
 
@@ -19,16 +19,36 @@ export function UserProvider(props) {
   //Or, instead of using subscriptions, just handle everything on the frontend. Create the login page. User submits their data, IF there are no errors and everything goes through, call the "refetch" function for the GET_USER query (which should now return actual user data instead of null).
 
   const [user, setUser] = useState(null);
-  const { loading, error, data } = useQuery(GET_USER);
+  // const { loading, error, data } = useQuery(GET_USER);
+
+  // useEffect(() => {
+  //   async function getUser() {
+  //     console.log("fetching!");
+  //     let response = await fetch("http://localhost:5000/current", {
+  //       credentials: "include",
+  //     });
+  //     let data = await response.json();
+  //     console.log(data);
+  //     await setUser(data);
+  //   }
+  //   getUser();
+  // }, []);
 
   useEffect(() => {
-    if (loading === false && data) {
-      setUser(data);
-    }
-    console.log(user);
-  }, [data]);
+    fetch("http://localhost:5000/current", {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setUser(data));
+  }, []);
 
   return (
-    <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
+    <UserContext.Provider
+      value={{
+        user: user,
+      }}
+    >
+      {props.children}
+    </UserContext.Provider>
   );
 }

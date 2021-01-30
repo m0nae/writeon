@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Navbar } from '../Navbar';
-import Login from '../Login';
+import React, { useState } from "react";
+import { Navbar } from "../Navbar";
+import { Login } from "../Login";
 
 export function Layout(props) {
   const [showLogin, setShowLogin] = useState(false);
