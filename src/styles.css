@@ -5,7 +5,7 @@
 }
 
 .container {
-  margin: 0 25vw;
+  margin: 0 20vw;
 }
 
 .container > h1 {
@@ -94,4 +94,54 @@ div:focus {
 
 .ql-container {
   font-size: 1.2rem;
+}
+
+.modeSelection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.modeSelection > input {
+  margin-right: 0.5rem;
+}
+
+.modeSelection > label {
+  margin-right: 1rem;
+}
+
+.words-list-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.word-number-input {
+  height: 2em;
+  width: 3em;
+  margin-top: 0.7rem;
+  margin-right: 0.5rem;
+}
+
+.refresh-btn {
+  margin-top: 0.5rem;
+  font-size: 2rem;
+}
+
+.words-list {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.words-list > li {
+  list-style: none;
+  margin-right: 1.5rem;
+}
+
+.number-input {
+  margin-right: 1rem;
+}
+
+.word-count-progress-bar {
+  margin-bottom: 1.5em;
 }
