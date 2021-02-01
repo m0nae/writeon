@@ -8,6 +8,8 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from "@chakra-ui/react";
+import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 
 export function PromptMode() {
   const [words, setWords] = useState([]);
@@ -40,9 +42,19 @@ export function PromptMode() {
 
   // ^^ thinking about just doing this for the timer
 
+  //TODO: TagCloseBtn: onClick, take the id of clicked item and
+
   return (
     <>
       <div className="words-list-wrapper">
+        <HStack className="words-list">
+          {words.map((word, index) => (
+            <Tag key={index} id={index}>
+              {word}
+              <TagCloseButton />
+            </Tag>
+          ))}
+        </HStack>
         <NumberInput
           allowMouseWheel
           size="md"
@@ -59,11 +71,6 @@ export function PromptMode() {
           </NumberInputStepper>
         </NumberInput>
         <p>words</p>
-        <ul className="words-list">
-          {words.map((word, index) => (
-            <li key={index}>{word}</li>
-          ))}
-        </ul>
         <BiRefresh onClick={() => getWords()} className="refresh-btn" />
         {error && <p>{error.errorMessage}</p>}
       </div>

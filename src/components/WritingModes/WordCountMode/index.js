@@ -44,7 +44,6 @@ export function WordCountMode({
         </NumberInput>
         <Button onClick={() => setWordCountGoal(val)}>Submit</Button>
       </HStack>
-      <p>This is the wordcountmode component.</p>
     </>
   );
 }
