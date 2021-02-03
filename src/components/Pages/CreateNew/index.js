@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useReducer } from "react";
+import { Link } from "react-router-dom";
 
 import { Layout } from "../../Pages";
 import { TimeLimitMode } from "../../WritingModes/TimeLimitMode";
@@ -9,17 +10,49 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
+import { MdChevronLeft, MdMenu } from "react-icons/md";
+
+import { ModeMenu } from "../../ModeMenu";
+import { Progress } from "@chakra-ui/react";
+import { Flex, Spacer, Box, Button, Heading } from "@chakra-ui/react";
+
 import ContentEditable from "react-contenteditable";
 
 export function CreateNew() {
   let quillEditor = useRef(null);
   let postTitle = useRef(null);
-  const [mode, setMode] = useState("");
-  const [wordCountGoal, setWordCountGoal] = useState(null);
-  const [wordCount, setWordCount] = useState(0);
-  const [val, setVal] = useState(0);
+  const initialState = {
+    mode: "",
+    wordCountGoal: null,
+    wordCount: 0,
+    timeLimitMode: false,
+    wordCountMode: false,
+    promptMode: false,
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  function reducer(state, action) {
+    const { type, payload } = action;
+    return { ...state, [type]: payload };
+  }
+
+  const {
+    mode,
+    wordCountGoal,
+    wordCount,
+    timeLimitMode,
+    wordCountMode,
+    promptMode,
+  } = state;
 
   // useReducer
+
+  //TODO: convert EVERY basic component to its Chakra UI equivalent. This will make it so that I can let Chakra handle theming (light mode/dark mode) more easily
+
+  //TODO: convert all CSS pixels to rems. Stop using both pxs and rems, only use one!
+
+  //TODO: fix positioning of the navbar. the chevron and menu icon is a little off
 
   //TODO: put all state from the different modes into this component. this will make it so that even if different modes are switched, their progress from that mode persists! (except for the counter... THAT will stop once the mode is changed to something else, so be sure to warn the user);
 
@@ -31,11 +64,10 @@ export function CreateNew() {
     }
 
     let quillTextArea = quillEditor.current.getEditor().getText();
-
     let words = quillTextArea.match(/\b[-?(\w+)?]+\b/gi);
 
     if (words) {
-      setWordCount(words.length);
+      dispatch({ type: "wordCount", payload: words.length });
     } else {
       console.log("0 words");
     }
@@ -53,60 +85,96 @@ export function CreateNew() {
   }
 
   function handleChange(e) {
-    setMode(e.target.value);
+    dispatch({ type: "mode", payload: e.target.value });
+  }
+
+  function handleTimeLimitMode() {
+    dispatch({ type: "timeLimitMode", payload: !timeLimitMode });
   }
 
   return (
-    <Layout>
-      <TextEditor
-        postTitleRef={postTitle}
-        getWordCount={() => getWordCount()}
-        quillEditorRef={quillEditor}
-      />
-      <div className="modeSelection">
-        <input
-          type="radio"
-          onChange={(e) => handleChange(e)}
-          id="promptMode"
-          name="mode"
-          value="promptMode"
+    <>
+      <Flex p="4" justify="center" className="nav">
+        <Box>
+          <Link to="/">
+            <MdChevronLeft className="editor-left-chevron" />
+          </Link>
+        </Box>
+        <Spacer />
+        <Box>
+          <Navbar>
+            <NavItem icon=">">
+              <DropdownMenu></DropdownMenu>
+            </NavItem>
+          </Navbar>
+        </Box>
+        <ModeMenu
+          handleTimeLimitMode={handleTimeLimitMode}
+          timeLimitMode={timeLimitMode}
+          wordCountMode={wordCountMode}
+          promptMode={promptMode}
         />
-        <label htmlFor="promptMode">Prompt Mode</label>
-        <br></br>
+        <Box>
+          <MdMenu className="menu-icon" />
+        </Box>
+      </Flex>
 
-        <input
-          type="radio"
-          onChange={(e) => handleChange(e)}
-          id="wordCountMode"
-          name="mode"
-          value="wordCountMode"
-        />
-        <label htmlFor="wordCountMode">Word Count Mode</label>
-        <br></br>
-
-        <input
-          type="radio"
-          onChange={(e) => handleChange(e)}
-          id="timeLimitMode"
-          name="mode"
-          value="timeLimitMode"
-        />
-        <label htmlFor="timeLimitMode">Time Limit Mode</label>
-        <br></br>
-      </div>
-
-      {mode === "promptMode" && <PromptMode mode={mode} />}
-      {mode === "wordCountMode" && (
-        <WordCountMode
-          wordCount={wordCount}
-          wordCountGoal={wordCountGoal}
-          setWordCountGoal={setWordCountGoal}
-          quillEditor={quillEditor}
-          mode={mode}
+      {wordCountGoal && (
+        <Progress
+          value={wordCount}
+          max={wordCountGoal}
+          colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
+          className="word-count-progress-bar"
         />
       )}
-      {mode === "timeLimitMode" && <TimeLimitMode mode={mode} />}
-    </Layout>
+      {wordCountGoal && (
+        <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
+      )}
+      <div className="container editor-container">
+        <TextEditor
+          postTitleRef={postTitle}
+          getWordCount={() => getWordCount()}
+          quillEditorRef={quillEditor}
+        />
+        <div className="modeSelection">
+          <input
+            type="radio"
+            onChange={(e) => handleChange(e)}
+            id="promptMode"
+            name="mode"
+            value="promptMode"
+          />
+          <label htmlFor="promptMode">Prompt Mode</label>
+          <br></br>
+
+          <input
+            type="radio"
+            onChange={(e) => handleChange(e)}
+            id="wordCountMode"
+            name="mode"
+            value="wordCountMode"
+          />
+          <label htmlFor="wordCountMode">Word Count Mode</label>
+          <br></br>
+
+          <input
+            type="radio"
+            onChange={(e) => handleChange(e)}
+            id="timeLimitMode"
+            name="mode"
+            value="timeLimitMode"
+          />
+          <label htmlFor="timeLimitMode">Time Limit Mode</label>
+          <br></br>
+        </div>
+
+        {mode === "promptMode" && <PromptMode mode={mode} />}
+        {mode === "wordCountMode" && (
+          <WordCountMode dispatch={dispatch} quillEditor={quillEditor} />
+        )}
+        {mode === "timeLimitMode" && <TimeLimitMode mode={mode} />}
+      </div>
+    </>
   );
 }
 

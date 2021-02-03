@@ -10,31 +10,20 @@ import {
 import { Stack, HStack } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 
-export function WordCountMode({
-  mode,
-  wordCount,
-  wordCountGoal,
-  setWordCountGoal,
-}) {
-  const [val, setVal] = useState(null);
+export function WordCountMode({ setWordCountGoal, dispatch }) {
+  const numberInputRef = useRef();
   //TODO: when user presses "save" btn a Toast pops up which tells them how much PERCENTAGE MORE they wrote than their intended goal. OR have a modal pop up and warn them that they didn't meet their word count goal, and if they are sure they want to continue.
-
+  //?? Should wordCount of 0 be allowed?
   return (
     <>
-      <Progress
-        value={wordCount}
-        max={wordCountGoal}
-        colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
-        className="word-count-progress-bar"
-      />
       <HStack>
         <NumberInput
           allowMouseWheel
           size="md"
           maxW={24}
           min={0}
-          value={val !== null ? val : 0}
-          onChange={(value) => setVal(Number(value))}
+          ref={numberInputRef}
+          defaultValue={0}
         >
           <NumberInputField />
           <NumberInputStepper>
@@ -42,7 +31,17 @@ export function WordCountMode({
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
-        <Button onClick={() => setWordCountGoal(val)}>Submit</Button>
+        <Button
+          onClick={() =>
+            // setWordCountGoal(numberInputRef.current.firstChild.value)
+            dispatch({
+              type: "wordCountGoal",
+              payload: numberInputRef.current.firstChild.value,
+            })
+          }
+        >
+          Submit
+        </Button>
       </HStack>
     </>
   );
