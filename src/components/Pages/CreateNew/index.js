@@ -12,9 +12,9 @@ import "react-quill/dist/quill.bubble.css";
 
 import { MdChevronLeft, MdMenu } from "react-icons/md";
 
-import { ModeMenu } from "../../ModeMenu";
+import { DropdownModeMenu } from "../../ModeMenu";
 import { Progress } from "@chakra-ui/react";
-import { Flex, Spacer, Box, Button, Heading } from "@chakra-ui/react";
+import { Navbar, Flex, Spacer, Box, Button, Heading } from "@chakra-ui/react";
 
 import ContentEditable from "react-contenteditable";
 
@@ -102,41 +102,35 @@ export function CreateNew() {
         </Box>
         <Spacer />
         <Box>
-          <Navbar>
+          {/* <Navbar>
             <NavItem icon=">">
               <DropdownMenu></DropdownMenu>
             </NavItem>
-          </Navbar>
+          </Navbar> */}
         </Box>
-        <ModeMenu
+        <DropdownModeMenu
+          mode={mode}
           handleTimeLimitMode={handleTimeLimitMode}
           timeLimitMode={timeLimitMode}
           wordCountMode={wordCountMode}
           promptMode={promptMode}
+          wordCount={wordCount}
+          wordCountGoal={wordCountGoal}
+          quillEditor={quillEditor}
+          dispatch={dispatch}
         />
         <Box>
           <MdMenu className="menu-icon" />
         </Box>
       </Flex>
 
-      {wordCountGoal && (
-        <Progress
-          value={wordCount}
-          max={wordCountGoal}
-          colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
-          className="word-count-progress-bar"
-        />
-      )}
-      {wordCountGoal && (
-        <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
-      )}
       <div className="container editor-container">
         <TextEditor
           postTitleRef={postTitle}
           getWordCount={() => getWordCount()}
           quillEditorRef={quillEditor}
         />
-        <div className="modeSelection">
+        {/* <div className="modeSelection">
           <input
             type="radio"
             onChange={(e) => handleChange(e)}
@@ -166,13 +160,18 @@ export function CreateNew() {
           />
           <label htmlFor="timeLimitMode">Time Limit Mode</label>
           <br></br>
-        </div>
-
-        {mode === "promptMode" && <PromptMode mode={mode} />}
-        {mode === "wordCountMode" && (
-          <WordCountMode dispatch={dispatch} quillEditor={quillEditor} />
+        </div> */}
+        {wordCountGoal && (
+          <Progress
+            value={wordCount}
+            max={wordCountGoal}
+            colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
+            className="word-count-progress-bar"
+          />
         )}
-        {mode === "timeLimitMode" && <TimeLimitMode mode={mode} />}
+        {wordCountGoal && (
+          <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
+        )}
       </div>
     </>
   );
