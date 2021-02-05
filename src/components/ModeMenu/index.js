@@ -47,18 +47,20 @@ export function DropdownModeMenu({
   wordCount,
   wordCountGoal,
   dispatch,
-  isOpen,
-  onOpen,
-  onClose,
-  menuList,
 }) {
   const [toggledSwitches, setToggledSwitches] = useState([]);
+
+  // useDisclosure() is for the modal
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const isModalOpen = isOpen;
+
+  const menuList = useRef;
 
   return (
     <>
       <Menu
         closeOnSelect={false}
-        closeOnBlur={toggledSwitches.length <= 1}
+        closeOnBlur={isModalOpen ? false : true}
         className="dropdown"
       >
         <MenuButton
@@ -122,7 +124,6 @@ function ModeModal({ isOpen, onClose, mode, quillEditor, dispatch, menuList }) {
         isOpen={isOpen}
         onClose={onClose}
         finalFocusRef={menuList}
-        returnFocusOnClose={true}
       >
         <ModalOverlay />
         <ModalContent>
@@ -134,10 +135,10 @@ function ModeModal({ isOpen, onClose, mode, quillEditor, dispatch, menuList }) {
                 <Box>
                   <Text mt="8" textAlign="center">
                     TIME LIMIT MODE.
-                    <Box textAlign="center">
-                      <TimeLimitMode mode={mode} />
-                    </Box>
                   </Text>
+                  <Box textAlign="center">
+                    <TimeLimitMode mode={mode} />
+                  </Box>
                 </Box>
               </div>
             )}
@@ -157,8 +158,8 @@ function ModeModal({ isOpen, onClose, mode, quillEditor, dispatch, menuList }) {
               <div className="menu-container">
                 <Text mt="8" textAlign="center">
                   RANDOM WORDS MODE.
-                  <PromptMode mode={mode} />
                 </Text>
+                <PromptMode mode={mode} />
               </div>
             )}
           </ModalBody>
@@ -202,6 +203,8 @@ function ModeMenuItem({
   function handleToggle() {
     if (!toggledSwitches.includes(currentMode)) {
       setToggledSwitches([...toggledSwitches, currentMode]);
+
+      handleClick();
     } else {
       const newToggledSwitches = toggledSwitches.filter(
         (toggledSwitch) => toggledSwitch !== currentMode

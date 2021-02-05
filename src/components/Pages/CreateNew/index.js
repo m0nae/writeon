@@ -14,15 +14,7 @@ import { MdChevronLeft, MdMenu } from "react-icons/md";
 
 import { DropdownModeMenu } from "../../ModeMenu";
 import { Progress } from "@chakra-ui/react";
-import {
-  Navbar,
-  Flex,
-  Spacer,
-  Box,
-  Button,
-  Heading,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Navbar, Flex, Spacer, Box, Button, Heading } from "@chakra-ui/react";
 
 import ContentEditable from "react-contenteditable";
 
@@ -101,9 +93,6 @@ export function CreateNew() {
     dispatch({ type: "timeLimitMode", payload: !timeLimitMode });
   }
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const menuList = useRef(null);
-
   return (
     <>
       <CreateNewLayout>
@@ -126,12 +115,8 @@ export function CreateNew() {
             wordCountGoal={wordCountGoal}
             quillEditor={quillEditor}
             dispatch={dispatch}
-            isOpen={isOpen}
-            onOpen={onOpen}
-            onClose={onClose}
             quillEditor={quillEditor}
             dispatch={dispatch}
-            menuList={menuList}
           />
           <Box>
             <MdMenu className="menu-icon" />
