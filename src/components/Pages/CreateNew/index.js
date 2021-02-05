@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useReducer } from "react";
 import { Link } from "react-router-dom";
 
-import { Layout } from "../../Pages";
+import { CreateNewLayout } from "../../Pages";
 import { TimeLimitMode } from "../../WritingModes/TimeLimitMode";
 import { PromptMode } from "../../WritingModes/PromptMode";
 import { WordCountMode } from "../../WritingModes/WordCountMode";
@@ -14,7 +14,15 @@ import { MdChevronLeft, MdMenu } from "react-icons/md";
 
 import { DropdownModeMenu } from "../../ModeMenu";
 import { Progress } from "@chakra-ui/react";
-import { Navbar, Flex, Spacer, Box, Button, Heading } from "@chakra-ui/react";
+import {
+  Navbar,
+  Flex,
+  Spacer,
+  Box,
+  Button,
+  Heading,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import ContentEditable from "react-contenteditable";
 
@@ -28,6 +36,7 @@ export function CreateNew() {
     timeLimitMode: false,
     wordCountMode: false,
     promptMode: false,
+    toggledSwitches: [],
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -92,87 +101,62 @@ export function CreateNew() {
     dispatch({ type: "timeLimitMode", payload: !timeLimitMode });
   }
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const menuList = useRef(null);
+
   return (
     <>
-      <Flex p="4" justify="center" className="nav">
-        <Box>
-          <Link to="/">
-            <MdChevronLeft className="editor-left-chevron" />
-          </Link>
-        </Box>
-        <Spacer />
-        <Box>
-          {/* <Navbar>
-            <NavItem icon=">">
-              <DropdownMenu></DropdownMenu>
-            </NavItem>
-          </Navbar> */}
-        </Box>
-        <DropdownModeMenu
-          mode={mode}
-          handleTimeLimitMode={handleTimeLimitMode}
-          timeLimitMode={timeLimitMode}
-          wordCountMode={wordCountMode}
-          promptMode={promptMode}
-          wordCount={wordCount}
-          wordCountGoal={wordCountGoal}
-          quillEditor={quillEditor}
-          dispatch={dispatch}
-        />
-        <Box>
-          <MdMenu className="menu-icon" />
-        </Box>
-      </Flex>
+      <CreateNewLayout>
+        <Flex p="4" justify="center" className="nav">
+          <Box>
+            <Link to="/">
+              {/* //TODO: If this is clicked, SAVE the post to DB THEN redirect user back to wherever they came from (I think react router uses the browser history, so find out which method returns the user to their previous page/where they came from ) */}
+              <MdChevronLeft className="editor-left-chevron" />
+            </Link>
+          </Box>
+          <Spacer />
 
-      <div className="container editor-container">
-        <TextEditor
-          postTitleRef={postTitle}
-          getWordCount={() => getWordCount()}
-          quillEditorRef={quillEditor}
-        />
-        {/* <div className="modeSelection">
-          <input
-            type="radio"
-            onChange={(e) => handleChange(e)}
-            id="promptMode"
-            name="mode"
-            value="promptMode"
+          <DropdownModeMenu
+            mode={mode}
+            handleTimeLimitMode={handleTimeLimitMode}
+            timeLimitMode={timeLimitMode}
+            wordCountMode={wordCountMode}
+            promptMode={promptMode}
+            wordCount={wordCount}
+            wordCountGoal={wordCountGoal}
+            quillEditor={quillEditor}
+            dispatch={dispatch}
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onClose={onClose}
+            quillEditor={quillEditor}
+            dispatch={dispatch}
+            menuList={menuList}
           />
-          <label htmlFor="promptMode">Prompt Mode</label>
-          <br></br>
+          <Box>
+            <MdMenu className="menu-icon" />
+          </Box>
+        </Flex>
 
-          <input
-            type="radio"
-            onChange={(e) => handleChange(e)}
-            id="wordCountMode"
-            name="mode"
-            value="wordCountMode"
+        <div className="container editor-container">
+          <TextEditor
+            postTitleRef={postTitle}
+            getWordCount={() => getWordCount()}
+            quillEditorRef={quillEditor}
           />
-          <label htmlFor="wordCountMode">Word Count Mode</label>
-          <br></br>
-
-          <input
-            type="radio"
-            onChange={(e) => handleChange(e)}
-            id="timeLimitMode"
-            name="mode"
-            value="timeLimitMode"
-          />
-          <label htmlFor="timeLimitMode">Time Limit Mode</label>
-          <br></br>
-        </div> */}
-        {wordCountGoal && (
-          <Progress
-            value={wordCount}
-            max={wordCountGoal}
-            colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
-            className="word-count-progress-bar"
-          />
-        )}
-        {wordCountGoal && (
-          <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
-        )}
-      </div>
+          {wordCountGoal && (
+            <Progress
+              value={wordCount}
+              max={wordCountGoal}
+              colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
+              className="word-count-progress-bar"
+            />
+          )}
+          {wordCountGoal && (
+            <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
+          )}
+        </div>
+      </CreateNewLayout>
     </>
   );
 }

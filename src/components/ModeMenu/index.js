@@ -20,8 +20,17 @@ import {
   Box,
   Text,
   Center,
+  useDisclosure,
   ButtonGroup,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
+
 import { FaLightbulb } from "react-icons/fa";
 import { HiOutlineChevronRight as RightChevron } from "react-icons/hi";
 import { CSSTransition } from "react-transition-group";
@@ -38,123 +47,178 @@ export function DropdownModeMenu({
   wordCount,
   wordCountGoal,
   dispatch,
+  isOpen,
+  onOpen,
+  onClose,
+  menuList,
 }) {
-  const [activeMenu, setActiveMenu] = useState("main");
-  const [menuHeight, setMenuHeight] = useState(null);
+  const [toggledSwitches, setToggledSwitches] = useState([]);
 
-  function calcHeight(el) {
-    const height = el.offsetHeight;
-    setMenuHeight(height + 20);
+  return (
+    <>
+      <Menu
+        closeOnSelect={false}
+        closeOnBlur={toggledSwitches.length <= 1}
+        className="dropdown"
+      >
+        <MenuButton
+          as={Button}
+          variant="outline"
+          rightIcon={<MdChevronRight />}
+        >
+          Actions
+        </MenuButton>
+        <MenuList ref={menuList} className="dropdown">
+          <div className="main-menu">
+            <ModeMenuItem
+              currentMode="timeLimitMode"
+              dispatch={dispatch}
+              onOpen={onOpen}
+              text="Time Limit Mode"
+              toggledSwitches={toggledSwitches}
+              setToggledSwitches={setToggledSwitches}
+            />
+
+            <ModeMenuItem
+              currentMode="wordCountMode"
+              dispatch={dispatch}
+              onOpen={onOpen}
+              text="Word Count Mode"
+              toggledSwitches={toggledSwitches}
+              setToggledSwitches={setToggledSwitches}
+            />
+
+            <ModeMenuItem
+              currentMode="promptMode"
+              dispatch={dispatch}
+              onOpen={onOpen}
+              text="Prompt Mode"
+              toggledSwitches={toggledSwitches}
+              setToggledSwitches={setToggledSwitches}
+            />
+          </div>
+        </MenuList>
+      </Menu>
+      <ModeModal
+        menuList={menuList}
+        mode={mode}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
+    </>
+  );
+}
+
+// TODO: Separate this component into its own file
+function ModeModal({ isOpen, onClose, mode, quillEditor, dispatch, menuList }) {
+  return (
+    <>
+      {/* //TODO: for the Modal, if more than one toggle is active, set closeonOverlayClick to FALSE. if just one, set to TRUE. create state that whenever a toggle is ON, it adds it to some sort of array/adds a number counter. put that state in the CREATENEW (parent) component */}
+      <Modal
+        isCentered
+        closeOnOverlayClick={false}
+        motionPreset="slideInBottom"
+        size="sm"
+        isOpen={isOpen}
+        onClose={onClose}
+        finalFocusRef={menuList}
+        returnFocusOnClose={true}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {mode === "timeLimitMode" && (
+              <div className="menu-container">
+                <Box>
+                  <Text mt="8" textAlign="center">
+                    TIME LIMIT MODE.
+                    <Box textAlign="center">
+                      <TimeLimitMode mode={mode} />
+                    </Box>
+                  </Text>
+                </Box>
+              </div>
+            )}
+            {mode === "wordCountMode" && (
+              <div className="menu-container">
+                <Box mt="8">
+                  <Center>
+                    <WordCountMode
+                      dispatch={dispatch}
+                      quillEditor={quillEditor}
+                    />
+                  </Center>
+                </Box>
+              </div>
+            )}
+            {mode === "promptMode" && (
+              <div className="menu-container">
+                <Text mt="8" textAlign="center">
+                  RANDOM WORDS MODE.
+                  <PromptMode mode={mode} />
+                </Text>
+              </div>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            {/* //TODO: If CANCEL/CLOSE is clicked, reset the respective toggle BACK TO FALSE/UNTOGGLE */}
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Secondary Action</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+// TODO: Separate this component into its own file
+function ModeMenuItem({
+  onOpen,
+  dispatch,
+  currentMode,
+  text,
+  toggledSwitches,
+  setToggledSwitches,
+}) {
+  // const [isToggled, setIsToggled] = useState(false);
+
+  function handleClick() {
+    if (isToggled) {
+      dispatch({ type: "mode", payload: currentMode });
+      onOpen();
+    } else {
+      return;
+    }
+  }
+
+  function isToggled() {
+    return toggledSwitches.includes(currentMode);
+  }
+
+  function handleToggle() {
+    if (!toggledSwitches.includes(currentMode)) {
+      setToggledSwitches([...toggledSwitches, currentMode]);
+    } else {
+      const newToggledSwitches = toggledSwitches.filter(
+        (toggledSwitch) => toggledSwitch !== currentMode
+      );
+
+      setToggledSwitches(newToggledSwitches);
+    }
   }
 
   return (
     <>
-      <Menu className="dropdown" closeOnSelect={false}>
-        <MenuButton as={Button} rightIcon={<MdChevronRight />}>
-          Actions
-        </MenuButton>
-        <MenuList style={{ height: menuHeight }} className="dropdown">
-          <CSSTransition
-            in={activeMenu === "main"}
-            timeout={500}
-            classNames="menu-primary"
-            unmountOnExit
-            onEnter={calcHeight}
-          >
-            <div className="main-menu">
-              <MenuItem onClick={() => setActiveMenu("timeLimitMode")}>
-                <Text>Time Limit Mode</Text>
-                <Box pos="absolute" ml="80%">
-                  <MdChevronRight />
-                </Box>
-              </MenuItem>
-              <MenuItem onClick={() => setActiveMenu("wordCountMode")}>
-                Word Count Mode
-                <Box pos="absolute" ml="80%">
-                  <MdChevronRight />
-                </Box>
-              </MenuItem>
-              <MenuItem onClick={() => setActiveMenu("randomWordsMode")}>
-                Random Words
-                <Box pos="absolute" ml="80%">
-                  <MdChevronRight />
-                </Box>
-              </MenuItem>
-            </div>
-          </CSSTransition>
-
-          <CSSTransition
-            in={activeMenu === "timeLimitMode"}
-            timeout={500}
-            classNames="menu-secondary"
-            unmountOnExit
-            onEnter={calcHeight}
-          >
-            <div className="menu-container">
-              <MenuTopBar
-                mode={mode}
-                dispatch={dispatch}
-                selectedMode="timeLimitMode"
-                setActiveMenu={setActiveMenu}
-              />
-              <Box>
-                <Text mt="8" textAlign="center">
-                  TIME LIMIT MODE.
-                  <Box textAlign="center">
-                    <TimeLimitMode mode={mode} />
-                  </Box>
-                </Text>
-              </Box>
-            </div>
-          </CSSTransition>
-
-          <CSSTransition
-            in={activeMenu === "wordCountMode"}
-            timeout={500}
-            classNames="menu-secondary"
-            unmountOnExit
-            onEnter={calcHeight}
-          >
-            <div className="menu-container">
-              <MenuTopBar
-                mode={mode}
-                dispatch={dispatch}
-                selectedMode="wordCountMode"
-                setActiveMenu={setActiveMenu}
-              />
-              <Box mt="8">
-                <Center>
-                  <WordCountMode
-                    dispatch={dispatch}
-                    quillEditor={quillEditor}
-                  />
-                </Center>
-              </Box>
-            </div>
-          </CSSTransition>
-
-          <CSSTransition
-            in={activeMenu === "randomWordsMode"}
-            timeout={500}
-            classNames="menu-secondary"
-            unmountOnExit
-            onEnter={calcHeight}
-          >
-            <div className="menu-container">
-              <MenuTopBar
-                mode={mode}
-                dispatch={dispatch}
-                selectedMode="promptMode"
-                setActiveMenu={setActiveMenu}
-              />
-              <Text mt="8" textAlign="center">
-                RANDOM WORDS MODE.
-                <PromptMode mode={mode} />
-              </Text>
-            </div>
-          </CSSTransition>
-        </MenuList>
-      </Menu>
+      <MenuItem isDisabled={!isToggled()} onClick={() => handleClick()}>
+        <Text>{text}</Text>
+      </MenuItem>
+      <Box pos="absolute" mt="-14%" ml="77%">
+        <Switch isChecked={isToggled()} onChange={() => handleToggle()} />
+      </Box>
     </>
   );
 }

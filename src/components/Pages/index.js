@@ -19,3 +19,11 @@ export function Layout(props) {
     </>
   );
 }
+
+export function CreateNewLayout(props) {
+  return (
+    <>
+      <div className="wrapper">{props.children}</div>
+    </>
+  );
+}
