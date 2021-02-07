@@ -1,53 +1,61 @@
-import React, { useRef, useEffect, useState, useReducer } from "react";
-import { Link } from "react-router-dom";
-
-import { CreateNewLayout } from "../../Pages";
-import { TimeLimitMode } from "../../WritingModes/TimeLimitMode";
-import { PromptMode } from "../../WritingModes/PromptMode";
-import { WordCountMode } from "../../WritingModes/WordCountMode";
-
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
+import {
+  Box,
+  Button,
+  Center,
+  CircularProgress,
+  CircularProgressLabel,
+  Flex,
+  HStack,
+  Heading,
+  Navbar,
+  Spacer,
+  Tag,
+  TagCloseButton,
+} from "@chakra-ui/react";
 import { MdChevronLeft, MdMenu } from "react-icons/md";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 
-import { DropdownModeMenu } from "../../ModeMenu";
-import { Progress } from "@chakra-ui/react";
-import { Navbar, Flex, Spacer, Box, Button, Heading } from "@chakra-ui/react";
-
+import { BsThreeDots } from "react-icons/bs";
 import ContentEditable from "react-contenteditable";
+import { CreateNewLayout } from "../../Pages";
+import { DropdownModeMenu } from "../../ModeMenu";
+import { Link } from "react-router-dom";
+import { ModeContext } from "../../../ModeContext";
+import { Progress } from "@chakra-ui/react";
+import { PromptMode } from "../../WritingModes/PromptMode";
+import ReactQuill from "react-quill";
+import { TimeLimitContext } from "../../../TimeLimitContext";
+import { TimeLimitMode } from "../../WritingModes/TimeLimitMode";
+import { WordCountMode } from "../../WritingModes/WordCountMode";
 
 export function CreateNew() {
   let quillEditor = useRef(null);
   let postTitle = useRef(null);
-  const initialState = {
-    mode: "",
-    wordCountGoal: null,
-    wordCount: 0,
-    timeLimitMode: false,
-    wordCountMode: false,
-    promptMode: false,
-    toggledSwitches: [],
-  };
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  function reducer(state, action) {
-    const { type, payload } = action;
-    return { ...state, [type]: payload };
-  }
-
   const {
     mode,
+    isOpen,
     wordCountGoal,
     wordCount,
     timeLimitMode,
     wordCountMode,
     promptMode,
-  } = state;
+    words,
+    modeDispatch,
+    toggledSwitches,
+  } = useContext(ModeContext);
 
-  // useReducer
+  const isModalOpen = isOpen;
+
+  const { timeLimit, count } = useContext(TimeLimitContext);
 
   //TODO: convert EVERY basic component to its Chakra UI equivalent. This will make it so that I can let Chakra handle theming (light mode/dark mode) more easily
 
@@ -60,21 +68,15 @@ export function CreateNew() {
   //TODO: ^ create another Context for the modes (ModesContext)
 
   function getWordCount() {
-    if (mode !== "wordCountMode") {
-      return;
-    }
-
     let quillTextArea = quillEditor.current.getEditor().getText();
     let words = quillTextArea.match(/\b[-?(\w+)?]+\b/gi);
 
     if (words) {
-      dispatch({ type: "wordCount", payload: words.length });
+      modeDispatch({ type: "wordCount", payload: words.length });
     } else {
       console.log("0 words");
     }
   }
-
-  //? notice: the mode states are persisting when their state is inside of the parent component (duh.) move it all up (or create new context)!
 
   function handleSave() {
     let textContents = quillEditor.current.state.value;
@@ -86,11 +88,11 @@ export function CreateNew() {
   }
 
   function handleChange(e) {
-    dispatch({ type: "mode", payload: e.target.value });
+    modeDispatch({ type: "mode", payload: e.target.value });
   }
 
   function handleTimeLimitMode() {
-    dispatch({ type: "timeLimitMode", payload: !timeLimitMode });
+    modeDispatch({ type: "timeLimitMode", payload: !timeLimitMode });
   }
 
   return (
@@ -105,6 +107,21 @@ export function CreateNew() {
           </Box>
           <Spacer />
 
+          {words.length > 0 && (
+            <>
+              <Box alignSelf="center">
+                <HStack alignSelf="center" className="words-list">
+                  {words.map((word, index) => (
+                    <Tag key={index} id={index}>
+                      {word}
+                    </Tag>
+                  ))}
+                </HStack>
+              </Box>
+              <Spacer />
+            </>
+          )}
+
           <DropdownModeMenu
             mode={mode}
             handleTimeLimitMode={handleTimeLimitMode}
@@ -114,14 +131,25 @@ export function CreateNew() {
             wordCount={wordCount}
             wordCountGoal={wordCountGoal}
             quillEditor={quillEditor}
-            dispatch={dispatch}
+            modeDispatch={modeDispatch}
             quillEditor={quillEditor}
-            dispatch={dispatch}
           />
           <Box>
-            <MdMenu className="menu-icon" />
+            <BsThreeDots className="menu-icon" />
           </Box>
         </Flex>
+
+        {wordCountGoal && (
+          <Progress
+            value={wordCount}
+            max={wordCountGoal}
+            colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
+            className="word-count-progress-bar"
+          />
+        )}
+        {wordCountGoal && (
+          <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
+        )}
 
         <div className="container editor-container">
           <TextEditor
@@ -129,18 +157,20 @@ export function CreateNew() {
             getWordCount={() => getWordCount()}
             quillEditorRef={quillEditor}
           />
-          {wordCountGoal && (
-            <Progress
-              value={wordCount}
-              max={wordCountGoal}
-              colorScheme={wordCount <= wordCountGoal ? "blue" : "green"}
-              className="word-count-progress-bar"
-            />
-          )}
-          {wordCountGoal && (
-            <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
-          )}
         </div>
+
+        {toggledSwitches.includes("timeLimitMode") && !isModalOpen && (
+          <CircularProgress
+            value={count && count !== NaN ? count : 0}
+            min={0}
+            max={timeLimit && timeLimit !== 0 ? timeLimit : 1}
+            size="5rem"
+            color="green.400"
+            className="time-limit-progress-circle"
+          >
+            <CircularProgressLabel />
+          </CircularProgress>
+        )}
       </CreateNewLayout>
     </>
   );
@@ -155,7 +185,6 @@ function TextEditor({ quillEditorRef, getWordCount, postTitleRef }) {
         html="<h2>Untitled</h2>"
       />
       <ReactQuill onKeyUp={getWordCount} ref={quillEditorRef} theme="bubble" />
-      {/* <ReactQuill ref={quillEditor} theme="bubble" /> */}
     </>
   );
 }

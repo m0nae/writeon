@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
+import { TimeLimitContext } from "../../../TimeLimitContext";
 import { useInterval } from "../../../utils.js";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import {
@@ -12,17 +13,24 @@ import { Button } from "@chakra-ui/react";
 import { HStack } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 
-export function TimeLimitMode({ mode }) {
-  const [timeLimit, setTimeLimit] = useState(null);
-  const [val, setVal] = useState(null);
-  const [isReadOnly, setIsReadOnly] = useState(false);
-  const [isCountdownActive, setIsCountdownActive] = useState(false);
-  const [count, setCount] = useState(0);
+export function TimeLimitMode() {
+  // const [timeLimit, setTimeLimit] = useState(null);
+  // const [isCountdownActive, setIsCountdownActive] = useState(false);
+  // const [count, setCount] = useState(null);
+  const {
+    timeLimit,
+    numberInputRef,
+    isCountdownActive,
+    count,
+    timeLimitDispatch,
+  } = useContext(TimeLimitContext);
+
+  //TODO: put toast inside of CreateNew component bc it only displays if the TimeLimitMode is rendered in the modal. That doesn't make sense ofc.
 
   const toast = useToast();
 
   useEffect(() => {
-    if (timeLimit === 0) {
+    if (count === 0) {
       toast({
         title: "Time is up!",
         duration: 10000,
@@ -30,61 +38,57 @@ export function TimeLimitMode({ mode }) {
         isClosable: true,
       });
     }
-  }, [timeLimit]);
+  }, [count]);
 
-  function activateCountdown() {
-    if (val <= 0) {
-      return;
-    }
-    setCount(val * 60 + 1);
-    setIsCountdownActive(true);
-  }
+  // function activateCountdown() {
+  //   const value = numberInputRef.current.value;
 
-  useInterval(() => {
-    if (!isCountdownActive) {
-      return;
-    }
+  //   if (value <= 0) {
+  //     return;
+  //   }
 
-    setIsReadOnly(true);
-    setCount(count - 1);
-    setTimeLimit(count);
-    if (count <= 0) {
-      setIsReadOnly(false);
-    }
+  //   // setTimeLimit(value * 60);
+  //   // setCount(value * 60 + 1);
 
-    console.log(count);
-  }, 1000);
+  //   // setIsCountdownActive(true);
+
+  //   timeLimitDispatch({ type: "timeLimit", payload: value * 60 });
+  //   timeLimitDispatch({ type: "count", payload: value * 60 + 1 });
+  //   timeLimitDispatch({ type: "isCountdownActive", payload: true });
+  // }
 
   return (
     <>
       <HStack spacing="10px">
-        <CircularProgress
-          value={timeLimit && timeLimit !== NaN ? timeLimit : 0}
+        {/* <CircularProgress
+          value={count && count !== NaN ? count : 0}
           min={0}
-          max={val && val !== 0 ? val * 60 : 1}
+          max={timeLimit && timeLimit !== 0 ? timeLimit : 1}
           size="5rem"
           color="green.400"
         >
           <CircularProgressLabel />
-        </CircularProgress>
+        </CircularProgress> */}
 
         <NumberInput
           allowMouseWheel
           size="md"
           maxW={24}
           min={0}
-          value={val !== null ? val : 0}
+          // value={val !== null ? val : 0}
           defaultValue={0}
-          isReadOnly={isReadOnly}
-          onChange={(value) => setVal(Number(value))}
+          isDisabled={isCountdownActive}
+          // onChange={(value) => setVal(Number(value))}
+          // onChange={(value) => console.log(Number(value))}
+          // console.log(numberInputRef)
         >
-          <NumberInputField />
-          <NumberInputStepper className="number-input-stepper">
+          <NumberInputField ref={numberInputRef} />
+          {/* <NumberInputStepper className="number-input-stepper">
             <NumberIncrementStepper />
             <NumberDecrementStepper />
-          </NumberInputStepper>
+          </NumberInputStepper> */}
         </NumberInput>
-        <Button onClick={() => activateCountdown()}>Submit</Button>
+        {/* <Button onClick={() => activateCountdown()}>Submit</Button> */}
       </HStack>
     </>
   );

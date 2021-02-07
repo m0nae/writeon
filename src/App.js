@@ -19,27 +19,23 @@ import {
 export default function App() {
   const { user } = useContext(UserContext);
   return (
-    <UserProvider>
-      <PostProvider>
-        <div className="App">
-          <Router>
-            <Switch>
-              <Route path="/saved">
-                <Saved />
-              </Route>
-              <Route path="/create-new">
-                <CreateNew />
-              </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </Router>
-        </div>
-      </PostProvider>
-    </UserProvider>
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route path="/saved">
+            <Saved />
+          </Route>
+          <Route path="/create-new">
+            <CreateNew />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }

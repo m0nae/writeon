@@ -1,5 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { UserProvider } from "./UserContext";
+import { PostProvider } from "./PostContext";
+import { ModeProvider } from "./ModeContext";
+import { TimeLimitProvider } from "./TimeLimitContext";
 import { ChakraProvider } from "@chakra-ui/react";
 import {
   ApolloClient,
@@ -17,11 +21,31 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+export default function Compose(props) {
+  const { components, children } = props;
+  return (
+    <>
+      {components.reduceRight((acc, Comp) => {
+        return <Comp>{acc}</Comp>;
+      }, children)}
+    </>
+  );
+}
+
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <ApolloProvider client={client}>
     <ChakraProvider>
-      <App />
+      <Compose
+        components={[
+          PostProvider,
+          UserProvider,
+          ModeProvider,
+          TimeLimitProvider,
+        ]}
+      >
+        <App />
+      </Compose>
     </ChakraProvider>
   </ApolloProvider>,
   rootElement

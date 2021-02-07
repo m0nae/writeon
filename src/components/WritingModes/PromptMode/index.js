@@ -1,60 +1,39 @@
-import React, { useRef, useEffect, useState } from "react";
-
-import { BiRefresh } from "react-icons/bi";
 import {
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from "@chakra-ui/react";
-import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
+
+import { BiRefresh } from "react-icons/bi";
 import { HStack } from "@chakra-ui/react";
+import { ModeContext } from "../../../ModeContext";
 
 export function PromptMode() {
-  const [words, setWords] = useState([]);
-  const [error, setError] = useState(null);
-  const [numberOfWords, setNumberOfWords] = useState(0);
+  const {
+    modeDispatch,
+    words,
+    promptModeError,
+    numberOfWords,
+    getWords,
+  } = useContext(ModeContext);
 
   function changeNumberOfWords(value) {
-    setNumberOfWords(Number(value));
-  }
-
-  function getWords() {
-    if (numberOfWords > 10) {
-      return setError({
-        errorMessage: "Number must be below 10.",
-      });
-    } else {
-      setError(null);
-    }
-
-    fetch(`https://random-word-api.herokuapp.com/word?number=${numberOfWords}`)
-      .then((response) => response.json())
-      .then((data) => setWords(data));
+    modeDispatch({ type: "numberOfWords", payload: Number(value) });
   }
 
   useEffect(() => {
     getWords();
   }, []);
 
-  // basically, if a mode has already been selected, and a NEW mode is now selected, pull up an alert box for the reader to confirm they really want to leave/lose their mode progress.
-
-  // ^^ thinking about just doing this for the timer
-
   //TODO: TagCloseBtn: onClick, take the id of clicked item and
 
   return (
     <>
       <div className="words-list-wrapper">
-        <HStack className="words-list">
-          {words.map((word, index) => (
-            <Tag key={index} id={index}>
-              {word}
-              <TagCloseButton />
-            </Tag>
-          ))}
-        </HStack>
         <NumberInput
           allowMouseWheel
           size="md"
@@ -71,8 +50,7 @@ export function PromptMode() {
           </NumberInputStepper>
         </NumberInput>
         <p>words</p>
-        <BiRefresh onClick={() => getWords()} className="refresh-btn" />
-        {error && <p>{error.errorMessage}</p>}
+        {promptModeError && <p>{promptModeError.errorMessage}</p>}
       </div>
     </>
   );
