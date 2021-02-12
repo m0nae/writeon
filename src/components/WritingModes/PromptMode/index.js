@@ -25,9 +25,9 @@ export function PromptMode() {
     modeDispatch({ type: "numberOfWords", payload: Number(value) });
   }
 
-  useEffect(() => {
-    getWords();
-  }, []);
+  // useEffect(() => {
+  //   getWords();
+  // }, []);
 
   //TODO: TagCloseBtn: onClick, take the id of clicked item and
 

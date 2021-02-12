@@ -1,23 +1,23 @@
-import React, { useRef, useState, useContext } from "react";
-import { Progress } from "@chakra-ui/react";
+import { HStack, Stack } from "@chakra-ui/react";
 import {
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
+  Text,
 } from "@chakra-ui/react";
-import { Stack, HStack } from "@chakra-ui/react";
+import React, { useContext, useRef, useState } from "react";
+
 import { Button } from "@chakra-ui/react";
 import { ModeContext } from "../../../ModeContext";
+import { Progress } from "@chakra-ui/react";
 
 export function WordCountMode() {
   const { modeDispatch, numberInputRef, wordCountGoal } = useContext(
     ModeContext
   );
-  // const numberInputRef = useRef();
   //TODO: when user presses "save" btn a Toast pops up which tells them how much PERCENTAGE MORE they wrote than their intended goal. OR have a modal pop up and warn them that they didn't meet their word count goal, and if they are sure they want to continue.
-  //?? Should wordCount of 0 be allowed?
   return (
     <>
       <HStack>
@@ -35,6 +35,7 @@ export function WordCountMode() {
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
+        <Text>words</Text>
       </HStack>
     </>
   );

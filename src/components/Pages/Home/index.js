@@ -1,11 +1,14 @@
 import React, { useContext, useEffect } from "react";
-import { Posts } from "../../Posts";
+
 import { Layout } from "../../Pages";
-import { useHistory } from "react-router-dom";
+import { NewPostContext } from "../../../NewPostContext";
+import { Posts } from "../../Posts";
 import { UserContext } from "../../../UserContext";
+import { useHistory } from "react-router-dom";
 
 export function Home() {
   const { user } = useContext(UserContext);
+  const { newPost, setNewPost } = useContext(NewPostContext);
   const history = useHistory();
 
   console.log(`USER VALUE ON HOME PAGE IS: ${user}`);

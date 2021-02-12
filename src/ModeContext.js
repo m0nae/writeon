@@ -85,6 +85,7 @@ export function ModeProvider(props) {
         toggledSwitches: toggledSwitches,
         numberInputRef: numberInputRef,
         modeDispatch: modeDispatch,
+        initialState: initialState,
       }}
     >
       {props.children}

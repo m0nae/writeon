@@ -1,23 +1,26 @@
-import React, { useEffect, useState, useContext } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Saved } from "./components/Pages/Saved";
-import { Home } from "./components/Pages/Home";
-import { CreateNew } from "./components/Pages/CreateNew";
-import { Login } from "./components/Login";
-import { PostProvider } from "./PostContext";
-import { UserProvider, UserContext } from "./UserContext";
 import "./styles.css";
 
 import {
   ApolloClient,
-  InMemoryCache,
   ApolloProvider,
-  useQuery,
+  InMemoryCache,
   gql,
+  useQuery,
 } from "@apollo/client";
+import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext, UserProvider } from "./UserContext";
+
+import { CreateNew } from "./components/Pages/CreateNew";
+import { Home } from "./components/Pages/Home";
+import { Login } from "./components/Login";
+import { PostProvider } from "./PostContext";
+import { Saved } from "./components/Pages/Saved";
 
 export default function App() {
   const { user } = useContext(UserContext);
+  const newestPost = useState(null);
+
   return (
     <div className="App">
       <Router>

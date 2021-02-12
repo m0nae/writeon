@@ -42,6 +42,7 @@ export function DropdownModeMenu() {
   const { mode, isOpen, onOpen, onClose } = useContext(ModeContext);
   const isModalOpen = isOpen;
 
+  //TODO: when the "modes" dropdown btn is open, change the icon to a chevron down. when closed, make it to a chevron right
   return (
     <>
       <Menu
@@ -84,10 +85,6 @@ export function DropdownModeMenu() {
 }
 
 // TODO: Separate this component into its own file
-
-//TODO: have a separate modal for each mode, instead of dynamically rendering modes based on which is in the "mode" state. Doing this will ensure that whenever the modal closes, the mode won't deactivate... have modes activate/deactivate based on the toggles!!!
-
-// ! ^ actually, just discovered that only TIME LIMIT MODE deactivates when the modal closes. i think that's because the setInterval hook stops whenever the mode is not actively present/rendered. is there a way to fix this???
 
 function ModeModal({ isOpen, onClose, mode, quillEditor }) {
   const {
