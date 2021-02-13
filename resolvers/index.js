@@ -5,6 +5,11 @@ const Post = require("../models/Post");
 
 const passport = require("passport");
 
+function checkPostType() {
+  // Check the existence of a post's fields in MongoDB. If the extra fields in the ExistingPost GQL Type exists (aka is NOT undefined/a falsy value) on the MongoDB entry, then the post is an ExistingPost. If those fields do NOT exist, then the posttype is a NewPost
+  // return a string that says either "NewPost" or "ExistingPost"
+}
+
 const user = async (userId) => {
   try {
     let user = await User.findById(userId).exec();
