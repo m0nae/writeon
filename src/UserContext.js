@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 
 export const UserContext = createContext({});
@@ -14,25 +14,13 @@ const GET_USER = gql`
 `;
 
 export function UserProvider(props) {
-  // set user state to "null" as default, but Apollo also allows subscriptions. Ex. I'm creating a userLoggedIn subscription in the backend that returns a User type (BUT it's not required, so returning NULL is possible). If no user is logged in, the query will return NULL. Whenever user DOES log in, the subscription will have noticed, and will update the client automatically.
-
-  //Or, instead of using subscriptions, just handle everything on the frontend. Create the login page. User submits their data, IF there are no errors and everything goes through, call the "refetch" function for the GET_USER query (which should now return actual user data instead of null).
-
   const [user, setUser] = useState(null);
-  // const { loading, error, data } = useQuery(GET_USER);
+  const [loading, setLoading] = useState(!user);
 
-  // useEffect(() => {
-  //   async function getUser() {
-  //     console.log("fetching!");
-  //     let response = await fetch("http://localhost:5000/current", {
-  //       credentials: "include",
-  //     });
-  //     let data = await response.json();
-  //     console.log(data);
-  //     await setUser(data);
-  //   }
-  //   getUser();
-  // }, []);
+  // for now, the loading state is dependent on whether or not a user exists. but what if an error is thrown by the fetch request? set loading state to false and just display the error on the page/redirect to an error page or however u want to handle it
+  useEffect(() => {
+    setLoading(!user);
+  }, [user]);
 
   useEffect(() => {
     fetch("http://localhost:5000/current", {
@@ -42,10 +30,13 @@ export function UserProvider(props) {
       .then((data) => setUser(data));
   }, []);
 
+  // ^ USE ASYNC/AWAIT TRY/CATCH
+
   return (
     <UserContext.Provider
       value={{
         user: user,
+        loading: loading,
       }}
     >
       {props.children}
