@@ -5,9 +5,12 @@ const Post = require("../models/Post");
 
 const passport = require("passport");
 
-function checkPostType() {
-  // Check the existence of a post's fields in MongoDB. If the extra fields in the ExistingPost GQL Type exists (aka is NOT undefined/a falsy value) on the MongoDB entry, then the post is an ExistingPost. If those fields do NOT exist, then the posttype is a NewPost
-  // return a string that says either "NewPost" or "ExistingPost"
+function postType(post) {
+  return post._doc.dateModified &&
+    post._doc.deltaContent &&
+    post._doc.htmlContent
+    ? "ExistingPost"
+    : "NewPost";
 }
 
 const user = async (userId) => {
@@ -40,15 +43,12 @@ const posts = async (postIds) => {
 module.exports = {
   posts: async (args, request) => {
     try {
-      if (!request.user) {
-        throw `You must be logged in to view posts.`;
-      }
-
       let posts = await Post.find({ author: request.user._id });
       return posts.map((post) => {
         return {
           ...post._doc,
           author: user.bind(this, post._doc.author),
+          __typename: postType(post),
         };
       });
     } catch (err) {
@@ -62,6 +62,7 @@ module.exports = {
       return {
         ...post._doc,
         author: user.bind(this, post._doc.author),
+        __typeName: postType(post),
       };
     } catch (err) {
       throw err;
@@ -80,26 +81,23 @@ module.exports = {
     }
   },
 
-  currentUser: async (args, request) => {
-    try {
-      if (!request.user) {
-        throw `There is no currently logged in user.`;
-      }
-      return request.user;
-    } catch (err) {
-      throw err;
-    }
-  },
+  // currentUser: async (args, request) => {
+  //   try {
+  //     if (!request.user) {
+  //       throw `There is no currently logged in user.`;
+  //     }
+  //     return request.user;
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // },
 
-  createPost: async (args, request) => {
+  createPost: async (parentValue, args, context) => {
+    console.log(context);
+
     try {
-      if (!request.user) {
-        throw `You must be logged in to create an entry.`;
-      }
       let post = new Post({
         title: args.postInput.title,
-        htmlContent: args.postInput.htmlContent,
-        deltaContent: args.postInput.deltaContent,
         dateCreated: new Date(new Date().toISOString()),
         author: request.user._id,
       });
@@ -115,7 +113,10 @@ module.exports = {
       author.createdPosts.push(post);
       author.save();
 
-      return createdPost;
+      return {
+        ...createdPost,
+        __typeName: "NewPost",
+      };
     } catch (err) {
       throw err;
     }
@@ -128,13 +129,15 @@ module.exports = {
         dateModified: new Date(new Date().toISOString()),
       };
 
+      let post = await Post.findById(args.id);
+
       let updatedPost = await Post.findOneAndUpdate({ _id: args.id }, newInput);
 
-      if (updatedPost.author._id !== request.user._id) {
-        throw `You are not authorized to edit this post.`;
-      }
-
-      return updatedPost;
+      return {
+        ...updatedPost._doc,
+        author: user.bind(this, updatedPost._doc.author),
+        __typeName: "ExistingPost",
+      };
     } catch (err) {
       throw err;
     }
@@ -143,7 +146,7 @@ module.exports = {
   deletePost: async (args) => {
     try {
       let deletedPost = Post.findByIdAndRemove(args.id);
-      return deletedPost;
+      return { ...deletedPost, __typeName: postType(deletedPost) };
     } catch (err) {
       throw err;
     }
@@ -186,26 +189,6 @@ module.exports = {
         ...user._doc,
       };
       return createdUser;
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  login: async (args, request) => {
-    try {
-      passport.authenticate("local");
-      const user = await User.findOne({ username: args.login.username });
-
-      if (!user) {
-        throw `There is no user with that username.`;
-      }
-
-      if (!(await bcrypt.compare(args.login.password, user.password))) {
-        throw `Incorrect password.`;
-      } else {
-        request.login({ ...user._doc }, (error) => (error ? error : user));
-        return user;
-      }
     } catch (err) {
       throw err;
     }

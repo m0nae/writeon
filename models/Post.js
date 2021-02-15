@@ -9,11 +9,11 @@ const postSchema = new Schema({
   },
   htmlContent: {
     type: String,
-    required: true,
+    required: false,
   },
   deltaContent: {
     type: String,
-    required: true,
+    required: false,
   },
   dateCreated: {
     type: String,

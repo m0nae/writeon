@@ -17,6 +17,7 @@ interface PostInterface {
   _id: ID!
   title: String!
   author: User!
+  dateCreated: String!
 }
 
 type NewPost implements PostInterface {
@@ -29,11 +30,11 @@ type NewPost implements PostInterface {
 type ExistingPost implements PostInterface {
   _id: ID!
   title: String!
-  dateCreated: String!
   author: User!
+  dateCreated: String!
   dateModified: String!
-  deltaContent: String!
-  htmlContent: String!
+  deltaContent: String
+  htmlContent: String
 }
 
 union Post = NewPost | ExistingPost
@@ -49,8 +50,6 @@ type User {
 
 input CreatePostInput {
   title: String!
-  htmlContent: String!
-  deltaContent: String!
 }
 
 input UpdatePostInput {
