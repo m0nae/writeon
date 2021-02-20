@@ -2,32 +2,33 @@ import {
   ApolloClient,
   ApolloLink,
   ApolloProvider,
-  HttpLink,
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
-import React, { useContext } from "react";
 
 import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ModeProvider } from "./ModeContext";
 import { NewPostProvider } from "./NewPostContext";
-import { PostProvider } from "./PostContext";
+import React from "react";
 import ReactDOM from "react-dom";
 import { TimeLimitProvider } from "./TimeLimitContext";
 import { UserProvider } from "./UserContext";
 import { onError } from 'apollo-link-error'
-import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000/graphql',
   credentials: 'include'
 });
 
-const errorLink = onError(({ graphQLErrors }) => {
-  if (graphQLErrors) {
-    return graphQLErrors.map(({ message }) => console.log(message)) 
-  }
+//! ERROR LINK FOR DEBUGGING PURPOSES
+const errorLink = onError(({ graphQLErrors, networkError, response }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
 })
 
 const client = new ApolloClient({

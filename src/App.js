@@ -1,29 +1,17 @@
 import "./styles.css";
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  gql,
-  useQuery,
-} from "@apollo/client";
 import { Center, Spinner } from "@chakra-ui/react";
-import { Link, Route, BrowserRouter as Router, Switch, useParams } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext, UserProvider } from "./UserContext";
+import React, { useContext } from "react";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import { CreateNew } from "./components/Pages/CreateNew";
 import { Home } from "./components/Pages/Home";
 import { Login } from "./components/Login";
-import { NewPostContext } from "./NewPostContext";
-import { PostProvider } from "./PostContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { Saved } from "./components/Pages/Saved";
+import { UserContext } from "./UserContext";
 
 export default function App() {
   const { user, loading } = useContext(UserContext);
-  const { newPost, setNewPost } = useContext(NewPostContext);
-  
 
   return (
     <div className="App">

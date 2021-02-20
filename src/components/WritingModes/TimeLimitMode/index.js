@@ -1,16 +1,11 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
-import { TimeLimitContext } from "../../../TimeLimitContext";
-import { useInterval } from "../../../utils.js";
-import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import {
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
+import React, { useContext, useEffect } from "react";
+
 import { HStack } from "@chakra-ui/react";
+import { TimeLimitContext } from "../../../TimeLimitContext";
 import { useToast } from "@chakra-ui/react";
 
 export function TimeLimitMode() {
@@ -18,11 +13,9 @@ export function TimeLimitMode() {
   // const [isCountdownActive, setIsCountdownActive] = useState(false);
   // const [count, setCount] = useState(null);
   const {
-    timeLimit,
     numberInputRef,
     isCountdownActive,
     count,
-    timeLimitDispatch,
   } = useContext(TimeLimitContext);
 
   //TODO: put toast inside of CreateNew component bc it only displays if the TimeLimitMode is rendered in the modal. That doesn't make sense ofc.

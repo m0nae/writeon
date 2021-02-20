@@ -3,7 +3,6 @@ import React, {
   useContext,
   useReducer,
   useRef,
-  useState,
 } from "react";
 
 import { ModeContext } from "./ModeContext";
@@ -15,7 +14,7 @@ export function TimeLimitProvider(props) {
   //todo:
   //! HAVE IT TO WHERE THE TIMER DISABLES WHEN THE BACK BUTTON/LEFT CHEVRON BUTTON IS CLICKED TOO. OR WHENEVER THE CURRENT PAGE IS ANYTHING OTHER THAN "CURRENTNEW" COMPONENT/PAGE/ROUTE!!!
 
-  const { toggledSwitches, modeDispatch } = useContext(ModeContext);
+  const { toggledSwitches } = useContext(ModeContext);
   const initialState = {
     timeLimit: null,
     isCountdownActive: false,

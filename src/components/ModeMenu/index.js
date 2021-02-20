@@ -1,20 +1,11 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Center,
-  HStack,
-  IconButton,
   Menu,
   MenuButton,
-  MenuCommand,
-  MenuDivider,
-  MenuGroup,
-  MenuIcon,
   MenuItem,
-  MenuItemOption,
   MenuList,
-  MenuOptionGroup,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,16 +15,12 @@ import {
   ModalOverlay,
   Switch,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { MdChevronLeft, MdChevronRight, MdMenu } from "react-icons/md";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext } from "react";
 
-import { CSSTransition } from "react-transition-group";
-import { FaLightbulb } from "react-icons/fa";
+import { MdChevronRight } from "react-icons/md";
 import { ModeContext } from "../../ModeContext";
 import { PromptMode } from "../WritingModes/PromptMode";
-import { HiOutlineChevronRight as RightChevron } from "react-icons/hi";
 import { TimeLimitContext } from "../../TimeLimitContext";
 import { TimeLimitMode } from "../WritingModes/TimeLimitMode";
 import { WordCountMode } from "../WritingModes/WordCountMode";
@@ -93,7 +80,7 @@ function ModeModal({ isOpen, onClose, mode, quillEditor }) {
     numberInputRef,
     getWords,
   } = useContext(ModeContext);
-  const { timeLimitDispatch, activateCountdown } = useContext(TimeLimitContext);
+  const { activateCountdown } = useContext(TimeLimitContext);
 
   function handleModalCancel(mode) {
     onClose();
@@ -202,7 +189,7 @@ function ModeModal({ isOpen, onClose, mode, quillEditor }) {
 // TODO: Separate this component into its own file
 function ModeMenuItem({ onOpen, currentMode, text }) {
   const { modeDispatch, toggledSwitches } = useContext(ModeContext);
-  const { timeLimitDispatch, timeLimit, isCountdownActive, count } = useContext(
+  const { timeLimitDispatch } = useContext(
     TimeLimitContext
   );
 
@@ -247,6 +234,9 @@ function ModeMenuItem({ onOpen, currentMode, text }) {
           modeDispatch({ type: "words", payload: [] });
           modeDispatch({ type: "promptModeError", payload: null });
           modeDispatch({ type: "numberOfWords", payload: 0 });
+          break;
+        default:
+          break;
       }
     }
   }

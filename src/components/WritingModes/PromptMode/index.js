@@ -5,20 +5,14 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
+import React, { useContext } from "react";
 
-import { BiRefresh } from "react-icons/bi";
-import { HStack } from "@chakra-ui/react";
 import { ModeContext } from "../../../ModeContext";
 
 export function PromptMode() {
   const {
     modeDispatch,
-    words,
     promptModeError,
-    numberOfWords,
-    getWords,
   } = useContext(ModeContext);
 
   function changeNumberOfWords(value) {
@@ -28,7 +22,7 @@ export function PromptMode() {
   // useEffect(() => {
   //   getWords();
   // }, []);
-
+  
   //TODO: TagCloseBtn: onClick, take the id of clicked item and
 
   return (

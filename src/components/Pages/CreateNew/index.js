@@ -20,24 +20,15 @@ import {
   EditablePreview,
   Flex,
   HStack,
-  Heading,
-  Navbar,
   Spacer,
   Tag,
-  TagCloseButton,
 } from "@chakra-ui/react";
 import { Link, Redirect, useParams } from "react-router-dom";
 import {
   Menu,
   MenuButton,
-  MenuCommand,
-  MenuDivider,
-  MenuGroup,
-  MenuIcon,
   MenuItem,
-  MenuItemOption,
   MenuList,
-  MenuOptionGroup,
   Spinner
 } from "@chakra-ui/react";
 import React, {
@@ -54,7 +45,6 @@ import { DropdownModeMenu } from "../../ModeMenu";
 import { IconButton } from "@chakra-ui/react";
 import { MdChevronLeft } from "react-icons/md";
 import { ModeContext } from "../../../ModeContext";
-import { NewPostContext } from "../../../NewPostContext";
 import { Progress } from "@chakra-ui/react";
 import ReactQuill from "react-quill";
 import { TimeLimitContext } from "../../../TimeLimitContext";
@@ -141,8 +131,7 @@ export function CreateNew() {
   const isModalOpen = isOpen;
 
   const { timeLimit, count } = useContext(TimeLimitContext);
-  const { newPost, setNewPost } = useContext(NewPostContext);
-  const [updatePost, { error, loading: updatePostLoading, data}] = useMutation(UPDATE_POST, { 
+  const [updatePost, { error: updatePostError, loading: updatePostLoading, data}] = useMutation(UPDATE_POST, { 
     onCompleted: (updatePost) => {
       console.log('Post updated!')
     }
@@ -172,7 +161,6 @@ export function CreateNew() {
 
   useEffect(() => {
     console.log(currentPostId);
-    
     
     if (currentPost) {
       console.table(currentPost);
@@ -206,17 +194,6 @@ export function CreateNew() {
     };
   }, []);
 
-  function getWordCount() {
-    let quillTextArea = quillEditor.current.getEditor().getText();
-    let words = quillTextArea.match(/\b[-?(\w+)?]+\b/gi);
-
-    if (words) {
-      modeDispatch({ type: "wordCount", payload: words.length });
-    } else {
-      console.log("0 words");
-    }
-  }
-
   function handleSave() {
     let textContents = quillEditor.current.state.value;
     let deltaContents = quillEditor.current.editor.getContents();
@@ -242,17 +219,25 @@ export function CreateNew() {
     setToHome(true);
   }
 
-  function handleChange(e) {
-    modeDispatch({ type: "mode", payload: e.target.value });
-  }
-
   function handleTimeLimitMode() {
     modeDispatch({ type: "timeLimitMode", payload: !timeLimitMode });
   }
 
+  function getWordCount() {
+    let quillTextArea = quillEditor.current.getEditor().getText();
+    let words = quillTextArea.match(/\b[-?(\w+)?]+\b/gi);
+
+    if (words) {
+      modeDispatch({ type: "wordCount", payload: words.length });
+    } else {
+      console.log("0 words");
+    }
+  }
+
   return (
     <>
-    {toHome && <Redirect to="/" />}
+    {/* if there's an error, redirect to an error page instead */}
+    {toHome || currentPostError && <Redirect to="/" />}
     {loading ? 
 
     (<Center mt="50vh">

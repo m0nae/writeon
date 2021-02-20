@@ -1,17 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+
+import { gql } from "@apollo/client";
 
 export const UserContext = createContext({});
-
-const GET_USER = gql`
-  {
-    currentUser {
-      username
-      email
-      _id
-    }
-  }
-`;
 
 export function UserProvider(props) {
   const [user, setUser] = useState(null);

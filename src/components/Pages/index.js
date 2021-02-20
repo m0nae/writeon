@@ -11,11 +11,10 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 
 import { Header } from "../Header";
-import { Login } from "../Login";
 import { NewPostContext } from "../../NewPostContext";
 import {Redirect} from "react-router-dom";
 import { generatePath } from "react-router";
