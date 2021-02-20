@@ -12,26 +12,64 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 
 import { Header } from "../Header";
 import { Login } from "../Login";
 import { NewPostContext } from "../../NewPostContext";
+import {Redirect} from "react-router-dom";
+import { generatePath } from "react-router";
 import writeOn from "../Header/writeon.svg";
+
+const CREATE_POST = gql`
+  mutation ($title: String!) {
+    createPost(title: $title) {
+       
+        _id
+        title
+        dateCreated
+        
+        
+
+    }
+}
+`;
 
 export function Layout({ children }) {
   const { newPost, setNewPost } = useContext(NewPostContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const postTitleInput = useRef();
+  const [createPost, {error: createPostError, loading, data, called }] = useMutation(CREATE_POST, {
+    onCompleted: (createPost) => {
 
-  function createNewPost() {
+      if (!createPostError) {
+       onClose();
+      }
+      
+      setNewPost({id: createPost.createPost._id});
+      
+    }
+  });
+
+  async function createNewPost() {
+    console.log('createNewPost mutation ran')
     // create a new post/execute a gql mutation
     // the mutation should return a newPost type, so take the info from that and store it in the "newPost" state from the NewPostContext
-    console.log(postTitleInput.current.value);
+    const newTitle = postTitleInput.current.value.toString();
+    
+    createPost({ variables: { title: newTitle } });
+    }
+    
     // then redirect user
-  }
+  
 
   return (
     <>
+    { called && data && <Redirect to={generatePath("/write/:id", {
+      id: data.createPost._id
+    }
+    )} /> }
+    {/* {called && !createPostError && <Redirect to={generatePath("/write/")} />} */}
       <Header>
         <Box className="logo">
           <img src={writeOn} className="writeOn" />
@@ -58,6 +96,8 @@ export function Layout({ children }) {
               <p>Post Title</p>
               <Input ref={postTitleInput} size="lg" />
             </div>
+            {createPostError && <p>Error: Please try again.</p>}
+            {loading && <p>Loading...</p>}
           </ModalBody>
 
           <ModalFooter>

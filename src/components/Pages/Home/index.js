@@ -21,7 +21,7 @@ export function Home() {
 
   return (
     <Layout>
-      <Posts />
+      
     </Layout>
   );
 }

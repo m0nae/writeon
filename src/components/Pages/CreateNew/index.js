@@ -2,6 +2,14 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+} from "@chakra-ui/react"
+import {
   Box,
   Button,
   Center,
@@ -18,7 +26,7 @@ import {
   Tag,
   TagCloseButton,
 } from "@chakra-ui/react";
-import { MdChevronLeft, MdMenu } from "react-icons/md";
+import { Link, Redirect, useParams } from "react-router-dom";
 import {
   Menu,
   MenuButton,
@@ -30,35 +38,88 @@ import {
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  Spinner
 } from "@chakra-ui/react";
 import React, {
   useContext,
   useEffect,
-  useReducer,
   useRef,
   useState,
 } from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { BsThreeDots } from "react-icons/bs";
-import ContentEditable from "react-contenteditable";
 import { CreateNewLayout } from "../../Pages";
 import { DropdownModeMenu } from "../../ModeMenu";
 import { IconButton } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { MdChevronLeft } from "react-icons/md";
 import { ModeContext } from "../../../ModeContext";
 import { NewPostContext } from "../../../NewPostContext";
 import { Progress } from "@chakra-ui/react";
-import { PromptMode } from "../../WritingModes/PromptMode";
 import ReactQuill from "react-quill";
 import { TimeLimitContext } from "../../../TimeLimitContext";
-import { TimeLimitMode } from "../../WritingModes/TimeLimitMode";
-import { WordCountMode } from "../../WritingModes/WordCountMode";
 
-// const SAVE_POST = gql`
-//   {
-//     createPost(postInput: { })
-//   }
-// `
+const UPDATE_POST = gql`
+  mutation($id: ID!, $title: String, $deltaContent: String, $htmlContent: String) {
+    updatePost(id: $id, postInput: {title: $title, htmlContent: $htmlContent, deltaContent: $deltaContent}) {
+            _id
+            title
+            dateCreated
+            dateModified
+            deltaContent
+            htmlContent
+            author {
+                _id
+            }
+        }
+}
+`
+
+const GET_POST = gql`
+  query($id: ID!) {
+    getPostById(id: $id) {
+        ... on NewPost {
+        _id
+        title
+        dateCreated
+        }
+        ... on ExistingPost {
+        _id
+        title
+        dateCreated
+        deltaContent
+        htmlContent
+        dateModified
+        }
+    }
+}
+`
+
+const DELETE_POST = gql`
+  mutation($id: ID!) {
+    deletePost(id: $id) {
+        ... on NewPost {
+            _id
+            title
+            dateCreated
+            author {
+                _id
+            }
+        }
+        ... on ExistingPost {
+            _id
+            title
+            dateCreated
+            dateModified
+            deltaContent
+            htmlContent
+            author {
+                _id
+            }
+        }
+    }
+}
+`
 
 export function CreateNew() {
   let quillEditor = useRef(null);
@@ -81,26 +142,63 @@ export function CreateNew() {
 
   const { timeLimit, count } = useContext(TimeLimitContext);
   const { newPost, setNewPost } = useContext(NewPostContext);
+  const [updatePost, { error, loading: updatePostLoading, data}] = useMutation(UPDATE_POST, { 
+    onCompleted: (updatePost) => {
+      console.log('Post updated!')
+    }
+  });
+  
+  const { id } = useParams();
+  const [currentPostId, setCurrentPostId] = useState(id);
+  const [currentPost, setCurrentPost] = useState(null);
+  const [toHome, setToHome] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  //! TODO: WHENEVER THE COMPONENT INITIALLY LOADS, TAKE THE NEWPOST STATE FROM THE CONTEXT AND USE THAT TO LOAD IN THE POST TITLE INTO THE TEXT TITLE (IT SHOULD BE THE TITLE'S "DEFAULTVALUE")
+  // retrieves post by the :id variable in the current url
+  const {error: currentPostError, loading: currentPostLoading, data: currentPostData} = useQuery(GET_POST, {
+    variables: { id: currentPostId},
+    onCompleted: (GET_POST) => {
+      setCurrentPost({...GET_POST.getPostById})
+      setLoading(false);
+    }
+  });
 
-  //? so... what should happen if the route is manually typed into the URL? should we have dynamic route urls? (e.g. the post title as a route in the URL???????)
+  const [deletePost, { error: deletePostError, loading: deletePostLoading, data: deletePostData}] = useMutation(DELETE_POST, {
+    variables: { id: currentPostId },
+    onCompleted: (deletePost) => {
+      console.log('Post deleted!');
+    }
+  })
+
+  useEffect(() => {
+    console.log(currentPostId);
+    
+    
+    if (currentPost) {
+      console.table(currentPost);
+      let deltaContent = JSON.parse(currentPost.deltaContent);
+      quillEditor.current.editor.setContents(deltaContent.ops);
+    }
+  }, [currentPost])
+
+  //TODO: implement functionality where if the loading state is "true" for X amount of seconds (for too long basically lol), refresh the page/rerender the component/RERUN THE GET_POST QUERY AGAIN
+
+  // ! HAVE A LOADING SCREEN FOR RETRIEVING THE POST BY ID. IF NO POST EXIST, THEN REDIRECT TO 404 NOT FOUND PAGE. IF THE USER IS NOT AUTHORIZED TO EDIT/VIEW THIS POST, THEN SHOW THEM A PAGE THAT TELLS THEM THAT. IF IT DOES, THEN DISABLE THE LOADING SCREEN/SPINNER AND SHOW THE COMPONENT AS NORMAL!!!
+
+  //! also take into consideration error handling. what if smth is wrong with the server? or on the client side? just redirect to a page based on the error shown (404, not authorized, etc)
+
 
   //TODO: convert EVERY basic component to its Chakra UI equivalent. This will make it so that I can let Chakra handle theming (light mode/dark mode) more easily
 
   //TODO: convert all CSS pixels to rems. Stop using both pxs and rems, only use one!
 
-  //TODO: fix positioning of the navbar. the chevron and menu icon is a little off
+  // useEffect(() => {
+  //   // if there's no data inside newPost state, then redirect the user to the page they came from (or a 404 page or error page or something)
+  //   //TODO:  OR... JUST HAVE THIS ROUTE BE A PROTECTED ONE. GO INTO THE PROTECTEDROUTE COMPONENT AND CONFIGURE IT TO ONLY BE ACCESSIBLE IF "NEWPOST" STATE EXISTS
+  // })
 
-  //TODO: put all state from the different modes into this component. this will make it so that even if different modes are switched, their progress from that mode persists! (except for the counter... THAT will stop once the mode is changed to something else, so be sure to warn the user);
-
-  //TODO: ^ create another Context for the modes (ModesContext)
-
+  // resets writing-mode states before unmounting
   useEffect(() => {
-    // destructure initialState
-    // just write a function that takes in an array (or 2 arrays) and creates/runs multiple "dispatch" func
-    // for each entry in initialState, create a dispatch func that resets the state back to what it is
-
     return () => {
       for (const [key, value] of Object.entries(initialState)) {
         modeDispatch({ type: `${key}`, payload: `${value}` });
@@ -126,6 +224,22 @@ export function CreateNew() {
     console.log(title);
     console.log(textContents);
     console.log(deltaContents);
+    updatePost({ variables: {
+      id: currentPostId,
+      title: title,
+      deltaContent: JSON.stringify(deltaContents),
+      htmlContent: textContents,
+    }})
+  }
+
+  function handleDelete() {
+    deletePost({
+      variables: {
+        id: currentPostId
+      }
+    });
+
+    setToHome(true);
   }
 
   function handleChange(e) {
@@ -138,7 +252,20 @@ export function CreateNew() {
 
   return (
     <>
-      <CreateNewLayout>
+    {toHome && <Redirect to="/" />}
+    {loading ? 
+
+    (<Center mt="50vh">
+    <Spinner
+      thickness="4px"
+      speed="0.65s"
+      emptyColor="gray.200"
+      color="blue.500"
+      size="xl"
+    />
+    </Center>)
+    :
+    (<CreateNewLayout>
         <Flex
           p="4"
           justify="center"
@@ -147,7 +274,7 @@ export function CreateNew() {
         >
           <Box>
             <Link to="/">
-              {/* //TODO: If this is clicked, SAVE the post to DB THEN redirect user back to wherever they came from (I think react router uses the browser history, so find out which method returns the user to their previous page/where they came from ) */}
+              {/* //TODO: If this is clicked, make modal appear if user wants to leave b4 saving & THEN redirect user back to wherever they came from (I think react router uses the browser history, so find out which method returns the user to their previous page/where they came from ) */}
               <MdChevronLeft className="editor-left-chevron" />
             </Link>
           </Box>
@@ -156,6 +283,8 @@ export function CreateNew() {
             className="save-btn"
             size="md"
             variant="outline"
+            isLoading={updatePostLoading}
+            loadingText="Saving..."
             onClick={() => handleSave()}
           >
             Save
@@ -178,6 +307,8 @@ export function CreateNew() {
             </>
           )}
 
+          
+
           <DropdownModeMenu
             mode={mode}
             handleTimeLimitMode={handleTimeLimitMode}
@@ -199,12 +330,16 @@ export function CreateNew() {
               // className="menu-icon"
             />
             <MenuList>
-              <MenuItem>Delete Post</MenuItem>
+              <MenuItem onClick={() => handleDelete()}>Delete Post</MenuItem>
             </MenuList>
           </Menu>
           {/* <BsThreeDots className="menu-icon" />
           </Box> */}
         </Flex>
+
+        {/* DELETE POST CONFIRMATION MODAL */}
+
+        
 
         {/* WORDCOUNT PROGRESS BAR */}
 
@@ -224,6 +359,7 @@ export function CreateNew() {
 
         <div className="container editor-container">
           <TextEditor
+          currentPost={currentPost}
             postTitle={postTitle}
             getWordCount={() => getWordCount()}
             quillEditorRef={quillEditor}
@@ -244,15 +380,15 @@ export function CreateNew() {
             <CircularProgressLabel />
           </CircularProgress>
         )}
-      </CreateNewLayout>
+      </CreateNewLayout>)}
     </>
   );
 }
 
-function TextEditor({ quillEditorRef, getWordCount, postTitle }) {
+function TextEditor({ quillEditorRef, getWordCount, postTitle, currentPost }) {
   return (
     <>
-      <Editable ref={postTitle} className="post-title" defaultValue="Untitled">
+      <Editable ref={postTitle} className="post-title" defaultValue={currentPost ? currentPost.title : "Untitled"}>
         <EditablePreview />
         <EditableInput />
       </Editable>
