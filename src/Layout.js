@@ -14,11 +14,11 @@ import {
 import React, { useContext, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 
-import { Header } from "../components/Header";
-import { NewPostContext } from "../NewPostContext";
+import { Header } from "./components/Header";
+import { NewPostContext } from "./NewPostContext";
 import {Redirect} from "react-router-dom";
 import { generatePath } from "react-router";
-import writeOn from "../components/Header/writeon.svg";
+import writeOn from "./components/Header/writeon.svg";
 
 const CREATE_POST = gql`
   mutation ($title: String!) {

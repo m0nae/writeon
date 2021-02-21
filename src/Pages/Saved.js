@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { Layout } from './Layout';
+import { Layout } from '../Layout';
 import { Post } from '../components/Posts';
 import { PostContext } from '../PostContext';
 
