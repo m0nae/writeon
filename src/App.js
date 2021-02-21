@@ -4,8 +4,8 @@ import { Center, Spinner } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
-import { CreateNew } from "./Pages/CreateNew";
-import { Home } from "./Pages/Home";
+import { CreateNew } from "./Pages/CreateNew/CreateNew";
+import { Home } from "./Pages/Home/Home";
 import { Login } from "./components/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { UserContext } from "./UserContext";
