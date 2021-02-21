@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 
 export function Login() {

@@ -8,12 +8,12 @@ import {
 
 import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ModeProvider } from "./ModeContext";
-import { NewPostProvider } from "./NewPostContext";
+import { ModeProvider } from "./contexts/ModeContext";
+import { NewPostProvider } from "./contexts/NewPostContext";
 import React from "react";
 import ReactDOM from "react-dom";
-import { TimeLimitProvider } from "./TimeLimitContext";
-import { UserProvider } from "./UserContext";
+import { TimeLimitProvider } from "./contexts/TimeLimitContext";
+import { UserProvider } from "./contexts/UserContext";
 import { onError } from 'apollo-link-error'
 
 const httpLink = createHttpLink({

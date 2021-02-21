@@ -6,7 +6,7 @@ import React, {
 } from "react";
 
 import { ModeContext } from "./ModeContext";
-import { useInterval } from "./utils";
+import { useInterval } from "../utils";
 
 export const TimeLimitContext = createContext();
 

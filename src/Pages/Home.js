@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
 import { Layout } from "../Layout";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 
 export function Home() {

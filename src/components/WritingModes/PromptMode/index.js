@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
-import { ModeContext } from "../../../ModeContext";
+import { ModeContext } from "../../../contexts/ModeContext";
 
 export function PromptMode() {
   const {

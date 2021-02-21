@@ -44,10 +44,10 @@ import { CreateNewLayout } from "../Layout";
 import { DropdownModeMenu } from "../components/ModeMenu";
 import { IconButton } from "@chakra-ui/react";
 import { MdChevronLeft } from "react-icons/md";
-import { ModeContext } from "../ModeContext";
+import { ModeContext } from "../contexts/ModeContext";
 import { Progress } from "@chakra-ui/react";
 import ReactQuill from "react-quill";
-import { TimeLimitContext } from "../TimeLimitContext";
+import { TimeLimitContext } from "../contexts/TimeLimitContext";
 
 const UPDATE_POST = gql`
   mutation($id: ID!, $title: String, $deltaContent: String, $htmlContent: String) {

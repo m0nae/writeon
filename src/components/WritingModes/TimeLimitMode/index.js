@@ -5,7 +5,7 @@ import {
 import React, { useContext, useEffect } from "react";
 
 import { HStack } from "@chakra-ui/react";
-import { TimeLimitContext } from "../../../TimeLimitContext";
+import { TimeLimitContext } from "../../../contexts/TimeLimitContext";
 import { useToast } from "@chakra-ui/react";
 
 export function TimeLimitMode() {

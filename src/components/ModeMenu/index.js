@@ -19,9 +19,9 @@ import {
 import React, { useContext } from "react";
 
 import { MdChevronRight } from "react-icons/md";
-import { ModeContext } from "../../ModeContext";
+import { ModeContext } from "../../contexts/ModeContext";
 import { PromptMode } from "../WritingModes/PromptMode";
-import { TimeLimitContext } from "../../TimeLimitContext";
+import { TimeLimitContext } from "../../contexts/TimeLimitContext";
 import { TimeLimitMode } from "../WritingModes/TimeLimitMode";
 import { WordCountMode } from "../WritingModes/WordCountMode";
 

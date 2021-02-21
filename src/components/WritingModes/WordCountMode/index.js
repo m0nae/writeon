@@ -9,7 +9,7 @@ import {
 import React, { useContext } from "react";
 
 import { HStack } from "@chakra-ui/react";
-import { ModeContext } from "../../../ModeContext";
+import { ModeContext } from "../../../contexts/ModeContext";
 
 export function WordCountMode() {
   const { numberInputRef, wordCountGoal } = useContext(
