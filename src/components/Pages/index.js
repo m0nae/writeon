@@ -51,16 +51,10 @@ export function Layout({ children }) {
   });
 
   async function createNewPost() {
-    console.log('createNewPost mutation ran')
-    // create a new post/execute a gql mutation
-    // the mutation should return a newPost type, so take the info from that and store it in the "newPost" state from the NewPostContext
     const newTitle = postTitleInput.current.value.toString();
     
     createPost({ variables: { title: newTitle } });
-    }
-    
-    // then redirect user
-  
+  }
 
   return (
     <>
@@ -68,7 +62,6 @@ export function Layout({ children }) {
       id: data.createPost._id
     }
     )} /> }
-    {/* {called && !createPostError && <Redirect to={generatePath("/write/")} />} */}
       <Header>
         <Box className="logo">
           <img src={writeOn} className="writeOn" />

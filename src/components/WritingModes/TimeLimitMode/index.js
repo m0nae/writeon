@@ -9,9 +9,6 @@ import { TimeLimitContext } from "../../../TimeLimitContext";
 import { useToast } from "@chakra-ui/react";
 
 export function TimeLimitMode() {
-  // const [timeLimit, setTimeLimit] = useState(null);
-  // const [isCountdownActive, setIsCountdownActive] = useState(false);
-  // const [count, setCount] = useState(null);
   const {
     numberInputRef,
     isCountdownActive,
@@ -33,55 +30,19 @@ export function TimeLimitMode() {
     }
   }, [count]);
 
-  // function activateCountdown() {
-  //   const value = numberInputRef.current.value;
-
-  //   if (value <= 0) {
-  //     return;
-  //   }
-
-  //   // setTimeLimit(value * 60);
-  //   // setCount(value * 60 + 1);
-
-  //   // setIsCountdownActive(true);
-
-  //   timeLimitDispatch({ type: "timeLimit", payload: value * 60 });
-  //   timeLimitDispatch({ type: "count", payload: value * 60 + 1 });
-  //   timeLimitDispatch({ type: "isCountdownActive", payload: true });
-  // }
-
   return (
     <>
       <HStack spacing="10px">
-        {/* <CircularProgress
-          value={count && count !== NaN ? count : 0}
-          min={0}
-          max={timeLimit && timeLimit !== 0 ? timeLimit : 1}
-          size="5rem"
-          color="green.400"
-        >
-          <CircularProgressLabel />
-        </CircularProgress> */}
-
         <NumberInput
           allowMouseWheel
           size="md"
           maxW={24}
           min={0}
-          // value={val !== null ? val : 0}
           defaultValue={0}
           isDisabled={isCountdownActive}
-          // onChange={(value) => setVal(Number(value))}
-          // onChange={(value) => console.log(Number(value))}
-          // console.log(numberInputRef)
         >
           <NumberInputField ref={numberInputRef} />
-          {/* <NumberInputStepper className="number-input-stepper">
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper> */}
         </NumberInput>
-        {/* <Button onClick={() => activateCountdown()}>Submit</Button> */}
       </HStack>
     </>
   );

@@ -29,7 +29,6 @@ export default function App() {
         <Router>
           <Switch>
             <Route exact path="/login" component={Login} />
-            {/* <ProtectedRoute exact path="/saved" user={user} component={Saved} /> */}
             <ProtectedRoute
               exact
               path="/write/:id"

@@ -18,10 +18,6 @@ export function PromptMode() {
   function changeNumberOfWords(value) {
     modeDispatch({ type: "numberOfWords", payload: Number(value) });
   }
-
-  // useEffect(() => {
-  //   getWords();
-  // }, []);
   
   //TODO: TagCloseBtn: onClick, take the id of clicked item and
 

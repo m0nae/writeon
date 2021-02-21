@@ -8,7 +8,6 @@ export function UserProvider(props) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(!user);
 
-  // for now, the loading state is dependent on whether or not a user exists. but what if an error is thrown by the fetch request? set loading state to false and just display the error on the page/redirect to an error page or however u want to handle it
   useEffect(() => {
     setLoading(user === null ? true : false);
   }, [user]);
@@ -25,8 +24,6 @@ export function UserProvider(props) {
         setUser(data);
       });
   }, []);
-
-  // ^ USE ASYNC/AWAIT TRY/CATCH
 
   return (
     <UserContext.Provider
