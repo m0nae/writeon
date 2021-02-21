@@ -1,45 +1,44 @@
-import React, { useEffect, useState, useContext } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Saved } from "./components/Pages/Saved";
-import { Home } from "./components/Pages/Home";
-import { CreateNew } from "./components/Pages/CreateNew";
-import { Login } from "./components/Login";
-import { PostProvider } from "./PostContext";
-import { UserProvider, UserContext } from "./UserContext";
 import "./styles.css";
 
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
-} from "@apollo/client";
+import { Center, Spinner } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+
+import { CreateNew } from "./pages/CreateNew";
+import { Home } from "./pages/Home";
+import { Login } from "./components/Login";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { UserContext } from "./contexts/UserContext";
 
 export default function App() {
-  const { user } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
+
   return (
-    <UserProvider>
-      <PostProvider>
-        <div className="App">
-          <Router>
-            <Switch>
-              <Route path="/saved">
-                <Saved />
-              </Route>
-              <Route path="/create-new">
-                <CreateNew />
-              </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </Router>
-        </div>
-      </PostProvider>
-    </UserProvider>
+    <div className="App">
+      {loading ? (
+        <Center mt="50vh">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Center>
+      ) : (
+        <Router>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <ProtectedRoute
+              exact
+              path="/write/:id"
+              user={user}
+              component={CreateNew}
+            />
+            <ProtectedRoute exact path="/" user={user} component={Home} />
+          </Switch>
+        </Router>
+      )}
+    </div>
   );
 }
