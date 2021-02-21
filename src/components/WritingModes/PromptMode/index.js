@@ -19,8 +19,6 @@ export function PromptMode() {
     modeDispatch({ type: "numberOfWords", payload: Number(value) });
   }
   
-  //TODO: TagCloseBtn: onClick, take the id of clicked item and
-
   return (
     <>
       <div className="words-list-wrapper">
