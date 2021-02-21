@@ -29,7 +29,6 @@ export function DropdownModeMenu() {
   const { mode, isOpen, onOpen, onClose } = useContext(ModeContext);
   const isModalOpen = isOpen;
 
-  //TODO: when the "modes" dropdown btn is open, change the icon to a chevron down. when closed, make it to a chevron right
   return (
     <>
       <Menu
@@ -71,7 +70,6 @@ export function DropdownModeMenu() {
   );
 }
 
-// TODO: Separate this component into its own file
 
 function ModeModal({ isOpen, onClose, mode, quillEditor }) {
   const {
@@ -186,7 +184,6 @@ function ModeModal({ isOpen, onClose, mode, quillEditor }) {
   );
 }
 
-// TODO: Separate this component into its own file
 function ModeMenuItem({ onOpen, currentMode, text }) {
   const { modeDispatch, toggledSwitches } = useContext(ModeContext);
   const { timeLimitDispatch } = useContext(

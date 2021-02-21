@@ -169,22 +169,6 @@ export function CreateNew() {
     }
   }, [currentPost])
 
-  //TODO: implement functionality where if the loading state is "true" for X amount of seconds (for too long basically lol), refresh the page/rerender the component/RERUN THE GET_POST QUERY AGAIN
-
-  // ! HAVE A LOADING SCREEN FOR RETRIEVING THE POST BY ID. IF NO POST EXIST, THEN REDIRECT TO 404 NOT FOUND PAGE. IF THE USER IS NOT AUTHORIZED TO EDIT/VIEW THIS POST, THEN SHOW THEM A PAGE THAT TELLS THEM THAT. IF IT DOES, THEN DISABLE THE LOADING SCREEN/SPINNER AND SHOW THE COMPONENT AS NORMAL!!!
-
-  //! also take into consideration error handling. what if smth is wrong with the server? or on the client side? just redirect to a page based on the error shown (404, not authorized, etc)
-
-
-  //TODO: convert EVERY basic component to its Chakra UI equivalent. This will make it so that I can let Chakra handle theming (light mode/dark mode) more easily
-
-  //TODO: convert all CSS pixels to rems. Stop using both pxs and rems, only use one!
-
-  // useEffect(() => {
-  //   // if there's no data inside newPost state, then redirect the user to the page they came from (or a 404 page or error page or something)
-  //   //TODO:  OR... JUST HAVE THIS ROUTE BE A PROTECTED ONE. GO INTO THE PROTECTEDROUTE COMPONENT AND CONFIGURE IT TO ONLY BE ACCESSIBLE IF "NEWPOST" STATE EXISTS
-  // })
-
   // resets writing-mode states before unmounting
   useEffect(() => {
     return () => {
@@ -259,7 +243,6 @@ export function CreateNew() {
         >
           <Box>
             <Link to="/">
-              {/* //TODO: If this is clicked, make modal appear if user wants to leave b4 saving & THEN redirect user back to wherever they came from (I think react router uses the browser history, so find out which method returns the user to their previous page/where they came from ) */}
               <MdChevronLeft className="editor-left-chevron" />
             </Link>
           </Box>
@@ -318,8 +301,6 @@ export function CreateNew() {
               <MenuItem onClick={() => handleDelete()}>Delete Post</MenuItem>
             </MenuList>
           </Menu>
-          {/* <BsThreeDots className="menu-icon" />
-          </Box> */}
         </Flex>
 
         {/* DELETE POST CONFIRMATION MODAL */}
