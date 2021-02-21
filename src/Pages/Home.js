@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
-import { Layout } from ".";
+import { Layout } from "./Layout";
 import { UserContext } from "../UserContext";
 import { useHistory } from "react-router-dom";
 

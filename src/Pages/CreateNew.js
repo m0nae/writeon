@@ -40,7 +40,7 @@ import React, {
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { BsThreeDots } from "react-icons/bs";
-import { CreateNewLayout } from ".";
+import { CreateNewLayout } from "./Layout";
 import { DropdownModeMenu } from "../components/ModeMenu";
 import { IconButton } from "@chakra-ui/react";
 import { MdChevronLeft } from "react-icons/md";
