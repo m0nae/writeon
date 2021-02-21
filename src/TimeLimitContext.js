@@ -11,9 +11,6 @@ import { useInterval } from "./utils";
 export const TimeLimitContext = createContext();
 
 export function TimeLimitProvider(props) {
-  //todo:
-  //! HAVE IT TO WHERE THE TIMER DISABLES WHEN THE BACK BUTTON/LEFT CHEVRON BUTTON IS CLICKED TOO. OR WHENEVER THE CURRENT PAGE IS ANYTHING OTHER THAN "CURRENTNEW" COMPONENT/PAGE/ROUTE!!!
-
   const { toggledSwitches } = useContext(ModeContext);
   const initialState = {
     timeLimit: null,

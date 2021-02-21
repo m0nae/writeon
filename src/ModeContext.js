@@ -30,9 +30,6 @@ export function ModeProvider(props) {
 
   function getWords() {
     if (numberOfWords > 10) {
-      // return setError({
-      //   errorMessage: "Number must be below 10.",
-      // });
       return modeDispatch({
         type: "promptModeError",
         payload: { errorMessage: "Number must be below 10." },
@@ -52,9 +49,6 @@ export function ModeProvider(props) {
     wordCountGoal,
     wordCount,
     timeLimitMode,
-    // timeLimit,
-    // isCountdownActive,
-    // count,
     wordCountMode,
     promptMode,
     words,
@@ -73,9 +67,6 @@ export function ModeProvider(props) {
         wordCountGoal: wordCountGoal,
         wordCount: wordCount,
         timeLimitMode: timeLimitMode,
-        // timeLimit: timeLimit,
-        // isCountdownActive: isCountdownActive,
-        // count: count,
         wordCountMode: wordCountMode,
         promptMode: promptMode,
         words: words,
