@@ -162,7 +162,7 @@ export function CreateNew() {
   useEffect(() => {
     console.log(currentPostId);
     
-    if (currentPost) {
+    if (currentPost && currentPost.deltaContent) {
       console.table(currentPost);
       let deltaContent = JSON.parse(currentPost.deltaContent);
       quillEditor.current.editor.setContents(deltaContent.ops);
