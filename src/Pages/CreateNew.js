@@ -40,14 +40,14 @@ import React, {
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { BsThreeDots } from "react-icons/bs";
-import { CreateNewLayout } from "..";
-import { DropdownModeMenu } from "../../components/ModeMenu";
+import { CreateNewLayout } from ".";
+import { DropdownModeMenu } from "../components/ModeMenu";
 import { IconButton } from "@chakra-ui/react";
 import { MdChevronLeft } from "react-icons/md";
-import { ModeContext } from "../../ModeContext";
+import { ModeContext } from "../ModeContext";
 import { Progress } from "@chakra-ui/react";
 import ReactQuill from "react-quill";
-import { TimeLimitContext } from "../../TimeLimitContext";
+import { TimeLimitContext } from "../TimeLimitContext";
 
 const UPDATE_POST = gql`
   mutation($id: ID!, $title: String, $deltaContent: String, $htmlContent: String) {
