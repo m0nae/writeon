@@ -23,7 +23,8 @@ import {
   Spacer,
   Tag,
 } from "@chakra-ui/react";
-import { Link, Redirect, useParams } from "react-router-dom";
+import { DELETE_POST, GET_POST, UPDATE_POST } from "../gql.js";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import {
   Menu,
   MenuButton,
@@ -49,69 +50,7 @@ import { Progress } from "@chakra-ui/react";
 import ReactQuill from "react-quill";
 import { TimeLimitContext } from "../contexts/TimeLimitContext";
 
-const UPDATE_POST = gql`
-  mutation($id: ID!, $title: String, $deltaContent: String, $htmlContent: String) {
-    updatePost(id: $id, postInput: {title: $title, htmlContent: $htmlContent, deltaContent: $deltaContent}) {
-            _id
-            title
-            dateCreated
-            dateModified
-            deltaContent
-            htmlContent
-            author {
-                _id
-            }
-        }
-}
-`
-
-const GET_POST = gql`
-  query($id: ID!) {
-    getPostById(id: $id) {
-        ... on NewPost {
-        _id
-        title
-        dateCreated
-        }
-        ... on ExistingPost {
-        _id
-        title
-        dateCreated
-        deltaContent
-        htmlContent
-        dateModified
-        }
-    }
-}
-`
-
-const DELETE_POST = gql`
-  mutation($id: ID!) {
-    deletePost(id: $id) {
-        ... on NewPost {
-            _id
-            title
-            dateCreated
-            author {
-                _id
-            }
-        }
-        ... on ExistingPost {
-            _id
-            title
-            dateCreated
-            dateModified
-            deltaContent
-            htmlContent
-            author {
-                _id
-            }
-        }
-    }
-}
-`
-
-export function CreateNew() {
+export function CreateNew(props) {
   let quillEditor = useRef(null);
   let postTitle = useRef(null);
   const {
@@ -140,8 +79,13 @@ export function CreateNew() {
   const { id } = useParams();
   const [currentPostId, setCurrentPostId] = useState(id);
   const [currentPost, setCurrentPost] = useState(null);
-  const [toHome, setToHome] = useState(false);
+  const [redirectToHome, setRedirectToHome] = useState(false);
   const [loading, setLoading] = useState(true);
+  let history = useHistory();
+
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
+  const closeDeleteAlert = () => setIsDeleteAlertOpen(false);
+  const deleteAlertRef = useRef();
 
   // retrieves post by the :id variable in the current url
   const {error: currentPostError, loading: currentPostLoading, data: currentPostData} = useQuery(GET_POST, {
@@ -149,7 +93,8 @@ export function CreateNew() {
     onCompleted: (GET_POST) => {
       setCurrentPost({...GET_POST.getPostById})
       setLoading(false);
-    }
+    },
+    fetchPolicy: "network-only"
   });
 
   const [deletePost, { error: deletePostError, loading: deletePostLoading, data: deletePostData}] = useMutation(DELETE_POST, {
@@ -161,7 +106,7 @@ export function CreateNew() {
 
   useEffect(() => {
     console.log(currentPostId);
-    
+    console.log(currentPost);
     if (currentPost && currentPost.deltaContent) {
       console.table(currentPost);
       let deltaContent = JSON.parse(currentPost.deltaContent);
@@ -179,7 +124,7 @@ export function CreateNew() {
   }, []);
 
   function handleSave() {
-    let textContents = quillEditor.current.state.value;
+    let textContents = quillEditor.current.editor.getText();
     let deltaContents = quillEditor.current.editor.getContents();
     let title = postTitle.current.children[1].value;
     console.log(title);
@@ -189,7 +134,7 @@ export function CreateNew() {
       id: currentPostId,
       title: title,
       deltaContent: JSON.stringify(deltaContents),
-      htmlContent: textContents,
+      textContent: textContents,
     }})
   }
 
@@ -199,8 +144,15 @@ export function CreateNew() {
         id: currentPostId
       }
     });
+    closeDeleteAlert();
+    setRedirectToHome(true);
+  }
 
-    setToHome(true);
+
+
+  function goBack() {
+    history.goBack();
+    // todo: input code that resets the ModeContext states
   }
 
   function handleTimeLimitMode() {
@@ -221,7 +173,7 @@ export function CreateNew() {
   return (
     <>
     {/* if there's an error, redirect to an error page instead */}
-    {toHome || currentPostError && <Redirect to="/" />}
+    {(redirectToHome || currentPostError) && <Redirect push to="/" />}
     {loading ? 
 
     (<Center mt="50vh">
@@ -241,10 +193,8 @@ export function CreateNew() {
           align="center"
           className="header create-new"
         >
-          <Box>
-            <Link to="/">
+          <Box cursor="pointer" onClick={() => goBack()}>
               <MdChevronLeft className="editor-left-chevron" />
-            </Link>
           </Box>
 
           <Button
@@ -298,14 +248,40 @@ export function CreateNew() {
               // className="menu-icon"
             />
             <MenuList>
-              <MenuItem onClick={() => handleDelete()}>Delete Post</MenuItem>
+              <MenuItem onClick={() => setIsDeleteAlertOpen(true)}>Delete Post</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
 
         {/* DELETE POST CONFIRMATION MODAL */}
 
-        
+        <AlertDialog
+        isOpen={isDeleteAlertOpen}
+        leastDestructiveRef={deleteAlertRef}
+        onClose={closeDeleteAlert}
+        isCentered
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Post
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to delete this post? This action cannot be undone!
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={deleteAlertRef} onClick={closeDeleteAlert}>
+                Cancel
+              </Button>
+              <Button colorScheme="red" onClick={() => handleDelete()} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
 
         {/* WORDCOUNT PROGRESS BAR */}
 
@@ -323,7 +299,7 @@ export function CreateNew() {
 
         {/* TEXT EDITOR */}
 
-        <div className="container editor-container">
+        <div className="editor-container">
           <TextEditor
           currentPost={currentPost}
             postTitle={postTitle}

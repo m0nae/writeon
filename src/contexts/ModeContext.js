@@ -10,7 +10,7 @@ export function ModeProvider(props) {
 
   const initialState = {
     mode: "",
-    wordCountGoal: null,
+    wordCountGoal: "",
     wordCount: 0,
     timeLimitMode: false,
     wordCountMode: false,

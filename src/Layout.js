@@ -14,25 +14,12 @@ import {
 import React, { useContext, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 
+import { CREATE_POST } from "./gql.js";
 import { Header } from "./components/Header";
 import { NewPostContext } from "./contexts/NewPostContext";
 import {Redirect} from "react-router-dom";
 import { generatePath } from "react-router";
 import writeOn from "./components/Header/writeon.svg";
-
-const CREATE_POST = gql`
-  mutation ($title: String!) {
-    createPost(title: $title) {
-       
-        _id
-        title
-        dateCreated
-        
-        
-
-    }
-}
-`;
 
 export function Layout({ children }) {
   const { newPost, setNewPost } = useContext(NewPostContext);
@@ -58,12 +45,12 @@ export function Layout({ children }) {
 
   return (
     <>
-    { called && data && <Redirect to={generatePath("/write/:id", {
+    { called && data && <Redirect push to={generatePath("/write/:id", {
       id: data.createPost._id
     }
     )} /> }
       <Header>
-        <Box className="logo">
+        <Box as="a" href="http://localhost:3000/" className="logo">
           <img src={writeOn} className="writeOn" />
         </Box>
         <Spacer />
@@ -72,12 +59,10 @@ export function Layout({ children }) {
         </Box>
       </Header>
       <div className="container">
-        <h1>The Blog.</h1>
-
         {children}
       </div>
 
-      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create New Post</ModalHeader>
