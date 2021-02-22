@@ -5,11 +5,13 @@ import {
   SimpleGrid,
   Spinner
 } from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { GET_ALL_POSTS } from "../gql";
 import { Layout } from "../Layout";
+import { MdList } from "react-icons/md";
 import { ModeContext } from "../contexts/ModeContext";
 import { NoteCard } from "../components/NoteCard";
 import { UserContext } from "../contexts/UserContext";
@@ -21,6 +23,8 @@ export function Home(props) {
   const [posts, setPosts] = useState(null);
   const history = useHistory();
   const { initialState, modeDispatch } = useContext(ModeContext);
+
+  const [gridView, setGridView] = useState(true);
 
   const {error: allPostsError, loading: allPostsLoading, data: allPostsData, refetch: refetchAllPosts} = useQuery(GET_ALL_POSTS, {
     onCompleted: (GET_ALL_POSTS) => {
@@ -51,8 +55,6 @@ export function Home(props) {
   //   refetchAllPosts();
   // }, [props.location])
 
- 
-
   return (
     <>
       {loading ? 
@@ -73,19 +75,26 @@ export function Home(props) {
           <Box
             className="home-layout"
           >
+          
               
-            { posts && posts.map((post) => {
-              
-              return <NoteCard
-                key={post._id} 
-                _id={post._id}
-                title={post.title}
-                textContent={post.textContent && post.textContent}
-                // onClick={onClick}
-              />
-            })
-            }
-            
+          <Flex mb="1rem" className="view-menu">
+            <Box marginLeft="auto">
+              <MdList onClick={() => setGridView(!gridView)} className="list-view-icon" />
+            </Box>
+          </Flex>
+          <Box className={gridView ? "grid-view" : "list-view"}>
+              { posts && posts.map((post) => {
+                
+                return <NoteCard
+                  key={post._id} 
+                  _id={post._id}
+                  title={post.title}
+                  textContent={post.textContent && post.textContent}
+                  // onClick={onClick}
+                />
+              })
+              }
+            </Box>
          
           </Box>
         </Layout>

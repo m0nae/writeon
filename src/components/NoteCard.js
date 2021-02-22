@@ -52,9 +52,8 @@ export function NoteCard({ title, textContent, onClick, _id }) {
           {title}
         </Box>
         <Box
-          maxH="90%"
+          maxH="81%"
           overflow="hidden"
-
         >
           
           {

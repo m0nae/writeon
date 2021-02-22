@@ -2,6 +2,8 @@ import { Box, Button, Spacer } from "@chakra-ui/react";
 import {
   Divider,
   Input,
+  InputGroup,
+  InputLeftElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -53,6 +55,14 @@ export function Layout({ children }) {
         <Box as="a" href="http://localhost:3000/" className="logo">
           <img src={writeOn} className="writeOn" />
         </Box>
+        <Spacer />
+        <InputGroup width="70%">
+            <InputLeftElement
+              pointerEvents="none"
+              // children={"X"}
+            />
+            <Input placeholder="Search" bg="#efefef" border="none" width="70%" maxW="1000px" m="0 auto" />
+          </InputGroup>
         <Spacer />
         <Box>
           <Button onClick={onOpen}>Create New</Button>
