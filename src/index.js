@@ -9,6 +9,7 @@ import {
 import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ModeProvider } from "./contexts/ModeContext";
+import { SearchProvider } from "./contexts/SearchContext";
 import { NewPostProvider } from "./contexts/NewPostContext";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -55,6 +56,7 @@ ReactDOM.render(
         components={[
           UserProvider,
           ModeProvider,
+          SearchProvider,
           TimeLimitProvider,
           NewPostProvider
         ]}

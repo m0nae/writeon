@@ -19,12 +19,14 @@ import { gql, useMutation } from "@apollo/client";
 import { CREATE_POST } from "./gql.js";
 import { Header } from "./components/Header";
 import { NewPostContext } from "./contexts/NewPostContext";
+import { SearchContext } from "./contexts/SearchContext";
 import {Redirect} from "react-router-dom";
 import { generatePath } from "react-router";
 import writeOn from "./components/Header/writeon.svg";
 
 export function Layout({ children }) {
   const { newPost, setNewPost } = useContext(NewPostContext);
+  const { setSearchInput } = useContext(SearchContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const postTitleInput = useRef();
   const [createPost, {error: createPostError, loading, data, called }] = useMutation(CREATE_POST, {
@@ -45,6 +47,10 @@ export function Layout({ children }) {
     createPost({ variables: { title: newTitle } });
   }
 
+  function handleInput(e) {
+    setSearchInput(e.target.value);
+  }
+
   return (
     <>
     { called && data && <Redirect push to={generatePath("/write/:id", {
@@ -57,11 +63,24 @@ export function Layout({ children }) {
         </Box>
         <Spacer />
         <InputGroup width="70%">
-            <InputLeftElement
+            {/* <InputLeftElement
               pointerEvents="none"
               // children={"X"}
+            /> */}
+            <Input 
+            placeholder="Search" 
+            bg="#efefef" 
+            border="none" 
+            width="70%" 
+            maxW="1000px" 
+            m="0 auto" 
+            size="lg"
+            onChange={(e) => handleInput(e)}
+            _focus={{
+              backgroundColor: "#ffffff",
+              shadow: "xs"
+            }} 
             />
-            <Input placeholder="Search" bg="#efefef" border="none" width="70%" maxW="1000px" m="0 auto" />
           </InputGroup>
         <Spacer />
         <Box>
