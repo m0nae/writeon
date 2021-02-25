@@ -138,12 +138,12 @@ export function Home(props) {
             width="180px" 
             justifySelf="end" 
             mr="1rem" 
-            placeholder="Sort by"
+            
             onChange={(e) => setSortBy(e.target.value)}
             >
+              <option value="dateModified">Date Last Edited</option>
               <option value="title">Title</option>
               <option value="dateCreated">Date Created</option>
-              <option value="dateModified">Date Last Edited</option>
             </Select>
             <Box
               onClick={sortOrder === "ascending" ? () => setSortOrder("descending") : () => setSortOrder("ascending")}
