@@ -30,15 +30,16 @@ export function TimeLimitProvider(props) {
   const numberInputRef = useRef();
 
   useInterval(() => {
-    if (count <= 0 || !toggledSwitches.includes("timeLimitMode")) {
+    if (!count || count <= 0 || !toggledSwitches.includes("timeLimitMode")) {
       timeLimitDispatch({ type: "isCountdownActive", payload: false });
+      return;
     }
     if (!isCountdownActive || count <= 0) {
       return;
     }
     timeLimitDispatch({ type: "count", payload: count - 1 });
     console.log(count);
-  }, 1000);
+  }, count > 0 ? 1000 : null);
 
   function activateCountdown() {
     const value = numberInputRef.current.value;

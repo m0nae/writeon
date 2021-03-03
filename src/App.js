@@ -7,6 +7,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { CreateNew } from "./pages/CreateNew";
 import { Home } from "./pages/Home";
 import { Login } from "./components/Login";
+import { NotFound } from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { UserContext } from "./contexts/UserContext";
 
@@ -36,6 +37,7 @@ export default function App() {
               component={CreateNew}
             />
             <ProtectedRoute exact path="/" user={user} component={Home} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </Router>
       )}
