@@ -9,9 +9,6 @@
   padding: 0;
 }
 
-h2 {
-  font-size: 2rem;
-}
 
 .App {
   position: relative;
@@ -174,7 +171,7 @@ div:focus {
 } */
 
 .save-btn {
-  padding: 0rem 5rem;
+  padding: 0rem 2rem;
   margin-left: 1rem;
 }
 
@@ -225,6 +222,7 @@ div:focus {
   width: 89%;
   max-width: 1310px;
   margin: 0 auto;
+  margin-bottom: 1rem;
 }
 
 .list-view-icon {
