@@ -2,7 +2,7 @@ import styles from "./header.module.scss";
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 
-import {CreateNewHeaderComponent} from "./CreateNewHeader";
+// import {CreateNewHeaderComponent} from "./CreateNewHeader";
 
 export function Header({ children }) {
   return (
@@ -12,10 +12,10 @@ export function Header({ children }) {
   );
 }
 
-export function CreateNewHeader({children}) {
-  return (
-    <CreateNewHeaderComponent>
-      {children}
-    </CreateNewHeaderComponent>
-  )
-}
+// export function CreateNewHeader({children}, props) {
+//   return (
+//     <CreateNewHeaderComponent {...props}>
+//       {children}
+//     </CreateNewHeaderComponent>
+//   )
+// }

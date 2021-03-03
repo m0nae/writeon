@@ -2,14 +2,6 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-} from "@chakra-ui/react"
-import {
   Box,
   Button,
   Center,
@@ -47,10 +39,12 @@ import { IconButton } from "@chakra-ui/react";
 import { MdChevronLeft } from "react-icons/md";
 import { ModeContext } from "../contexts/ModeContext";
 import { Progress } from "@chakra-ui/react";
-import ReactQuill from "react-quill";
 import { TimeLimitContext } from "../contexts/TimeLimitContext";
 import { Loading } from "./Loading.js";
-import { Header, CreateNewHeader } from "../components/Header/index.js";
+import { CreateNewHeader } from "../components/Header/CreateNewHeader/index.js";
+import { AlertDialog } from "../components/AlertDialog/index.js";
+
+import { TextEditor } from "../components/TextEditor";
 
 export function CreateNew(props) {
   let quillEditor = useRef(null);
@@ -79,7 +73,7 @@ export function CreateNew(props) {
   });
   
   const { id } = useParams();
-  const [currentPostId, setCurrentPostId] = useState(id);
+  const [currentPostId] = useState(id);
   const [currentPost, setCurrentPost] = useState(null);
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -99,18 +93,16 @@ export function CreateNew(props) {
     fetchPolicy: "network-only"
   });
 
-  const [deletePost, { error: deletePostError, loading: deletePostLoading, data: deletePostData}] = useMutation(DELETE_POST, {
+  const [deletePost] = useMutation(DELETE_POST, {
     variables: { id: currentPostId },
     onCompleted: (deletePost) => {
       console.log('Post deleted!');
     }
   })
 
+  // load the contents of the retrieved post into the text editor
   useEffect(() => {
-    console.log(currentPostId);
-    console.log(currentPost);
     if (currentPost && currentPost.deltaContent) {
-      console.table(currentPost);
       let deltaContent = JSON.parse(currentPost.deltaContent);
       quillEditor.current.editor.setContents(deltaContent.ops);
     }
@@ -150,8 +142,6 @@ export function CreateNew(props) {
     setRedirectToHome(true);
   }
 
-
-
   function goBack() {
     history.goBack();
     // todo: input code that resets the ModeContext states
@@ -176,100 +166,38 @@ export function CreateNew(props) {
     <>
     {/* if there's an error, redirect to an error page instead */}
     {(redirectToHome || currentPostError) && <Redirect push to="/" />}
-    {loading ? (<Loading />)
-    :
+    {loading ? (<Loading />) :
     (<div className="wrapper">
-      <CreateNewHeader>
-          <Box cursor="pointer" onClick={() => goBack()}>
-              <MdChevronLeft className="editor-left-chevron" />
-          </Box>
-
-          <Button
-            className="save-btn"
-            size="md"
-            variant="outline"
-            isLoading={updatePostLoading}
-            loadingText="Saving..."
-            onClick={() => handleSave()}
-          >
-            Save
-          </Button>
-
-          <Spacer />
-
-          {words.length > 0 && (
-            <>
-              <Box alignSelf="center">
-                <HStack alignSelf="center" className="words-list">
-                  {words.map((word, index) => (
-                    <Tag key={index} id={index}>
-                      {word}
-                    </Tag>
-                  ))}
-                </HStack>
-              </Box>
-              <Spacer />
-            </>
-          )}
-
-          
-
-          <DropdownModeMenu
-            mode={mode}
-            handleTimeLimitMode={handleTimeLimitMode}
-            timeLimitMode={timeLimitMode}
-            wordCountMode={wordCountMode}
-            promptMode={promptMode}
-            wordCount={wordCount}
-            wordCountGoal={wordCountGoal}
-            quillEditor={quillEditor}
-            modeDispatch={modeDispatch}
-            quillEditor={quillEditor}
-          />
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              icon={<BsThreeDots className="menu-icon" />}
-              variant="unstyled"
-              style={{ width: "50px" }}
-              // className="menu-icon"
-            />
-            <MenuList>
-              <MenuItem onClick={() => setIsDeleteAlertOpen(true)}>Delete Post</MenuItem>
-            </MenuList>
-          </Menu>
-        </CreateNewHeader>
+      <CreateNewHeader
+        words={words}
+        mode={mode}
+        handleTimeLimitMode={handleTimeLimitMode}
+        timeLimitMode={timeLimitMode}
+        wordCountMode={wordCountMode}
+        promptMode={promptMode}
+        wordCount={wordCount}
+        wordCountGoal={wordCountGoal}
+        quillEditor={quillEditor}
+        modeDispatch={modeDispatch}
+        quillEditor={quillEditor}
+        updatePostLoading={updatePostLoading}
+        onSaveClick={() => handleSave()}
+        onBackBtnClick={() => goBack()}
+        onAlertClick={() => setIsDeleteAlertOpen(true)}
+     />
 
         {/* DELETE POST CONFIRMATION MODAL */}
 
-        <AlertDialog
-        isOpen={isDeleteAlertOpen}
-        leastDestructiveRef={deleteAlertRef}
-        onClose={closeDeleteAlert}
-        isCentered
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Post
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Are you sure you want to delete this post? This action cannot be undone!
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={deleteAlertRef} onClick={closeDeleteAlert}>
-                Cancel
-              </Button>
-              <Button colorScheme="red" onClick={() => handleDelete()} ml={3}>
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-
+        <AlertDialog 
+          isOpen={isDeleteAlertOpen}
+          leastDestructiveRef={deleteAlertRef}
+          onClose={closeDeleteAlert}
+          isCentered
+          deleteAlertRef={deleteAlertRef}
+          closeDeleteAlert={() => closeDeleteAlert()}
+          handleDelete={() => handleDelete()}
+        />
+        
         {/* WORDCOUNT PROGRESS BAR */}
 
         {wordCountGoal && (
@@ -288,7 +216,7 @@ export function CreateNew(props) {
 
         <div className="editor-container">
           <TextEditor
-          currentPost={currentPost}
+            currentPost={currentPost}
             postTitle={postTitle}
             getWordCount={() => getWordCount()}
             quillEditorRef={quillEditor}
@@ -310,18 +238,6 @@ export function CreateNew(props) {
           </CircularProgress>
         )}
       </div>)}
-    </>
-  );
-}
-
-function TextEditor({ quillEditorRef, getWordCount, postTitle, currentPost }) {
-  return (
-    <>
-      <Editable ref={postTitle} className="post-title" defaultValue={currentPost ? currentPost.title : "Untitled"}>
-        <EditablePreview />
-        <EditableInput />
-      </Editable>
-      <ReactQuill onKeyUp={getWordCount} ref={quillEditorRef} theme="bubble" />
     </>
   );
 }

@@ -37,7 +37,7 @@ export function TimeLimitMode() {
         <NumberInput
           className={styles['number-input']}
           allowMouseWheel
-          size="md"
+          size="lg"
           min={0}
           defaultValue={0}
           isDisabled={isCountdownActive}

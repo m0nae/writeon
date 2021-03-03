@@ -18,6 +18,7 @@ import { ModeContext } from "../contexts/ModeContext";
 import { NoteCard } from "../components/NoteCard";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
+import { Loading } from "./Loading";
 
 export function Home(props) {
   const { user } = useContext(UserContext);
@@ -115,15 +116,7 @@ export function Home(props) {
     <>
       {loading ? 
       (
-        <Center mt="50vh">
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
-        </Center>
+        <Loading />
       )
       :
       (

@@ -63,23 +63,19 @@ export function Layout({ children }) {
         </Box>
         <Spacer />
         <InputGroup width="70%">
-            {/* <InputLeftElement
-              pointerEvents="none"
-              // children={"X"}
-            /> */}
             <Input 
-            placeholder="Search" 
-            bg="#efefef" 
-            border="none" 
-            width="70%" 
-            maxW="1000px" 
-            m="0 auto" 
-            size="lg"
-            onChange={(e) => handleInput(e)}
-            _focus={{
-              backgroundColor: "#ffffff",
-              shadow: "xs"
-            }} 
+              placeholder="Search" 
+              bg="#efefef" 
+              border="none" 
+              width="70%" 
+              maxW="1000px" 
+              m="0 auto" 
+              size="lg"
+              onChange={(e) => handleInput(e)}
+              _focus={{
+                backgroundColor: "#ffffff",
+                shadow: "xs"
+              }} 
             />
           </InputGroup>
         <Spacer />
