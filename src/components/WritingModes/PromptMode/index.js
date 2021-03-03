@@ -1,3 +1,4 @@
+import styles from "../writing-modes.module.scss"
 import {
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -21,8 +22,9 @@ export function PromptMode() {
   
   return (
     <>
-      <div className="words-list-wrapper">
+      <div className={styles['words-list']}>
         <NumberInput
+          className={styles['number-input']}
           allowMouseWheel
           size="md"
           maxW={24}

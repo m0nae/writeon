@@ -1,13 +1,21 @@
+import styles from "./header.module.scss";
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 
+import {CreateNewHeaderComponent} from "./CreateNewHeader";
+
 export function Header({ children }) {
   return (
-    <>
-      <Flex p="4" justify="center" align="center" className="header">
-        {children}
-      </Flex>
-    </>
+    <Flex className={styles['header']}>
+      {children}
+    </Flex>
   );
 }
 
+export function CreateNewHeader({children}) {
+  return (
+    <CreateNewHeaderComponent>
+      {children}
+    </CreateNewHeaderComponent>
+  )
+}

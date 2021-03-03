@@ -1,3 +1,4 @@
+import styles from "../writing-modes.module.scss";
 import {
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -20,9 +21,9 @@ export function WordCountMode() {
     <>
       <HStack>
         <NumberInput
+        className={styles['number-input']}
           allowMouseWheel
           size="md"
-          maxW={24}
           min={0}
           ref={numberInputRef}
           defaultValue={wordCountGoal}

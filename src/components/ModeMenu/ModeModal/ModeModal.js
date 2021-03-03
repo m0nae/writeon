@@ -1,3 +1,6 @@
+import React, {useContext} from "react";
+import styles from "../mode-menu.module.scss";
+
 import {
   Box,
   Button,
@@ -16,13 +19,12 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
-import React, {useContext} from "react";
 
-import { ModeContext } from "../../contexts/ModeContext";
-import { PromptMode } from "../WritingModes/PromptMode/index";
-import { TimeLimitContext } from "../../contexts/TimeLimitContext";
-import { TimeLimitMode } from "../WritingModes/TimeLimitMode/index";
-import { WordCountMode } from "../WritingModes/WordCountMode/index";
+import { ModeContext } from "../../../contexts/ModeContext";
+import { PromptMode } from "../../WritingModes/PromptMode/index";
+import { TimeLimitContext } from "../../../contexts/TimeLimitContext";
+import { TimeLimitMode } from "../../WritingModes/TimeLimitMode/index";
+import { WordCountMode } from "../../WritingModes/WordCountMode/index";
 
 export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
   const {
@@ -58,23 +60,28 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>
+            {mode === "timeLimitMode" && "Time Limit Mode"}
+            {mode === "wordCountMode" && "Word Count Mode"}
+            {mode === "promptMode" && "Random Words Mode"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            {/* Try making this into just one component and have them change based on currently active mode */}
             {mode === "timeLimitMode" && (
-              <div className="menu-container">
+              <div>
                 <Box>
                   <Text mt="8" textAlign="center">
                     TIME LIMIT MODE.
                   </Text>
-                  <Box textAlign="center">
+                  <Box className={styles['modal-body']}>
                     <TimeLimitMode />
                   </Box>
                 </Box>
               </div>
             )}
             {mode === "wordCountMode" && (
-              <div className="menu-container">
+              <div>
                 <Box mt="8">
                   <Center>
                     <WordCountMode quillEditor={quillEditor} />
@@ -83,7 +90,7 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
               </div>
             )}
             {mode === "promptMode" && (
-              <div className="menu-container">
+              <div>
                 <PromptMode />
               </div>
             )}

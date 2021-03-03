@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./styles.scss";
 
 import { Center, Spinner } from "@chakra-ui/react";
 import React, { useContext } from "react";

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import styles from "../mode-menu.module.scss"
 
 import {
   Box,
@@ -25,8 +26,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { ModeContext } from "../../contexts/ModeContext";
-import { TimeLimitContext } from "../../contexts/TimeLimitContext";
+import { ModeContext } from "../../../contexts/ModeContext";
+import { TimeLimitContext } from "../../../contexts/TimeLimitContext";
 
 export function ModeMenuItem({ onOpen, currentMode, text }) {
   const { modeDispatch, toggledSwitches } = useContext(ModeContext);
@@ -87,7 +88,7 @@ export function ModeMenuItem({ onOpen, currentMode, text }) {
       <MenuItem isDisabled={!isToggled()} onClick={() => handleClick()}>
         <Text>{text}</Text>
       </MenuItem>
-      <Box pos="absolute" mt="-14%" ml="77%">
+      <Box className={styles['toggle-container']}>
         <Switch isChecked={isToggled()} onChange={() => handleToggle()} />
       </Box>
     </>

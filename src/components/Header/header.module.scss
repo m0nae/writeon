@@ -1,0 +1,16 @@
+.header {
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid whitesmoke;
+  height: 82px;
+  padding: 0 4rem;
+}
+
+.create-new {
+  @extend .header;
+  padding: 1rem;
+}

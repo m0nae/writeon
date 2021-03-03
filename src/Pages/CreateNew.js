@@ -49,6 +49,8 @@ import { ModeContext } from "../contexts/ModeContext";
 import { Progress } from "@chakra-ui/react";
 import ReactQuill from "react-quill";
 import { TimeLimitContext } from "../contexts/TimeLimitContext";
+import { Loading } from "./Loading.js";
+import { Header, CreateNewHeader } from "../components/Header/index.js";
 
 export function CreateNew(props) {
   let quillEditor = useRef(null);
@@ -174,25 +176,10 @@ export function CreateNew(props) {
     <>
     {/* if there's an error, redirect to an error page instead */}
     {(redirectToHome || currentPostError) && <Redirect push to="/" />}
-    {loading ? 
-
-    (<Center mt="50vh">
-    <Spinner
-      thickness="4px"
-      speed="0.65s"
-      emptyColor="gray.200"
-      color="blue.500"
-      size="xl"
-    />
-    </Center>)
+    {loading ? (<Loading />)
     :
-    (<CreateNewLayout>
-        <Flex
-          p="4"
-          justify="center"
-          align="center"
-          className="header create-new"
-        >
+    (<div className="wrapper">
+      <CreateNewHeader>
           <Box cursor="pointer" onClick={() => goBack()}>
               <MdChevronLeft className="editor-left-chevron" />
           </Box>
@@ -251,7 +238,7 @@ export function CreateNew(props) {
               <MenuItem onClick={() => setIsDeleteAlertOpen(true)}>Delete Post</MenuItem>
             </MenuList>
           </Menu>
-        </Flex>
+        </CreateNewHeader>
 
         {/* DELETE POST CONFIRMATION MODAL */}
 
@@ -322,7 +309,7 @@ export function CreateNew(props) {
             <CircularProgressLabel />
           </CircularProgress>
         )}
-      </CreateNewLayout>)}
+      </div>)}
     </>
   );
 }

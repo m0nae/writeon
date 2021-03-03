@@ -1,3 +1,4 @@
+import styles from "../writing-modes.module.scss";
 import {
   NumberInput,
   NumberInputField,
@@ -34,9 +35,9 @@ export function TimeLimitMode() {
     <>
       <HStack spacing="10px">
         <NumberInput
+          className={styles['number-input']}
           allowMouseWheel
           size="md"
-          maxW={24}
           min={0}
           defaultValue={0}
           isDisabled={isCountdownActive}

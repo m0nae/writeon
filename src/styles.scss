@@ -9,18 +9,13 @@
   padding: 0;
 }
 
+h2 {
+  font-size: 2rem;
+}
+
 .App {
   position: relative;
 }
-
-.wrapper {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
-  backface-visibility: hidden;
-}
-
-
 
 .container > h1 {
   margin-top: 1rem;
@@ -28,77 +23,12 @@
   font-size: 3rem;
 }
 
-
-
-
-h2 {
-  font-size: 2rem;
-}
-
+/* src\components\Posts\index.js */
 .post {
   margin: 1rem;
   padding: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
-}
-
-.user {
-  display: flex;
-}
-
-.name {
-  margin-right: 5px;
-}
-
-.post > p {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.heart-icon {
-  margin: inherit;
-  position: absolute;
-  top: 0;
-  right: 0;
-  fill: transparent;
-  /* transition: 0.1s ease-out; */
-  cursor: pointer;
-}
-
-.heart-icon:hover,
-.saved {
-  fill: red;
-  stroke: red;
-  transition: 0.1s ease-in;
-}
-
-/* .navbar {
-  background: #fff;
-  height: 80px;
-  display: flex;
-  position: sticky;
-  z-index: 100;
-  top: 0;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid grey;
-  box-shadow: 0px 4px 7px -1px rgba(0, 0, 0, 0.1);
-} */
-
-
-
-.login {
-  cursor: pointer;
-  position: absolute;
-  right: 7em;
-}
-
-.profile-icon {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  right: 3rem;
-  cursor: pointer;
 }
 
 .post-title {
@@ -137,10 +67,6 @@ div:focus {
   margin-right: 1rem;
 }
 
-.words-list-wrapper {
-  display: flex;
-  justify-content: center;
-}
 
 .word-number-input {
   height: 2em;
@@ -210,15 +136,6 @@ div:focus {
   margin-right: 50px;
 }
 
-.header {
-  position: sticky;
-  z-index: 100;
-  top: 0;
-  background: white;
-  border-bottom: 1px solid whitesmoke;
-  height: 82px;
-  padding: 0 4rem !important;
-}
 
 .logo {
   font-family: "Montserrat", sans-serif;
@@ -270,7 +187,7 @@ div:focus {
   margin-right: 15px;
 }
 
-/* menu list */
+/* "delete post" popup in createnew page header */
 .css-r6z5ec {
   z-index: 100;
 }

@@ -1,3 +1,4 @@
+import styles from './note-card.module.scss'
 import {
   Box,
   Center,
@@ -23,37 +24,17 @@ export function NoteCard({ title, textContent, onClick, _id }) {
       id: _id
     })} />}
       <Box
-        // bg="#fdfdfd"
-        shadow="sm"
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        width="250px"
-        maxH="320px"
-        p="5"
-        mr="20px"
-        mb="20px"
-        transition="box-shadow 300ms ease"
-        _hover={{
-          shadow: "md",
-          transition: "box-shadow 300ms ease"
-        }}
-        _active={{
-          shadow: "rgb(0 0 0 / 6%) 0px 1px 2px 0px inset"
-        }}
+        className={styles['notecard']}
         onClick={() => handlePostClick()}
-        cursor="pointer"
       >
         <Box 
           as="h2"
-          fontWeight="semibold"
-          mb="3"
+          className={styles['title']}
         >
           {title}
         </Box>
         <Box
-          maxH="81%"
-          overflow="hidden"
+          className={styles['content']}
         >
           
           {
