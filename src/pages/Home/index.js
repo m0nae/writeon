@@ -10,16 +10,16 @@ import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
-import { GET_ALL_POSTS } from "../gql";
-import { Layout } from "../Layout";
+import { GET_ALL_POSTS } from "../../gql";
+import { Layout } from "../../Layout";
 import { MdList } from "react-icons/md";
 import { RiLayoutGridFill } from "react-icons/ri";
 import { HiSortDescending, HiSortAscending } from "react-icons/hi";
-import { ModeContext } from "../contexts/ModeContext";
-import { NoteCard } from "../components/NoteCard";
-import { UserContext } from "../contexts/UserContext";
+import { ModeContext } from "../../contexts/ModeContext";
+import { NoteCard } from "../../components/NoteCard/NoteCard";
+import { UserContext } from "../../contexts/UserContext";
 import { useHistory } from "react-router-dom";
-import { Loading } from "./Loading";
+import { Loading } from "../Loading";
 
 export function Home(props) {
   const { user } = useContext(UserContext);

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Box, Heading, Center, Button } from "@chakra-ui/react"
-import { Header } from "../components/Header";
+import { Header } from "../../components/Header";
 
 export function NotFound() {
   return (

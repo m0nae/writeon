@@ -6,9 +6,9 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import { CreateNew } from "./pages/CreateNew";
 import { Home } from "./pages/Home";
-import { Login } from "./components/Login";
+import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { UserContext } from "./contexts/UserContext";
 
 export default function App() {

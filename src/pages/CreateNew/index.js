@@ -15,7 +15,7 @@ import {
   Spacer,
   Tag,
 } from "@chakra-ui/react";
-import { DELETE_POST, GET_POST, UPDATE_POST } from "../gql.js";
+import { DELETE_POST, GET_POST, UPDATE_POST } from "../../gql.js";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import {
   Menu,
@@ -33,18 +33,18 @@ import React, {
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { BsThreeDots } from "react-icons/bs";
-import { CreateNewLayout } from "../Layout";
-import { DropdownModeMenu } from "../components/ModeMenu";
+import { CreateNewLayout } from "../../Layout";
+import { DropdownModeMenu } from "../../components/ModeMenu";
 import { IconButton } from "@chakra-ui/react";
 import { MdChevronLeft } from "react-icons/md";
-import { ModeContext } from "../contexts/ModeContext";
+import { ModeContext } from "../../contexts/ModeContext";
 import { Progress } from "@chakra-ui/react";
-import { TimeLimitContext } from "../contexts/TimeLimitContext";
-import { Loading } from "./Loading.js";
-import { CreateNewHeader } from "../components/Header/CreateNewHeader/index.js";
-import { AlertDialog } from "../components/AlertDialog/index.js";
+import { TimeLimitContext } from "../../contexts/TimeLimitContext";
+import { Loading } from "../Loading/index.js";
+import { CreateNewHeader } from "../../components/Header/CreateNewHeader/index.js";
+import { AlertDialog } from "../../components/AlertDialog/index.js";
 
-import { TextEditor } from "../components/TextEditor";
+import { TextEditor } from "../../components/TextEditor";
 
 export function CreateNew(props) {
   let quillEditor = useRef(null);
