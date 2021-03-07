@@ -26,7 +26,7 @@ import writeOn from "./components/Header/writeon.svg";
 
 export function Layout({ children }) {
   const { newPost, setNewPost } = useContext(NewPostContext);
-  const { setSearchInput } = useContext(SearchContext);
+  const { setSearchInput, searchBarFocused, setSearchBarFocused } = useContext(SearchContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const postTitleInput = useRef();
   const [createPost, {error: createPostError, loading, data, called }] = useMutation(CREATE_POST, {
@@ -72,6 +72,7 @@ export function Layout({ children }) {
               m="0 auto" 
               size="lg"
               onChange={(e) => handleInput(e)}
+              onFocus={(e) => setSearchBarFocused(!searchBarFocused)}
               _focus={{
                 backgroundColor: "#ffffff",
                 shadow: "xs"

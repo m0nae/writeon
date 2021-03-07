@@ -1,3 +1,5 @@
+import styles from "./home.module.scss";
+
 import {
   Box,
   Center,
@@ -16,17 +18,20 @@ import { MdList } from "react-icons/md";
 import { RiLayoutGridFill } from "react-icons/ri";
 import { HiSortDescending, HiSortAscending } from "react-icons/hi";
 import { ModeContext } from "../../contexts/ModeContext";
-import { NoteCard } from "../../components/NoteCard/NoteCard";
+import { NoteCard } from "../../components/NoteCard";
 import { UserContext } from "../../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import { Loading } from "../Loading";
+import { SearchContext } from "../../contexts/SearchContext";
 
 export function Home(props) {
   const { user } = useContext(UserContext);
+  const { initialState, modeDispatch } = useContext(ModeContext);
+  const { searchBarFocused } = useContext(SearchContext);
+
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
   const history = useHistory();
-  const { initialState, modeDispatch } = useContext(ModeContext);
 
   const [gridView, setGridView] = useState(true);
   const [sortBy, setSortBy] = useState("dateModified");
@@ -143,15 +148,15 @@ export function Home(props) {
               onClick={sortOrder === "ascending" ? () => setSortOrder("descending") : () => setSortOrder("ascending")}
             >
               {sortOrder === "ascending" 
-              ? <HiSortAscending aria-label="Ascending" title="Ascending" className="ascending-icon" />
-              : <HiSortDescending aria-label="Descending" title="Descending" className="ascending-icon"
+              ? <HiSortAscending aria-label="Ascending" title="Ascending" className={styles['ascending-icon']} />
+              : <HiSortDescending aria-label="Descending" title="Descending" className={styles['ascending-icon']}
               />
             }
             </Box>
             <Box>
               {
-                gridView ? <RiLayoutGridFill onClick={() => setGridView(!gridView)} className="list-view-icon" /> :
-                <MdList onClick={() => setGridView(!gridView)} className="list-view-icon" />
+                gridView ? <RiLayoutGridFill aria-label="Grid view" title="Grid view" onClick={() => setGridView(!gridView)} className={styles['grid-view-icon']} /> :
+                <MdList aria-label="List view" title="List view" onClick={() => setGridView(!gridView)} className={styles['list-view-icon']} />
               }
             </Box>
           </Flex>
