@@ -13,6 +13,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { GET_ALL_POSTS } from "../gql";
 import { Layout } from "../Layout";
 import { MdList } from "react-icons/md";
+import { RiLayoutGridFill } from "react-icons/ri";
 import { HiSortDescending, HiSortAscending } from "react-icons/hi";
 import { ModeContext } from "../contexts/ModeContext";
 import { NoteCard } from "../components/NoteCard";
@@ -142,13 +143,16 @@ export function Home(props) {
               onClick={sortOrder === "ascending" ? () => setSortOrder("descending") : () => setSortOrder("ascending")}
             >
               {sortOrder === "ascending" 
-              ? <HiSortAscending className="ascending-icon" />
-              : <HiSortDescending className="ascending-icon"
+              ? <HiSortAscending aria-label="Ascending" title="Ascending" className="ascending-icon" />
+              : <HiSortDescending aria-label="Descending" title="Descending" className="ascending-icon"
               />
             }
             </Box>
             <Box>
-              <MdList onClick={() => setGridView(!gridView)} className="list-view-icon" />
+              {
+                gridView ? <RiLayoutGridFill onClick={() => setGridView(!gridView)} className="list-view-icon" /> :
+                <MdList onClick={() => setGridView(!gridView)} className="list-view-icon" />
+              }
             </Box>
           </Flex>
           <Box className={gridView ? "grid-view" : "list-view"}>
