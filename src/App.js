@@ -10,6 +10,7 @@ import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { UserContext } from "./contexts/UserContext";
+import { Loading } from "./pages/Loading";
 
 export default function App() {
   const { user, loading } = useContext(UserContext);
@@ -17,15 +18,7 @@ export default function App() {
   return (
     <div className="App">
       {loading ? (
-        <Center mt="50vh">
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
-        </Center>
+        <Loading />
       ) : (
         <Router>
           <Switch>

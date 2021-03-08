@@ -23,11 +23,12 @@ import { UserContext } from "../../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import { Loading } from "../Loading";
 import { SearchContext } from "../../contexts/SearchContext";
+import { SearchResults } from "../SearchResults";
 
 export function Home(props) {
   const { user } = useContext(UserContext);
   const { initialState, modeDispatch } = useContext(ModeContext);
-  const { searchBarFocused } = useContext(SearchContext);
+  const { searchBarFocused, searchInput } = useContext(SearchContext);
 
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
@@ -160,6 +161,12 @@ export function Home(props) {
               }
             </Box>
           </Flex>
+          {searchInput && searchInput.length > 2 ? 
+            <SearchResults
+            posts={posts}
+            gridView={gridView}
+            />
+          :
           <Box className={gridView ? "grid-view" : "list-view"}>
               { posts && posts.map((post) => {
                 
@@ -168,11 +175,12 @@ export function Home(props) {
                   _id={post._id}
                   title={post.title}
                   textContent={post.textContent && post.textContent}
-                  // onClick={onClick}
+                  gridView={gridView}
                 />
               })
               }
             </Box>
+          }
          
           </Box>
         </Layout>

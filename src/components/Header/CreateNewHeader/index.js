@@ -6,6 +6,7 @@ import {
   Spacer,
   HStack,
   Tag,
+  TagLabel,
   Menu,
   MenuButton,
   MenuList,
@@ -57,12 +58,12 @@ export function CreateNewHeader({...props}) {
 
           {words.length > 0 && (
             <>
-              <Box alignSelf="center">
-                <HStack alignSelf="center" className="words-list">
+              <Box className={styles['words-container']} alignSelf="center">
+                <HStack alignSelf="center" className={styles['words-list']}>
                   {words.map((word, index) => (
-                    <Tag key={index} id={index}>
-                      {word}
-                    </Tag>
+                    // <Tag className={styles['word-tag']} key={index} id={index}>
+                    <div className={styles['word-tag']}> {word} </div>
+                 
                   ))}
                 </HStack>
               </Box>

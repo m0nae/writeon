@@ -11,7 +11,9 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { generatePath } from "react-router";
 
-export function NoteCard({ title, textContent, onClick, _id }) {
+import Truncate from 'react-truncate';
+
+export function NoteCard({ title, textContent, onClick, _id, gridView }) {
   const [redirectToPost, setRedirectToPost] = useState(false);
 
   function handlePostClick() {
@@ -36,11 +38,11 @@ export function NoteCard({ title, textContent, onClick, _id }) {
         <Box
           className={styles['content']}
         >
-          
+          <Truncate lines={gridView ? 7 : 4} width={gridView ? 0 : '600'}>
           {
           textContent
           }
-          
+          </Truncate>
         </Box>
       </Box>
     </>

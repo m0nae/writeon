@@ -72,7 +72,8 @@ export function Layout({ children }) {
               m="0 auto" 
               size="lg"
               onChange={(e) => handleInput(e)}
-              onFocus={(e) => setSearchBarFocused(!searchBarFocused)}
+              onFocus={(e) => setSearchBarFocused(true)}
+              onBlur={(e) => setSearchBarFocused(false)}
               _focus={{
                 backgroundColor: "#ffffff",
                 shadow: "xs"
