@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Center,
+  IconButton,
   Menu,
   MenuButton,
   MenuCommand,
@@ -24,6 +25,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MdChevronRight, MdExpandMore } from "react-icons/md";
+import { IoOptions } from "react-icons/io5";
 import React, { useContext } from "react";
 
 import { ModeContext } from "../../contexts/ModeContext";
@@ -46,6 +48,7 @@ export function DropdownModeMenu() {
         >
         {( {isOpen} ) => (
           <>
+        
         <MenuButton
           as={Button}
           isActive={isOpen}

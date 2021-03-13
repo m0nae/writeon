@@ -1,5 +1,6 @@
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
+import styles from "./create-new.module.scss";
 
 import {
   Box,
@@ -7,6 +8,7 @@ import {
   Center,
   CircularProgress,
   CircularProgressLabel,
+  CloseButton,
   Editable,
   EditableInput,
   EditablePreview,
@@ -14,6 +16,12 @@ import {
   HStack,
   Spacer,
   Tag,
+  useToast,
+  useBreakpointValue,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from "@chakra-ui/react";
 import { DELETE_POST, GET_POST, UPDATE_POST } from "../../gql.js";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
@@ -31,6 +39,8 @@ import React, {
   useState,
 } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
+
+import { toastManager } from "@chakra-ui/react";
 
 import { BsThreeDots } from "react-icons/bs";
 import { CreateNewLayout } from "../../Layout";
@@ -66,11 +76,7 @@ export function CreateNew(props) {
   const isModalOpen = isOpen;
 
   const { timeLimit, count } = useContext(TimeLimitContext);
-  const [updatePost, { error: updatePostError, loading: updatePostLoading, data}] = useMutation(UPDATE_POST, { 
-    onCompleted: (updatePost) => {
-      console.log('Post updated!')
-    }
-  });
+
   
   const { id } = useParams();
   const [currentPostId] = useState(id);
@@ -78,11 +84,18 @@ export function CreateNew(props) {
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [loading, setLoading] = useState(true);
   let history = useHistory();
-
+  
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const closeDeleteAlert = () => setIsDeleteAlertOpen(false);
   const deleteAlertRef = useRef();
-
+  
+  const sizes = useBreakpointValue({ base: "4rem", md: "5rem"})
+  
+  const [updatePost, { error: updatePostError, loading: updatePostLoading, data}] = useMutation(UPDATE_POST, { 
+    onCompleted: (updatePost) => {
+      console.log('Post updated!')
+    }
+  });
   // retrieves post by the :id variable in the current url
   const {error: currentPostError, loading: currentPostLoading, data: currentPostData} = useQuery(GET_POST, {
     variables: { id: currentPostId},
@@ -93,7 +106,7 @@ export function CreateNew(props) {
     fetchPolicy: "network-only"
   });
 
-  const [deletePost] = useMutation(DELETE_POST, {
+  const [deletePost, {error: deletePostError} ] = useMutation(DELETE_POST, {
     variables: { id: currentPostId },
     onCompleted: (deletePost) => {
       console.log('Post deleted!');
@@ -130,6 +143,24 @@ export function CreateNew(props) {
       deltaContent: JSON.stringify(deltaContents),
       textContent: textContents,
     }})
+
+    if (!updatePostError) {
+      updatePostSuccessToast({
+        title: "Post saved!",
+        status: "success",
+        duration: 1000,
+        isClosable: true,
+      })
+    } else {
+      updatePostErrorToast({
+        title: "An error has occured.",
+        description: "There was an issue saving your note. Please try again.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+  
   }
 
   function handleDelete() {
@@ -139,7 +170,18 @@ export function CreateNew(props) {
       }
     });
     closeDeleteAlert();
-    setRedirectToHome(true);
+
+    if (deletePostError) {
+      deletePostErrorToast({
+        title: "An error has occured.",
+        description: "There was an issue deleting your post. Please try again.",
+        status: "error", 
+        duration: 3000,
+        isClosable: true 
+      })
+    } else {
+      setRedirectToHome(true);
+    }
   }
 
   function goBack() {
@@ -162,12 +204,14 @@ export function CreateNew(props) {
     }
   }
 
+
+
   return (
     <>
     {/* if there's an error, redirect to an error page instead */}
     {(redirectToHome || currentPostError) && <Redirect push to="/" />}
     {loading ? (<Loading />) :
-    (<div className="wrapper">
+    (<div className={styles['wrapper']}>
       <CreateNewHeader
         words={words}
         mode={mode}
@@ -187,6 +231,8 @@ export function CreateNew(props) {
      />
 
         {/* DELETE POST CONFIRMATION MODAL */}
+
+        
 
         <AlertDialog 
           isOpen={isDeleteAlertOpen}
@@ -214,7 +260,7 @@ export function CreateNew(props) {
 
         {/* TEXT EDITOR */}
 
-        <div className="editor-container">
+        <div className={styles['editor-container']}>
           <TextEditor
             currentPost={currentPost}
             postTitle={postTitle}
@@ -230,9 +276,9 @@ export function CreateNew(props) {
             value={count && count !== NaN ? count : 0}
             min={0}
             max={timeLimit && timeLimit !== 0 ? timeLimit : 1}
-            size="5rem"
+            size={sizes}
             color="green.400"
-            className="time-limit-progress-circle"
+            className={styles['time-limit-circle']}
           >
             <CircularProgressLabel />
           </CircularProgress>
@@ -241,3 +287,9 @@ export function CreateNew(props) {
     </>
   );
 }
+
+import { createStandaloneToast } from "@chakra-ui/react";
+
+const updatePostSuccessToast = createStandaloneToast();
+const updatePostErrorToast = createStandaloneToast();
+const deletePostErrorToast = createStandaloneToast();

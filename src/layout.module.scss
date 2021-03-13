@@ -1,0 +1,14 @@
+.writeon {
+  height: auto;
+  width: 18vw;
+  max-width: 110px;
+}
+
+.container {
+  padding: 5rem 0 2rem 0;
+
+  
+  @media (max-width: 570px) {
+    padding: 3rem 0 2rem 0;
+  }
+}

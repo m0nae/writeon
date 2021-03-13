@@ -16,6 +16,7 @@ import {
 
 import { BsThreeDots } from "react-icons/bs";
 import { MdChevronLeft } from "react-icons/md";
+import { IoIosSave } from "react-icons/io";
 
 import { DropdownModeMenu } from "../../ModeMenu"
 
@@ -44,7 +45,8 @@ export function CreateNewHeader({...props}) {
         </Box>
 
           <Button
-            className="save-btn"
+            aria-label="Save Post" 
+            className={styles['save-btn']}
             size="md"
             variant="outline"
             isLoading={updatePostLoading}
@@ -53,6 +55,16 @@ export function CreateNewHeader({...props}) {
           >
             Save
           </Button>
+          <IconButton
+            aria-label="Save Post" 
+            isRound 
+            isLoading={updatePostLoading}
+            variant="outline" 
+            size="lg" 
+            icon={<IoIosSave className={styles['save-icon']}/>} 
+            onClick={onSaveClick}
+            className={styles['save-btn-mobile']}
+          />
 
           <Spacer />
 
@@ -67,7 +79,8 @@ export function CreateNewHeader({...props}) {
                   ))}
                 </HStack>
               </Box>
-              <Spacer />
+              {/* <Box className={styles['words-fade-box']}></Box> */}
+              {/* <Spacer className={styles['words-fade']} /> */}
             </>
           )}
 
@@ -85,8 +98,10 @@ export function CreateNewHeader({...props}) {
 
           <Menu>
             <MenuButton
+              aria-label="More Menu"
+              text="More Menu"
               as={IconButton}
-              icon={<BsThreeDots className="menu-icon" />}
+              icon={<BsThreeDots className={styles['menu-icon']} />}
               variant="unstyled"
               style={{ width: "50px" }}
               // className="menu-icon"

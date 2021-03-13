@@ -8,6 +8,14 @@
   border-bottom: 1px solid whitesmoke;
   height: 82px;
   padding: 0 4rem;
+
+  @media (max-width: 570px) {
+    padding: 0 2rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0 1.5rem;
+  }
 }
 
 .create-new {
@@ -41,11 +49,43 @@
 
 .words-list {
   overflow: scroll;
-  box-shadow: 3px 0 0px rgb(171, 171, 171);
+
 
   ::-webkit-scrollbar {
     width: 0;
     height: 0;
     background: transparent;
   }
+}
+
+
+.save-btn {
+  // padding: 0rem 2rem;
+  // margin-left: 1rem;
+
+  @media (max-width: 569px) {
+    display: none !important;
+  }
+}
+
+.save-icon {
+  font-size: 1.4rem;
+}
+
+.save-btn-mobile {
+  margin-left: 1rem;
+  margin-right: 5px; 
+  @media (min-width: 570px) {
+    display: none !important;
+  }
+}
+
+.menu-icon {
+  text-align: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  cursor: pointer;
+  margin-right: 63px;
+  margin-left: 1rem;
+  margin-top: 5px;
 }

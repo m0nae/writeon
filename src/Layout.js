@@ -1,6 +1,8 @@
+import styles from "./layout.module.scss";
 import { Box, Button, Spacer } from "@chakra-ui/react";
 import {
   Divider,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -13,6 +15,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+import { HiOutlinePencilAlt } from "react-icons/hi"
 import React, { useContext, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 
@@ -59,9 +62,8 @@ export function Layout({ children }) {
     )} /> }
       <Header>
         <Box as="a" href="http://localhost:3000/" className="logo">
-          <img src={writeOn} className="writeOn" />
+          <img src={writeOn} className={styles['writeon']} />
         </Box>
-        <Spacer />
         <InputGroup width="70%">
             <Input 
               placeholder="Search" 
@@ -82,22 +84,22 @@ export function Layout({ children }) {
           </InputGroup>
         <Spacer />
         <Box>
-          <Button onClick={onOpen}>Create New</Button>
+          <IconButton aria-label="Create New Note" title="Create New Note" isRound icon={<HiOutlinePencilAlt />} onClick={onOpen} />
         </Box>
       </Header>
-      <div className="container">
+      <div className={styles['container']}>
         {children}
       </div>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered >
+      <Modal size="sm" initialFocusRef={postTitleInput} isOpen={isOpen} onClose={onClose} isCentered >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create New Post</ModalHeader>
+          <ModalHeader>Create New Note</ModalHeader>
           <Divider style={{ width: "90%", margin: "0 auto" }} />
           <ModalCloseButton />
           <ModalBody>
             <div style={{ marginTop: "1rem" }}>
-              <p>Post Title</p>
+              <p>Title</p>
               <Input ref={postTitleInput} size="lg" />
             </div>
             {createPostError && <p>Error: Please try again.</p>}
@@ -109,7 +111,7 @@ export function Layout({ children }) {
               Close
             </Button>
             <Button onClick={() => createNewPost()} colorScheme="blue">
-              Create Post
+              Create Note
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -121,7 +123,7 @@ export function Layout({ children }) {
 export function CreateNewLayout(props) {
   return (
     <>
-      <div className="wrapper">{props.children}</div>
+      <div className={styles['wrapper']}>{props.children}</div>
     </>
   );
 }
