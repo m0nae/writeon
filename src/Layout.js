@@ -1,11 +1,13 @@
 import styles from "./layout.module.scss";
 import { Box, Button, Spacer } from "@chakra-ui/react";
 import {
+  Center,
   Divider,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
+  Spinner,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -48,6 +50,16 @@ export function Layout({ children }) {
     const newTitle = postTitleInput.current.value.toString();
     
     createPost({ variables: { title: newTitle } });
+
+    if (createPostError) {
+      createPostErrorToast({
+        title: "An error has occurred.",
+        description: "There was an issue creating your note. Please try again.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+    }
   }
 
   function handleInput(e) {
@@ -60,7 +72,7 @@ export function Layout({ children }) {
       id: data.createPost._id
     }
     )} /> }
-      <Header>
+      <Header className={styles['header']}>
         <Box as="a" href="http://localhost:3000/" className="logo">
           <img src={writeOn} className={styles['writeon']} />
         </Box>
@@ -82,7 +94,7 @@ export function Layout({ children }) {
               }} 
             />
           </InputGroup>
-        <Spacer />
+        {/* <Spacer /> */}
         <Box>
           <IconButton aria-label="Create New Note" title="Create New Note" isRound icon={<HiOutlinePencilAlt />} onClick={onOpen} />
         </Box>
@@ -99,11 +111,26 @@ export function Layout({ children }) {
           <ModalCloseButton />
           <ModalBody>
             <div style={{ marginTop: "1rem" }}>
+            {!loading ? 
+              <div>
               <p>Title</p>
               <Input ref={postTitleInput} size="lg" />
+              {createPostError && <p>Error: Please try again.</p>}
+              </div>
+              :
+              
+              <Center>
+                <Spinner 
+                  thickness="4px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="black"
+                  size="xl"
+                />
+              </Center>
+              
+            }
             </div>
-            {createPostError && <p>Error: Please try again.</p>}
-            {loading && <p>Loading...</p>}
           </ModalBody>
 
           <ModalFooter>
@@ -127,3 +154,6 @@ export function CreateNewLayout(props) {
     </>
   );
 }
+
+import { createStandaloneToast } from "@chakra-ui/react";
+const createPostErrorToast = createStandaloneToast();

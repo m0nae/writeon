@@ -48,6 +48,8 @@ import { DropdownModeMenu } from "../../components/ModeMenu";
 import { IconButton } from "@chakra-ui/react";
 import { MdChevronLeft } from "react-icons/md";
 import { ModeContext } from "../../contexts/ModeContext";
+import { OptionsMenuContext } from "../../contexts/OptionsMenuContext";
+import { OptionsMenuProvider } from "../../contexts/OptionsMenuContext";
 import { Progress } from "@chakra-ui/react";
 import { TimeLimitContext } from "../../contexts/TimeLimitContext";
 import { Loading } from "../Loading/index.js";
@@ -85,9 +87,7 @@ export function CreateNew(props) {
   const [loading, setLoading] = useState(true);
   let history = useHistory();
   
-  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
-  const closeDeleteAlert = () => setIsDeleteAlertOpen(false);
-  const deleteAlertRef = useRef();
+  const {isDeleteAlertOpen, setIsDeleteAlertOpen, closeDeleteAlert, deleteAlertRef, deletePostErrorT } = useContext(OptionsMenuContext);
   
   const sizes = useBreakpointValue({ base: "4rem", md: "5rem"})
   
@@ -148,7 +148,7 @@ export function CreateNew(props) {
       updatePostSuccessToast({
         title: "Post saved!",
         status: "success",
-        duration: 1000,
+        duration: 2000,
         isClosable: true,
       })
     } else {
@@ -156,7 +156,7 @@ export function CreateNew(props) {
         title: "An error has occured.",
         description: "There was an issue saving your note. Please try again.",
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
       })
     }
@@ -169,23 +169,18 @@ export function CreateNew(props) {
         id: currentPostId
       }
     });
+
     closeDeleteAlert();
 
     if (deletePostError) {
-      deletePostErrorToast({
-        title: "An error has occured.",
-        description: "There was an issue deleting your post. Please try again.",
-        status: "error", 
-        duration: 3000,
-        isClosable: true 
-      })
+      deletePostErrorT();
     } else {
       setRedirectToHome(true);
     }
   }
 
   function goBack() {
-    history.goBack();
+    history.push("/");
     // todo: input code that resets the ModeContext states
   }
 

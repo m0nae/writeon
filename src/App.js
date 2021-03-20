@@ -12,6 +12,8 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { UserContext } from "./contexts/UserContext";
 import { Loading } from "./pages/Loading";
 
+import { OptionsMenuProvider } from "./contexts/OptionsMenuContext";
+
 export default function App() {
   const { user, loading } = useContext(UserContext);
 
@@ -23,13 +25,17 @@ export default function App() {
         <Router>
           <Switch>
             <Route exact path="/login" component={Login} />
-            <ProtectedRoute
-              exact
-              path="/write/:id"
-              user={user}
-              component={CreateNew}
-            />
+            <OptionsMenuProvider>
+              <ProtectedRoute
+                exact
+                path="/write/:id"
+                user={user}
+                component={
+                  CreateNew
+                }
+              />
             <ProtectedRoute exact path="/" user={user} component={Home} />
+            </OptionsMenuProvider>
             <Route path="*" component={NotFound} />
           </Switch>
         </Router>

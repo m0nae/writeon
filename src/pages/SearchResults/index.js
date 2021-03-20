@@ -10,11 +10,9 @@ export function SearchResults({ posts, gridView }) {
   useEffect(() => {
     function filterSearch() {
       if (posts && searchInput && searchInput.length > 2) {
-        console.log(posts);
-
         let matches = posts.filter(post => {
           const regex = new RegExp(`${searchInput}`, "gi");
-          return post.title.match(regex) || post.textContent.match(regex);
+          return post.title.match(regex) || post?.textContent?.match(regex);
         })
 
         setResults(matches);

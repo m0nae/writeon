@@ -14,6 +14,8 @@ import {
   IconButton
 } from "@chakra-ui/react";
 
+import {OptionsMenu} from "../../OptionsMenu";
+
 import { BsThreeDots } from "react-icons/bs";
 import { MdChevronLeft } from "react-icons/md";
 import { IoIosSave } from "react-icons/io";
@@ -40,8 +42,9 @@ export function CreateNewHeader({...props}) {
 
   return (
     <Flex className={styles['create-new']}>
+      <div className={styles['left-header']}>
         <Box cursor="pointer" onClick={onBackBtnClick}>
-              <MdChevronLeft className="editor-left-chevron" />
+              <MdChevronLeft className={styles["editor-left-chevron"]} />
         </Box>
 
           <Button
@@ -65,8 +68,9 @@ export function CreateNewHeader({...props}) {
             onClick={onSaveClick}
             className={styles['save-btn-mobile']}
           />
+        </div>
 
-          <Spacer />
+          {/* <Spacer /> */}
 
           {words.length > 0 && (
             <>
@@ -74,7 +78,7 @@ export function CreateNewHeader({...props}) {
                 <HStack alignSelf="center" className={styles['words-list']}>
                   {words.map((word, index) => (
                     // <Tag className={styles['word-tag']} key={index} id={index}>
-                    <div className={styles['word-tag']}> {word} </div>
+                    <div key={index} className={styles['word-tag']}> {word} </div>
                  
                   ))}
                 </HStack>
@@ -84,6 +88,7 @@ export function CreateNewHeader({...props}) {
             </>
           )}
 
+        <div className={styles['right-header']}>
           <DropdownModeMenu
             mode={mode}
             handleTimeLimitMode={handleTimeLimitMode}
@@ -96,20 +101,12 @@ export function CreateNewHeader({...props}) {
             quillEditor={quillEditor}
           />
 
-          <Menu>
-            <MenuButton
-              aria-label="More Menu"
-              text="More Menu"
-              as={IconButton}
-              icon={<BsThreeDots className={styles['menu-icon']} />}
-              variant="unstyled"
-              style={{ width: "50px" }}
-              // className="menu-icon"
-            />
-            <MenuList>
-              <MenuItem onClick={onAlertClick}>Delete Post</MenuItem>
-            </MenuList>
-          </Menu>
+          <OptionsMenu
+            menuIcon={<BsThreeDots className={styles['menu-icon']} />} 
+            onAlertClick={onAlertClick}
+          />
+        </div>
     </Flex>
   )
 }
+

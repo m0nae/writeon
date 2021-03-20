@@ -27,7 +27,7 @@ export function TimeLimitProvider(props) {
 
   const { timeLimit, isCountdownActive, count } = state;
 
-  const numberInputRef = useRef();
+  const timeLimitNumberInputRef = useRef();
 
   useInterval(() => {
     if (!count || count <= 0 || !toggledSwitches.includes("timeLimitMode")) {
@@ -42,7 +42,7 @@ export function TimeLimitProvider(props) {
   }, count > 0 ? 1000 : null);
 
   function activateCountdown() {
-    const value = numberInputRef.current.value;
+    const value = timeLimitNumberInputRef.current.value;
 
     if (value <= 0) {
       return;
@@ -57,7 +57,7 @@ export function TimeLimitProvider(props) {
     <TimeLimitContext.Provider
       value={{
         timeLimit: timeLimit,
-        numberInputRef: numberInputRef,
+        timeLimitNumberInputRef: timeLimitNumberInputRef,
         activateCountdown: activateCountdown,
         isCountdownActive: isCountdownActive,
         count: count,

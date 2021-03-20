@@ -19,6 +19,7 @@ export function WordCountMode() {
   
   return (
     <>
+      
       <HStack>
         <NumberInput
         className={styles['number-input']}
