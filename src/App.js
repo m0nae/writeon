@@ -13,6 +13,8 @@ import { UserContext } from "./contexts/UserContext";
 import { Loading } from "./pages/Loading";
 
 import { OptionsMenuProvider } from "./contexts/OptionsMenuContext";
+import { Landing } from "./pages/Landing";
+import { Logout } from "./pages/Logout";
 
 export default function App() {
   const { user, loading } = useContext(UserContext);
@@ -25,6 +27,7 @@ export default function App() {
         <Router>
           <Switch>
             <Route exact path="/login" component={Login} />
+            <Route exact path="/logout" component={Logout} />
             <OptionsMenuProvider>
               <ProtectedRoute
                 exact
@@ -34,7 +37,10 @@ export default function App() {
                   CreateNew
                 }
               />
-            <ProtectedRoute exact path="/" user={user} component={Home} />
+              
+              {/* TODO: /DASHBOARD will render HOME component, and it will be protected */}
+            <ProtectedRoute exact path="/dashboard" user={user} component={Home} />
+            <Route exact path="/" component={Landing} />
             </OptionsMenuProvider>
             <Route path="*" component={NotFound} />
           </Switch>

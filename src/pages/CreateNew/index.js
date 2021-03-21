@@ -180,7 +180,7 @@ export function CreateNew(props) {
   }
 
   function goBack() {
-    history.push("/");
+    history.push("/dashboard");
     // todo: input code that resets the ModeContext states
   }
 
@@ -199,12 +199,14 @@ export function CreateNew(props) {
     }
   }
 
+  //TODO: in the return statement... am I rendering two components at once if I redirect the user to dashboard, since I'd render both the <Redirect to=""> AND the other contents of the damn CreateNew component? :O 
+  //! test this out immediately and figure it out. fix it/do a ternary operator instead!!! 
 
-
+  //todo: and plus, if there's an error, redirect to an error page!
   return (
     <>
     {/* if there's an error, redirect to an error page instead */}
-    {(redirectToHome || currentPostError) && <Redirect push to="/" />}
+    {(redirectToHome || currentPostError) && <Redirect push to="/dashboard" />}
     {loading ? (<Loading />) :
     (<div className={styles['wrapper']}>
       <CreateNewHeader

@@ -8,6 +8,7 @@ export function UserProvider(props) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(!user);
 
+  //todo: the code below should still work as intended
   useEffect(() => {
     setLoading(user === null ? true : false);
   }, [user]);
@@ -29,6 +30,7 @@ export function UserProvider(props) {
     <UserContext.Provider
       value={{
         user: user,
+        setUser: setUser,
         loading: loading,
       }}
     >

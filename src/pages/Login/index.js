@@ -7,9 +7,10 @@ export function Login() {
   const history = useHistory();
   const { user } = useContext(UserContext);
 
+  // todo: why not just use <Redirect to="/" /> in the return statement? instead of using a useEffect
   useEffect(() => {
     if (user) {
-      history.push("/");
+      history.push("/dashboard");
     }
   }, [user]);
 
