@@ -1,4 +1,9 @@
+// remove the warnings from the terminal
+process.removeAllListeners('warning')
+const util = require('util');
+
 const dotenv = require("dotenv");
+const colors = require('colors');
 
 dotenv.config();
 
@@ -21,13 +26,13 @@ const usePassport = require("./config/passport");
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 
-const graphQlSchema = require("./schema/schema");
+const typeDefs = require("./schema/schema");
+const resolvers = require("./resolvers/index");
 const { graphqlHTTP } = require("express-graphql");
-const graphQlResolvers = require("./resolvers/index");
+
+const { makeExecutableSchema } = require('graphql-tools')
 
 const app = express();
-
-usePassport(passport);
 
 app.use(
   cors({
@@ -35,40 +40,11 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-//? Fix up the redirect routes
-// app.post("/login", function (req, res, next) {
-//   passport.authenticate("local", function (err, user, info) {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!user) {
-//       //! Display this message on the frontend
-//       return res.send(info.message);
-//     }
-
-//     req.logIn(user, function (err) {
-//       if (err) {
-//         return next(err);
-//       }
-//       return res.redirect("http://localhost:3000");
-//     });
-//   })(req, res, next);
-// });
 
 app.post("/login", (req, res, next) => {
   let username = req.body.username;
@@ -91,7 +67,7 @@ app.post("/login", (req, res, next) => {
           { username: user._doc.username, _id: user._doc._id },
           privateKey
         );
-        console.log(token);
+        // console.log(token);
         res.cookie("jwt", token, { httpOnly: true });
         res.redirect("http://localhost:3000");
       }
@@ -101,54 +77,65 @@ app.post("/login", (req, res, next) => {
   });
 });
 
-function verifyJwt(req, res, next) {
-  let token = req.cookies.jwt;
-
-  if (!token) {
+app.get("/logout", (req, res, next) => {
+  try {
+    if (req.cookies.jwt) {
+      res.clearCookie("jwt", { domain: "localhost", path: "/", httpOnly: true })
+      console.log('cookie deleted!');
+      res.sendStatus(200);
+    } else {
+      throw new Error("There is no logged in user!");
+    }
+  } catch (err) {
+    throw err;
   }
-}
+})
 
 // turn this jwt.verify into its own fn so i can use it inside of /current AND /graphql
 app.get("/current", function (req, res) {
+  console.log(`/current endpoint accessed`);
+
   let token = req.cookies.jwt;
   if (!token) {
     return res.json(false);
   } else {
     let payload = jwt.verify(token, process.env.SECRET_JWT_KEY);
-    console.log(payload);
+    console.log(`JWT payload: ${util.inspect(payload)}`);
     return res.json(payload);
   }
   // let user = req.user
 });
 
-app.use("/graphql", (req, res, next) => {
-  let token = req.cookies.jwt;
-  if (!token) {
-    console.log("gql middleware: there is no user logged in");
-  } else {
-    req.user = token;
+app.use('/graphql', (req, res, next) => {
+  try {
+    let token = req.cookies.jwt;
+    if (!token) {
+      throw new Error('No user is logged in.');
+    } else {
+      let payload = jwt.verify(token, process.env.SECRET_JWT_KEY);
+      let { username, _id } = payload;
+      req.user = { username, _id };
+      console.log(req.user);
+      next();
+    }
+
+  } catch (err) {
+    throw err;
   }
-  next();
+})
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
 });
 
-const extensions = (req) => {
-  return {
-    user: req.user,
-  };
-};
-
 app.use(
-  "/graphql",
-  graphqlHTTP((req, res, graphQLParams) => ({
-    schema: graphQlSchema,
-    rootValue: graphQlResolvers,
-    graphiql: true,
-    context: {
-      user: req.user,
-      NEWCOOLDATA: "HELLO THIS IS NEW COOL DATA!!!",
-    },
-  }))
+  '/graphql',
+  graphqlHTTP({
+    schema: schema,
+    graphiql: true
+  })
 );
 
 const PORT = 5000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`.cyan));
