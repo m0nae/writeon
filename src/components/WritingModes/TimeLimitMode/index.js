@@ -20,21 +20,6 @@ export function TimeLimitMode() {
     count,
   } = useContext(TimeLimitContext);
 
-  //TODO: put toast inside of CreateNew component bc it only displays if the TimeLimitMode is rendered in the modal. That doesn't make sense ofc.
-
-  const toast = useToast();
-
-  useEffect(() => {
-    if (count === 0) {
-      toast({
-        title: "Time is up!",
-        duration: 10000,
-        status: "info",
-        isClosable: true,
-      });
-    }
-  }, [count]);
-
   return (
     <>
       <HStack spacing="10px">

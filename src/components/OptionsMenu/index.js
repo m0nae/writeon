@@ -26,7 +26,9 @@ export function OptionsMenu(props) {
         className={props.menuButton}
         onClick={(e) => {
           e.stopPropagation();
-          props.setClickedPostId();
+          if (props.setClickedPostId) {
+            props.setClickedPostId()
+          }
         }}
       />
       <MenuList>

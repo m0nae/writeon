@@ -21,7 +21,7 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
+  AlertDescription
 } from "@chakra-ui/react";
 import { DELETE_POST, GET_POST, UPDATE_POST } from "../../gql.js";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
@@ -78,6 +78,7 @@ export function CreateNew(props) {
   const isModalOpen = isOpen;
 
   const { timeLimit, count } = useContext(TimeLimitContext);
+  const timesUpToast = useToast();
 
   
   const { id } = useParams();
@@ -129,6 +130,17 @@ export function CreateNew(props) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (count === 0) {
+      timesUpToast({
+        title: "Time is up!",
+        duration: 5000,
+        status: "info",
+        isClosable: true,
+      });
+    }
+  }, [count]);
 
   function handleSave() {
     let textContents = quillEditor.current.editor.getText();

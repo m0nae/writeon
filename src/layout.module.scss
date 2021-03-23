@@ -2,6 +2,10 @@
   height: auto;
   width: 18vw;
   max-width: 110px;
+
+  @media (max-width: 570px) {
+    display: none;
+  }
 }
 
 .container {

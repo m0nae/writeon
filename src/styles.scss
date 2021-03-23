@@ -42,12 +42,17 @@ div:focus {
 }
 
 .quill {
-  padding-bottom: 500px;
+  padding-bottom: 100px;
 }
 /* for the text inside quill editor */
 .ql-editor {
+  height: 70vh !important;
   font-size: 1rem;
   font-family: "Open Sans", sans-serif;
+}
+
+.ql-container {
+  height: 70%;
 }
 
 .modeSelection {

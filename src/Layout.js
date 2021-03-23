@@ -123,8 +123,7 @@ export function Layout({ children }) {
                 <Spinner 
                   thickness="4px"
                   speed="0.65s"
-                  emptyColor="gray.200"
-                  color="black"
+                  color="#9e9e9e"
                   size="xl"
                 />
               </Center>
