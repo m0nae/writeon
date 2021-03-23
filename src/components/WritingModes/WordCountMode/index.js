@@ -1,28 +1,24 @@
-import styles from "../writing-modes.module.scss";
+import React, { useContext } from 'react';
+import styles from '../writing-modes.module.scss';
 import {
+  HStack,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Text,
-} from "@chakra-ui/react";
-import React, { useContext } from "react";
-
-import { HStack } from "@chakra-ui/react";
-import { ModeContext } from "../../../contexts/ModeContext";
+  Text
+} from '@chakra-ui/react';
+import { ModeContext } from '../../../contexts/ModeContext';
 
 export function WordCountMode() {
-  const { numberInputRef, wordCountGoal } = useContext(
-    ModeContext
-  );
-  
+  const { numberInputRef, wordCountGoal } = useContext(ModeContext);
+
   return (
     <>
-      
       <HStack>
         <NumberInput
-        className={styles['number-input']}
+          className={styles['number-input']}
           allowMouseWheel
           size="md"
           min={0}

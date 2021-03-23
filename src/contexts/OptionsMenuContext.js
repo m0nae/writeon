@@ -1,5 +1,5 @@
-import React, { useContext, createContext, useState, useRef } from "react";
-import { createStandaloneToast } from "@chakra-ui/react";
+import React, { createContext, useRef, useState } from 'react';
+import { createStandaloneToast } from '@chakra-ui/react';
 
 const deletePostErrorToast = createStandaloneToast();
 
@@ -10,23 +10,26 @@ export function OptionsMenuProvider(props) {
   const closeDeleteAlert = () => setIsDeleteAlertOpen(false);
   const deleteAlertRef = useRef();
 
-  const deletePostErrorT = () => deletePostErrorToast({
-    title: "An error has occured.",
-    description: "There was an issue deleting your note. Please try again.",
-    status: "error", 
-    duration: 5000,
-    isClosable: true 
-  })
+  const deletePostErrorT = () =>
+    deletePostErrorToast({
+      title: 'An error has occured.',
+      description: 'There was an issue deleting your note. Please try again.',
+      status: 'error',
+      duration: 5000,
+      isClosable: true
+    });
 
   return (
-    <OptionsMenuContext.Provider value={{
-      isDeleteAlertOpen: isDeleteAlertOpen,
-      setIsDeleteAlertOpen: setIsDeleteAlertOpen,
-      closeDeleteAlert: closeDeleteAlert,
-      deleteAlertRef: deleteAlertRef,
-      deletePostErrorT: deletePostErrorT
-    }}>
+    <OptionsMenuContext.Provider
+      value={{
+        isDeleteAlertOpen: isDeleteAlertOpen,
+        setIsDeleteAlertOpen: setIsDeleteAlertOpen,
+        closeDeleteAlert: closeDeleteAlert,
+        deleteAlertRef: deleteAlertRef,
+        deletePostErrorT: deletePostErrorT
+      }}
+    >
       {props.children}
     </OptionsMenuContext.Provider>
-  )
+  );
 }

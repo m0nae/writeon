@@ -1,6 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
-
-import { gql } from "@apollo/client";
+import React, { createContext, useEffect, useState } from 'react';
 
 export const UserContext = createContext({});
 
@@ -14,8 +12,8 @@ export function UserProvider(props) {
   }, [user]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/current", {
-      credentials: "include",
+    fetch('http://localhost:5000/current', {
+      credentials: 'include'
     })
       .then((response) => {
         return response.json();
@@ -31,7 +29,7 @@ export function UserProvider(props) {
       value={{
         user: user,
         setUser: setUser,
-        loading: loading,
+        loading: loading
       }}
     >
       {props.children}

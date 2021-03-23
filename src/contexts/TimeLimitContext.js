@@ -1,12 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useReducer,
-  useRef,
-} from "react";
-
-import { ModeContext } from "./ModeContext";
-import { useInterval } from "../utils";
+import React, { createContext, useContext, useReducer, useRef } from 'react';
+import { useInterval } from '../utils';
+import { ModeContext } from './ModeContext';
 
 export const TimeLimitContext = createContext();
 
@@ -15,31 +9,33 @@ export function TimeLimitProvider(props) {
   const initialState = {
     timeLimit: null,
     isCountdownActive: false,
-    count: null,
+    count: null
   };
 
   const [state, timeLimitDispatch] = useReducer(reducer, initialState);
+  const { timeLimit, isCountdownActive, count } = state;
+
+  const timeLimitNumberInputRef = useRef();
 
   function reducer(state, action) {
     const { type, payload } = action;
     return { ...state, [type]: payload };
   }
 
-  const { timeLimit, isCountdownActive, count } = state;
-
-  const timeLimitNumberInputRef = useRef();
-
-  useInterval(() => {
-    if (!count || count <= 0 || !toggledSwitches.includes("timeLimitMode")) {
-      timeLimitDispatch({ type: "isCountdownActive", payload: false });
-      return;
-    }
-    if (!isCountdownActive || count <= 0) {
-      return;
-    }
-    timeLimitDispatch({ type: "count", payload: count - 1 });
-    console.log(count);
-  }, count > 0 ? 1000 : null);
+  useInterval(
+    () => {
+      if (!count || count <= 0 || !toggledSwitches.includes('timeLimitMode')) {
+        timeLimitDispatch({ type: 'isCountdownActive', payload: false });
+        return;
+      }
+      if (!isCountdownActive || count <= 0) {
+        return;
+      }
+      timeLimitDispatch({ type: 'count', payload: count - 1 });
+      console.log(count);
+    },
+    count > 0 ? 1000 : null
+  );
 
   function activateCountdown() {
     const value = timeLimitNumberInputRef.current.value;
@@ -48,9 +44,9 @@ export function TimeLimitProvider(props) {
       return;
     }
 
-    timeLimitDispatch({ type: "timeLimit", payload: value * 60 });
-    timeLimitDispatch({ type: "count", payload: value * 60 + 1 });
-    timeLimitDispatch({ type: "isCountdownActive", payload: true });
+    timeLimitDispatch({ type: 'timeLimit', payload: value * 60 });
+    timeLimitDispatch({ type: 'count', payload: value * 60 + 1 });
+    timeLimitDispatch({ type: 'isCountdownActive', payload: true });
   }
 
   return (
@@ -61,7 +57,7 @@ export function TimeLimitProvider(props) {
         activateCountdown: activateCountdown,
         isCountdownActive: isCountdownActive,
         count: count,
-        timeLimitDispatch: timeLimitDispatch,
+        timeLimitDispatch: timeLimitDispatch
       }}
     >
       {props.children}

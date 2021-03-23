@@ -1,24 +1,20 @@
-import styles from "../writing-modes.module.scss";
+import React, { useContext } from 'react';
+import styles from '../writing-modes.module.scss';
 import {
+  HStack,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Text
-} from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef } from "react";
-
-import { HStack } from "@chakra-ui/react";
-import { TimeLimitContext } from "../../../contexts/TimeLimitContext";
-import { useToast } from "@chakra-ui/react";
+} from '@chakra-ui/react';
+import { TimeLimitContext } from '../../../contexts/TimeLimitContext';
 
 export function TimeLimitMode() {
-  const {
-    timeLimitNumberInputRef,
-    isCountdownActive,
-    count,
-  } = useContext(TimeLimitContext);
+  const { timeLimitNumberInputRef, isCountdownActive, count } = useContext(
+    TimeLimitContext
+  );
 
   return (
     <>
@@ -38,9 +34,8 @@ export function TimeLimitMode() {
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
-      <Text>minutes</Text>
+        <Text>minutes</Text>
       </HStack>
     </>
   );
-  // User sets time limit. Progress bar indicates how much time they have left. When time is up, lock the text editor. But ofc, give the user the option to unlock it if they want to.
 }

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState } from 'react';
 
 export const NewPostContext = createContext({});
 
@@ -9,7 +9,7 @@ export function NewPostProvider(props) {
     <NewPostContext.Provider
       value={{
         newPost: newPost,
-        setNewPost: setNewPost,
+        setNewPost: setNewPost
       }}
     >
       {props.children}

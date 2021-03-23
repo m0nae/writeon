@@ -27,13 +27,15 @@
     "react-truncate": "^2.4.0"
   },
   "devDependencies": {
+    "prettier": "2.2.1",
     "typescript": "3.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "npx prettier --write \"src/**/*.js\""
   },
   "browserslist": [
     ">0.2%",
