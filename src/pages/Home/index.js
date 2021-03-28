@@ -138,7 +138,7 @@ export function Home() {
         <Loading />
       ) : (
         <Layout>
-          <Box className="home-layout">
+          <Box>
             <AlertDialog
               isOpen={isDeleteAlertOpen}
               leastDestructiveRef={deleteAlertRef}
@@ -149,7 +149,11 @@ export function Home() {
               handleDelete={() => handleDelete()}
             />
 
-            <Flex mb="1rem" justifyContent="flex-end" className="view-menu">
+            <Flex
+              mb="1rem"
+              justifyContent="flex-end"
+              className={styles['view-menu']}
+            >
               <Select
                 width="180px"
                 justifySelf="end"

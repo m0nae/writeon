@@ -1,14 +1,8 @@
-:root {
-  --speed: 500ms;
-  --menu-item-width: 14rem;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 
 .App {
   position: relative;
@@ -20,39 +14,12 @@
   font-size: 3rem;
 }
 
-/* src\components\Posts\index.js */
-.post {
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.post-title {
-  text-align: center;
-  font-family: "Open Sans", sans-serif;
-  font-size: 36px;
-  font-weight: 400;
-  /* font-family: 'Arial'; */
-}
-
-.post-title,
-div:focus {
-  outline: none;
-}
-
 .quill {
   padding-bottom: 100px;
 }
-/* for the text inside quill editor */
-.ql-editor {
-  height: 70vh !important;
-  font-size: 1rem;
-  font-family: "Open Sans", sans-serif;
-}
 
 .ql-container {
-  height: 70%;
+  max-height: 100%;
 }
 
 .modeSelection {
@@ -69,95 +36,23 @@ div:focus {
   margin-right: 1rem;
 }
 
-
-.word-number-input {
-  height: 2em;
-  width: 3em;
-  margin-top: 0.7rem;
-  margin-right: 0.5rem;
-}
-
 .refresh-btn {
   margin-top: 0.5rem;
   font-size: 2rem;
-}
-
-.words-list {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.words-list > li {
-  list-style: none;
-  margin-right: 1.5rem;
 }
 
 .number-input {
   margin-right: 1rem;
 }
 
-.word-count-progress-bar {
-  position: sticky !important;
-  z-index: 90;
-  top: 80px;
-  width: 100%;
-}
-
-// .chakra-menu__menu-button {
-//   svg {
-//     display: block;
-//     width: 0.2em;
-//   }
-//   display: block;
-// }
-
-//  css-d27oew
-
-
-
-
-
-
-.logo {
-  font-family: "Montserrat", sans-serif;
-  background-size: 40px 60px;
-  font-weight: 800;
-}
-
-
-
-/* .header.css-1atmffo {
-  padding: 0 4rem;
-} */
-
 .create-new {
   padding: 1rem !important;
 }
 
-.word-count {
-  position: sticky;
-  top: 100px;
-  left: 93vw;
-  right: 0;
-  width: fit-content;
-  margin: 0;
-  /* margin-right: -10px; */
-  font-size: 18px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  color: #bdbdbd;
-}
-/* 
-.mode-menu {
-  transform: rotate(50deg);
-} */
-
-
 .mode-menu-option {
   color: RGBA(0, 0, 0, 0.5);
   line-height: 21.94px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   font-weight: 500;
   margin-right: 15px;
@@ -166,100 +61,4 @@ div:focus {
 /* "delete post" popup in createnew page header */
 .css-r6z5ec {
   z-index: 100;
-}
-
-
-/* HOME PAGE */
-
-.home-layout {
-  /* display: flex;
-  flex-wrap: wrap;
-  max-width: 80%;
-  margin: 0 auto; */
-}
-
-
-.grid-view {
-  /* min-width: 50vw; */
-  /* max-width: 100%; */
-  max-width: 1350px;
-  width: 90%;
-  min-width: 250px;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
-}
-
-
-.view-menu {
-  /* max-width: 1300px; */
-  width: 89%;
-  max-width: 1310px;
-  margin: 0 auto;
-  margin-bottom: 1rem;
-}
-
-
-
-
-@media screen and (max-width: 1517px) {
-  .grid-view {
-    max-width: 1080px;
-  }
-  .view-menu {
-    max-width: 1040px;
-  }
-}
-
-@media screen and (max-width: 1217px) {
-  .grid-view {
-    max-width: 810px;
-  }
-  .view-menu {
-    max-width: 770px;
-  }
-}
-
-@media screen and (max-width: 917px) {
-  .grid-view {
-    max-width: 540px;
-  }
-  .view-menu {
-    max-width: 500px;
-  }
-}
-
-@media screen and (max-width: 617px) {
-  .grid-view {
-    max-width: 70%;
-  }
-  .grid-view > div {
-    width: 100%;
-  }
-  
-  .view-menu {
-    max-width: 63%;
-  }
-
-  .view-menu > .list-view-icon {
-    width: 32px;
-    
-  }
-
-  .list-view-icon {
-    display: none;
-  }
-}
-
-.list-view {
-  max-width: 700px;
-  width: 95%;
-  margin: 0 auto;
-}
-
-.list-view > div {
-  margin-right: 0;
-  width: 700px;
-  max-width: 700px;
-  width: 90%;
 }

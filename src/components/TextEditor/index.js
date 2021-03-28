@@ -1,3 +1,4 @@
+import styles from './text-editor.module.scss';
 import { Editable, EditableInput, EditablePreview } from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 
@@ -7,7 +8,7 @@ export function TextEditor(props) {
     <>
       <Editable
         ref={postTitle}
-        className="post-title"
+        className={styles['post-title']}
         defaultValue={currentPost ? currentPost.title : 'Untitled'}
       >
         <EditablePreview />

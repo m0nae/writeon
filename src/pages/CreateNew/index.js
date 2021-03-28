@@ -235,11 +235,13 @@ export function CreateNew() {
               value={wordCount}
               max={wordCountGoal}
               colorScheme={wordCount <= wordCountGoal ? 'blue' : 'green'}
-              className="word-count-progress-bar"
+              className={styles['word-count-progress-bar']}
             />
           )}
           {wordCountGoal && (
-            <p className="word-count">{`${wordCount}/${wordCountGoal} words`}</p>
+            <p
+              className={styles['word-count']}
+            >{`${wordCount}/${wordCountGoal} words`}</p>
           )}
 
           {/* TEXT EDITOR */}

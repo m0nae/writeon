@@ -47,6 +47,8 @@ export function Layout({ children }) {
   });
 
   async function createNewPost() {
+    //todo: check post length. if too long or short, do yo thang and show them errors
+    //todo: throw in an OnChange. if title length is < x, disable the button. but once long enough, enable the "Create note" button
     const newTitle = postTitleInput.current.value.toString();
 
     createPost({ variables: { title: newTitle } });
@@ -68,6 +70,9 @@ export function Layout({ children }) {
 
   //todo: change the localhost 3000 link here and everywhere else in the code
 
+  //todo: put a toast inside the create new note modal when there's an error instead?
+  //todo: well actually, put some sort of check/input validation on the input FIRST
+
   return (
     <>
       {called && data && (
@@ -79,7 +84,7 @@ export function Layout({ children }) {
         />
       )}
       <Header className={styles['header']}>
-        <Box as="a" href="http://localhost:3000/" className="logo">
+        <Box as="a" href="http://localhost:3000/" className={styles['logo']}>
           <img src={writeOn} className={styles['writeon']} />
         </Box>
         <InputGroup width="70%">
@@ -130,6 +135,7 @@ export function Layout({ children }) {
                 <div>
                   <p>Title</p>
                   <Input ref={postTitleInput} size="lg" />
+
                   {createPostError && <p>Error: Please try again.</p>}
                 </div>
               ) : (

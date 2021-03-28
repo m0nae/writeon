@@ -1,3 +1,12 @@
+:global {
+  /* for the text inside quill editor */
+  .ql-editor {
+    min-height: 70vh !important;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
 .wrapper {
   width: 100vw;
   height: 100vh;
@@ -34,4 +43,25 @@
   @media (max-width: 320px) {
     right: 15px;
   }
+}
+
+.word-count {
+  position: sticky;
+  top: 100px;
+  left: 93vw;
+  right: 0;
+  width: fit-content;
+  margin: 0;
+  /* margin-right: -10px; */
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: #bdbdbd;
+}
+
+.word-count-progress-bar {
+  position: sticky !important;
+  z-index: 90;
+  top: 80px;
+  width: 100%;
 }

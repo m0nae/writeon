@@ -32,6 +32,10 @@
     height: 0;
     background: transparent;
   }
+
+  @media (min-width: 800px) {
+    max-width: 70%;
+  }
 }
 
 .word-tag {
@@ -53,14 +57,12 @@
 .words-list {
   overflow: scroll;
 
-
   ::-webkit-scrollbar {
     width: 0;
     height: 0;
     background: transparent;
   }
 }
-
 
 .save-btn {
   // padding: 0rem 2rem;
@@ -78,7 +80,7 @@
 
 .save-btn-mobile {
   margin-left: 1rem;
-  margin-right: 5px; 
+  margin-right: 5px;
   @media (min-width: 570px) {
     display: none !important;
   }
@@ -86,6 +88,7 @@
 
 .left-header {
   display: flex;
+  margin-right: 5px;
 }
 
 .right-header {
