@@ -83,6 +83,7 @@ export function CreateNew() {
     variables: { id: currentPostId },
     onCompleted: () => {
       console.log('Post deleted!');
+      setRedirectToHome(true);
     }
   });
 
@@ -159,9 +160,11 @@ export function CreateNew() {
 
     if (deletePostError) {
       deletePostErrorT();
-    } else {
-      setRedirectToHome(true);
     }
+
+    // else {
+    //   setRedirectToHome(true);
+    // }
   }
 
   function goBack() {

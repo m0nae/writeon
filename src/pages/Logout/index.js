@@ -16,5 +16,5 @@ export function Logout() {
     }
   }, [user]);
 
-  return <>{<Redirect push to="/login" />}</>;
+  return <>{<Redirect push to="/" />}</>;
 }
