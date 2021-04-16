@@ -32,19 +32,22 @@ export function Home() {
   const [posts, setPosts] = useState(null);
   const [gridView, setGridView] = useState(true);
   const [sortBy, setSortBy] = useState('dateModified');
-  const [sortOrder, setSortOrder] = useState('descending');
+  const [sortOrder, setSortOrder] = useState('ascending');
   const [clickedPostId, setClickedPostId] = useState();
 
-  const { refetch: refetchAllPosts } = useQuery(GET_ALL_POSTS, {
-    onCompleted: (GET_ALL_POSTS) => {
-      console.log('get all posts query ran');
-      setPosts(GET_ALL_POSTS.posts);
-      setLoading(false);
-      console.log(GET_ALL_POSTS.posts);
-    },
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true
-  });
+  const { called: getPostsCalled, refetch: refetchAllPosts } = useQuery(
+    GET_ALL_POSTS,
+    {
+      onCompleted: (GET_ALL_POSTS) => {
+        console.log('get all posts query ran');
+        setPosts(GET_ALL_POSTS.posts);
+        setLoading(false);
+        console.log(GET_ALL_POSTS.posts);
+      },
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true
+    }
+  );
 
   const [deletePost, { error: deletePostError }] = useMutation(DELETE_POST, {
     variables: { id: clickedPostId },
@@ -124,6 +127,7 @@ export function Home() {
             .slice()
             .sort((a, b) => sortPosts(a, b, 'dateModified'));
           console.log(sortedModifiedDates);
+          console.log(sortOrder);
           setPosts(sortedModifiedDates);
           break;
         default:

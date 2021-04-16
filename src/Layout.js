@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import styles from './layout.module.scss';
 import {
   Box,
@@ -9,6 +9,16 @@ import {
   IconButton,
   Input,
   InputGroup,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuIcon,
+  MenuCommand,
+  MenuDivider,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,6 +31,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
+import { BsThreeDots } from 'react-icons/bs';
 import { generatePath } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { NewPostContext } from './contexts/NewPostContext';
@@ -31,6 +42,7 @@ import { useMutation } from '@apollo/client';
 import { CREATE_POST } from './gql.js';
 
 export function Layout({ children }) {
+  const [redirectToLogout, setRedirectToLogout] = useState(false);
   const createPostErrorToast = useToast();
   const { setNewPost } = useContext(NewPostContext);
   const { setSearchInput, setSearchBarFocused } = useContext(SearchContext);
@@ -64,14 +76,20 @@ export function Layout({ children }) {
     // }
   }
 
+  // function logout() {
+  //   fetch("http://localhost:5000/logout")
+  //     .then(res => {
+  //       if (res.status(200)) {
+  //         setRed
+  //       }
+  //     })
+  // }
+
   function handleInput(e) {
     setSearchInput(e.target.value);
   }
 
   //todo: change the localhost 3000 link here and everywhere else in the code
-
-  //todo: put a toast inside the create new note modal when there's an error instead?
-  //todo: well actually, put some sort of check/input validation on the input FIRST
 
   return (
     <>
@@ -83,6 +101,7 @@ export function Layout({ children }) {
           })}
         />
       )}
+      {redirectToLogout && <Redirect push to="/logout" />}
       <Header className={styles['header']}>
         <Box as="a" href="http://localhost:3000/" className="logo">
           <img src={writeOn} className={styles['writeon']} />
@@ -106,13 +125,28 @@ export function Layout({ children }) {
           />
         </InputGroup>
         <Box>
-          <IconButton
-            aria-label="Create New Note"
-            title="Create New Note"
-            isRound
-            icon={<HiOutlinePencilAlt />}
+          <button
+            aria-label="Create Note"
             onClick={onOpen}
-          />
+            className={styles['create-new-btn']}
+          >
+            Create Note
+          </button>
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              variant="unstyled"
+              icon={<BsThreeDots />}
+              className={styles['header-menu-btn']}
+            >
+              Actions
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => setRedirectToLogout(true)}>
+                Log out
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </Box>
       </Header>
       <div className={styles['container']}>{children}</div>
@@ -137,7 +171,7 @@ export function Layout({ children }) {
                   <Input ref={postTitleInput} size="lg" />
 
                   {createPostError && (
-                    <p>
+                    <p className={styles['modal-error']}>
                       There was an error creating your note. Please try again.
                     </p>
                   )}

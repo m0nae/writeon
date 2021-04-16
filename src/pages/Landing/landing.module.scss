@@ -3,33 +3,45 @@
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    // position: sticky;
+    position: sticky;
     z-index: 100;
     top: 0;
     background: white;
-    // border-bottom: 1px solid whitesmoke;
-    height: 132px;
+    border-bottom: 1px solid whitesmoke;
+    height: 100px;
     padding: 0 4rem;
-    max-width: 1440px;
+    max-width: 1600px;
     margin: 0 auto;
+
     // outline: 1px solid red;
 
     @media (max-width: 570px) {
-      padding: 0 2rem;
+      border-bottom: 2px solid whitesmoke;
+      padding: 0 1.5rem 0 2rem;
     }
 
-    @media (max-width: 320px) {
-      padding: 0 1.5rem;
-    }
+    // @media (max-width: 370px) {
+    //   .css-17xejub {
+    //     display: none;
+    //   }
+    //   justify-content: center;
+    //   padding: 0 0.3rem;
+    // }
+  }
+
+  .landing-header-top {
+    @extend .landing-header;
+    border-bottom: none;
   }
 }
 
 .writeon-landing {
   height: auto;
-  width: 14vw;
+  // width: 14vw;
+  // min-width: 14vw;
   // max-width: 110px;
 
-  @media (max-width: 570px) {
+  @media (max-width: 400px) {
     display: none;
   }
 }
@@ -39,23 +51,37 @@
 }
 
 .writeon-logo {
-  max-height: 158px;
-  max-width: 210px;
+  // === FOR MAX-WIDTH 1440PX ===
+  // max-height: 158px;
+  // max-width: 210px;
+  max-height: 123.24px;
+  min-height: 123.24px;
+  min-width: 163.8px;
+  max-width: 163.8px;
+
+  @media (max-width: 400px) {
+    display: none;
+  }
 }
 
 //whatever the width and heights are NOW are the MAXIMUM width and heights
 // figure what they are in terms of % or vw/vh
 
 .login {
-  width: 154px;
-  height: 65px;
+  // === FOR MAX-WIDTH 1440PX ===
+  // width: 154px;
+  // height: 65px;
+  // font-size: 32px;
+  width: 120px;
+  height: 50.65px;
+  font-size: 25px;
+
   background-color: #1d1b1b;
   color: white;
 
   border-radius: 6px;
 
   font-family: 'Inter', sans-serif;
-  font-size: 32px;
   font-weight: 600;
 
   margin-right: 28px;
@@ -64,15 +90,25 @@
   &:hover {
     transform: translateY(-3px);
   }
+
+  @media (max-width: 569px) {
+    display: none;
+  }
 }
 
 .signup {
-  width: 179px;
-  height: 65px;
+  // === FOR MAX-WIDTH 1440PX ===
+  // width: 179px;
+  // height: 65px;
+  // font-size: 32px;
+
+  width: 140px;
+  height: 50.65px;
+  font-size: 25px;
+
   border-radius: 6px;
   border: 2px solid #1d1b1b;
 
-  font-size: 32px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
 
@@ -81,17 +117,91 @@
   &:hover {
     transform: translateY(-3px);
   }
+
+  @media (max-width: 569px) {
+    display: none;
+  }
 }
+
+// ==== MOBILE MENU ==== //
+
+.mobile-menu-icon {
+  display: none;
+  * {
+    font-size: 3rem;
+  }
+
+  @media (max-width: 569px) {
+    display: unset;
+  }
+}
+
+.mobile-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 170px;
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 2px solid whitesmoke;
+  // display: none;
+  // position: sticky;
+  position: fixed;
+  top: 100px;
+
+  .signup-mobile {
+    width: 90%;
+    height: 50px;
+    // outline: none;
+    border: 2px solid #1d1b1b;
+    border-radius: 6px;
+    background-color: white;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+
+    font-size: 1.1rem;
+
+    // margin-bottom: 1rem;
+  }
+
+  .login-mobile {
+    @extend .signup-mobile;
+    background-color: #1d1b1b;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.mobile-menu-hidden {
+  @extend .mobile-menu;
+  height: 0px;
+  display: none;
+
+  .login-mobile {
+    display: none;
+  }
+
+  .signup-mobile {
+    display: none;
+  }
+}
+
+// ==== MOBILE MENU END ==== /
 
 .container {
   margin: 0 auto;
   width: 80%;
-  max-height: 791px;
+  // max-height: 791px;
 }
 
 .header {
   font-family: 'Roboto', sans-serif;
-  font-size: 5.5rem;
+  // font-size: 5.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+  font-size: clamp(3.3rem, 6vw, 5.5rem);
   font-weight: 700;
   margin-top: 100px;
   text-align: center;
@@ -101,7 +211,8 @@
 
 .subtitle {
   font-family: 'Roboto', sans-serif;
-  font-size: 39px;
+  // font-size: 39px;
+  font-size: clamp(2rem, 2.5vw, 2.45rem);
   font-weight: 400;
   text-align: center;
   color: #737373;
@@ -110,27 +221,40 @@
 }
 
 .hero {
-  max-height: 1024px;
-  overflow-y: hidden;
+  // max-height: 1024px;
+  // overflow-y: hidden;
 }
 
 .hero-img {
   width: 93%;
   max-width: 1053px;
-  height: 558px;
+  // height: 558px;
   border: 1px solid rgba(0, 0, 0, 0.21);
   border-radius: 5px;
   margin: 0 auto;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+
+  img {
+    border-radius: 5px;
+  }
 }
 
 .features {
   padding: 165px 0;
+  // background-color: #1d1d1b;
+
+  // p,
+  // h1,
+  // h2,
+  // h3 {
+  //   color: white;
+  // }
 }
 
 .features-container {
   margin: 0 auto;
   width: 75%;
+  max-width: 1050px;
 }
 
 .feature {
@@ -138,20 +262,45 @@
   display: flex;
   margin-bottom: 104px;
   // margin-right: 150px;
+
+  @media (max-width: 990px) {
+    flex-direction: column;
+    margin-bottom: 70px;
+  }
 }
 
 .feature-img {
-  // max-width: 445px;
-  width: 445px;
-  // max-height: 307px;
-  height: 307px;
+  min-width: 540px;
+  max-width: 540px;
+  width: 41.7%;
+  max-height: 307px;
+  // height: 307px;
+  height: auto;
+  // height: 90%;
   margin-right: 62px;
   border: 1px solid rgba(0, 0, 0, 0.21);
   border-radius: 5px;
+  overflow: hidden;
+
+  @media (max-width: 990px) {
+    margin: 0 auto;
+  }
+
+  @media (max-width: 569px) {
+    // max-width: 100px;
+    min-width: 80%;
+  }
 }
 
 .text-container {
   max-width: 480px;
+  height: fit-content;
+  align-self: center;
+
+  @media (max-width: 990px) {
+    text-align: center;
+    margin-top: 2rem;
+  }
 }
 
 .feature-heading {
@@ -169,10 +318,36 @@
 .feature-flipped {
   @extend .feature;
   flex-direction: row-reverse;
+
+  @media (max-width: 990px) {
+    flex-direction: column;
+  }
 }
 
 .feature-flipped-img {
   @extend .feature-img;
   margin-right: 0;
   margin-left: 62px;
+
+  @media (max-width: 990px) {
+    margin: 0 auto;
+  }
+}
+
+.footer {
+  width: 100%;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4.5rem;
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.5rem;
+
+  border-top: 1px solid whitesmoke;
+
+  .footer-right:hover {
+    text-decoration: underline;
+  }
 }

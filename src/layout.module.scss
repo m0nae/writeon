@@ -25,3 +25,34 @@
     padding: 3rem 0 2rem 0;
   }
 }
+
+.create-new-btn {
+  font-size: 18px;
+  background-color: white;
+  color: black;
+  outline: none;
+  border: 2px solid #1d1b1b;
+  border-radius: 6px;
+
+  padding: 10px 15px;
+  margin-right: 15px;
+
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+
+  &:hover {
+  }
+}
+
+.header-menu-btn {
+  font-size: 2rem !important;
+
+  &:hover {
+    // background-color: unset;
+  }
+}
+
+.modal-error {
+  color: red;
+  font-size: 13px;
+}

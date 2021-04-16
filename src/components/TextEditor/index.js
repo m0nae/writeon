@@ -14,7 +14,12 @@ export function TextEditor(props) {
         <EditablePreview />
         <EditableInput />
       </Editable>
-      <ReactQuill onKeyUp={getWordCount} ref={quillEditorRef} theme="bubble" />
+      <ReactQuill
+        scrollingContainer="html"
+        onKeyUp={getWordCount}
+        ref={quillEditorRef}
+        theme="bubble"
+      />
     </>
   );
 }

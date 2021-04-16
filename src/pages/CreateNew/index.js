@@ -49,6 +49,7 @@ export function CreateNew() {
 
   const isModalOpen = isOpen;
   const timesUpToast = useToast();
+  const postLengthErrorToast = useToast();
 
   const { id } = useParams();
   const [currentPostId] = useState(id);
@@ -66,6 +67,12 @@ export function CreateNew() {
   ] = useMutation(UPDATE_POST, {
     onCompleted: () => {
       console.log('Post updated!');
+      updatePostSuccessToast({
+        title: 'Post saved!',
+        status: 'success',
+        duration: 2000,
+        isClosable: true
+      });
     }
   });
 
@@ -119,9 +126,18 @@ export function CreateNew() {
     let textContents = quillEditor.current.editor.getText();
     let deltaContents = quillEditor.current.editor.getContents();
     let title = postTitle.current.children[1].value;
-    console.log(title);
-    console.log(textContents);
-    console.log(deltaContents);
+
+    if (textContents.length > 20000) {
+      return postLengthErrorToast({
+        title: 'An error has occured.',
+        description:
+          'Note is too long. The maximum note length is 20,000 characters.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true
+      });
+    }
+
     updatePost({
       variables: {
         id: currentPostId,
@@ -131,14 +147,7 @@ export function CreateNew() {
       }
     });
 
-    if (!updatePostError) {
-      updatePostSuccessToast({
-        title: 'Post saved!',
-        status: 'success',
-        duration: 2000,
-        isClosable: true
-      });
-    } else {
+    if (updatePostError) {
       updatePostErrorToast({
         title: 'An error has occured.',
         description: 'There was an issue saving your note. Please try again.',
