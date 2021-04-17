@@ -1,28 +1,20 @@
 // removes the warnings from the terminal
-process.removeAllListeners("warning");
-const util = require("util");
 
 const dotenv = require("dotenv");
-const colors = require("colors");
-
 dotenv.config();
 
 const connectDB = require("./config/db");
 
-const passport = require("passport");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
 
 const mongoose = require("mongoose");
 connectDB();
 mongoose.set("returnOriginal", false);
 
-const usePassport = require("./config/passport");
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 
