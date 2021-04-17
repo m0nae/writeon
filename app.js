@@ -140,5 +140,6 @@ app.use(
   })
 );
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`.cyan));
+app.listen(process.env.PORT, () =>
+  console.log(`Listening on port ${PORT}`.cyan)
+);
