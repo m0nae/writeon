@@ -1,7 +1,11 @@
+import React, {useContext} from "react";
+import styles from "../mode-menu.module.scss";
+
 import {
   Box,
   Button,
   Center,
+  Divider,
   Menu,
   MenuButton,
   MenuItem,
@@ -16,13 +20,12 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
-import React, {useContext} from "react";
 
-import { ModeContext } from "../../contexts/ModeContext";
-import { PromptMode } from "../WritingModes/PromptMode/index";
-import { TimeLimitContext } from "../../contexts/TimeLimitContext";
-import { TimeLimitMode } from "../WritingModes/TimeLimitMode/index";
-import { WordCountMode } from "../WritingModes/WordCountMode/index";
+import { ModeContext } from "../../../contexts/ModeContext";
+import { PromptMode } from "../../WritingModes/PromptMode/index";
+import { TimeLimitContext } from "../../../contexts/TimeLimitContext";
+import { TimeLimitMode } from "../../WritingModes/TimeLimitMode/index";
+import { WordCountMode } from "../../WritingModes/WordCountMode/index";
 
 export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
   const {
@@ -31,7 +34,7 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
     numberInputRef,
     getWords,
   } = useContext(ModeContext);
-  const { activateCountdown } = useContext(TimeLimitContext);
+  const { activateCountdown, timeLimitNumberInputRef  } = useContext(TimeLimitContext);
 
   function handleModalCancel(mode) {
     onClose();
@@ -51,31 +54,38 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
         isCentered
         closeOnOverlayClick={false}
         motionPreset="slideInBottom"
-        size="sm"
+        size="xs"
         isOpen={isOpen}
         onClose={onClose}
         onEsc={() => handleModalCancel(mode)}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+          <ModalHeader pb="0.5rem">
+            {mode === "timeLimitMode" && "Time Limit Mode"}
+            {mode === "wordCountMode" && "Word Count Mode"}
+            {mode === "promptMode" && "Random Words Mode"}
+          </ModalHeader>
+          {/* <ModalCloseButton /> */}
+          <Divider style={{ width: "90%", margin: "0 auto" }} />
+          <ModalBody pt="1rem" pb="1rem">
+            {/* Try making this into just one component and have them change based on currently active mode */}
             {mode === "timeLimitMode" && (
-              <div className="menu-container">
-                <Box>
-                  <Text mt="8" textAlign="center">
-                    TIME LIMIT MODE.
+              <div>
+                  <Text m="0 auto">
+                    What would you like your time limit to be set to?
                   </Text>
-                  <Box textAlign="center">
+                  <Center>
+                  <Box className={styles['modal-body']}>
                     <TimeLimitMode />
                   </Box>
-                </Box>
+                  </Center>
               </div>
             )}
             {mode === "wordCountMode" && (
-              <div className="menu-container">
-                <Box mt="8">
+              <div>
+                  <Text m="0 auto">What would you like your word count goal to be?</Text>
+                  <Box className={styles['modal-body']}>
                   <Center>
                     <WordCountMode quillEditor={quillEditor} />
                   </Center>
@@ -83,14 +93,20 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
               </div>
             )}
             {mode === "promptMode" && (
-              <div className="menu-container">
-                <PromptMode />
+              <div>
+                <Text m="0 auto">How many words would you like to generate?</Text>
+                <Box className={styles['modal-body']}>
+                  <Center>
+                  <PromptMode />
+                    
+                  </Center>
+                </Box>
               </div>
             )}
           </ModalBody>
           <ModalFooter>
             <Button
-              colorScheme="blue"
+              variant="outline"
               mr={3}
               onClick={() => handleModalCancel(mode)}
             >
@@ -98,7 +114,7 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
             </Button>
             {mode === "wordCountMode" && (
               <Button
-                variant="ghost"
+                colorScheme="blue"
                 onClick={() => {
                   onClose();
                   modeDispatch({
@@ -112,16 +128,19 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
             )}
             {mode === "promptMode" && (
               <Button
+                colorScheme="blue"
                 onClick={() => {
                   onClose();
                   getWords();
                 }}
+                
               >
-                Generate Words
+                Generate
               </Button>
             )}
             {mode === "timeLimitMode" && (
               <Button
+                colorScheme="blue"
                 onClick={() => {
                   onClose();
                   activateCountdown();

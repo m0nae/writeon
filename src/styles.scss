@@ -9,18 +9,10 @@
   padding: 0;
 }
 
+
 .App {
   position: relative;
 }
-
-.wrapper {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
-  backface-visibility: hidden;
-}
-
-
 
 .container > h1 {
   margin-top: 1rem;
@@ -28,77 +20,12 @@
   font-size: 3rem;
 }
 
-
-
-
-h2 {
-  font-size: 2rem;
-}
-
+/* src\components\Posts\index.js */
 .post {
   margin: 1rem;
   padding: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
-}
-
-.user {
-  display: flex;
-}
-
-.name {
-  margin-right: 5px;
-}
-
-.post > p {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.heart-icon {
-  margin: inherit;
-  position: absolute;
-  top: 0;
-  right: 0;
-  fill: transparent;
-  /* transition: 0.1s ease-out; */
-  cursor: pointer;
-}
-
-.heart-icon:hover,
-.saved {
-  fill: red;
-  stroke: red;
-  transition: 0.1s ease-in;
-}
-
-/* .navbar {
-  background: #fff;
-  height: 80px;
-  display: flex;
-  position: sticky;
-  z-index: 100;
-  top: 0;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid grey;
-  box-shadow: 0px 4px 7px -1px rgba(0, 0, 0, 0.1);
-} */
-
-
-
-.login {
-  cursor: pointer;
-  position: absolute;
-  right: 7em;
-}
-
-.profile-icon {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  right: 3rem;
-  cursor: pointer;
 }
 
 .post-title {
@@ -115,12 +42,17 @@ div:focus {
 }
 
 .quill {
-  padding-bottom: 500px;
+  padding-bottom: 100px;
 }
 /* for the text inside quill editor */
 .ql-editor {
+  height: 70vh !important;
   font-size: 1rem;
   font-family: "Open Sans", sans-serif;
+}
+
+.ql-container {
+  height: 70%;
 }
 
 .modeSelection {
@@ -137,10 +69,6 @@ div:focus {
   margin-right: 1rem;
 }
 
-.words-list-wrapper {
-  display: flex;
-  justify-content: center;
-}
 
 .word-number-input {
   height: 2em;
@@ -176,49 +104,20 @@ div:focus {
   width: 100%;
 }
 
-.time-limit-progress-circle {
-  position: fixed !important;
-  bottom: 30px;
-  right: 40px;
-  z-index: 100;
-  /* left: 50px; */
-  /* margin-left: 94vw; */
-  /* margin-top: 68vh; */
-}
+// .chakra-menu__menu-button {
+//   svg {
+//     display: block;
+//     width: 0.2em;
+//   }
+//   display: block;
+// }
 
-.editor-container {
-  padding-top: 3rem;
-  margin: 0 28vw;
-}
+//  css-d27oew
 
-.editor-left-chevron {
-  width: 3rem;
-  height: 3rem;
-  cursor: pointer;
-}
 
-.menu-icon {
-  width: 1.8rem;
-  height: 1.8rem;
-  cursor: pointer;
-  margin-right: 63px;
-  margin-left: 1rem;
-  margin-top: 5px;
-}
 
-.lightbulb {
-  margin-right: 50px;
-}
 
-.header {
-  position: sticky;
-  z-index: 100;
-  top: 0;
-  background: white;
-  border-bottom: 1px solid whitesmoke;
-  height: 82px;
-  padding: 0 4rem !important;
-}
+
 
 .logo {
   font-family: "Montserrat", sans-serif;
@@ -226,9 +125,7 @@ div:focus {
   font-weight: 800;
 }
 
-.writeOn {
-  height: 90px;
-}
+
 
 /* .header.css-1atmffo {
   padding: 0 4rem;
@@ -256,10 +153,6 @@ div:focus {
   transform: rotate(50deg);
 } */
 
-.save-btn {
-  padding: 0rem 5rem;
-  margin-left: 1rem;
-}
 
 .mode-menu-option {
   color: RGBA(0, 0, 0, 0.5);
@@ -270,16 +163,11 @@ div:focus {
   margin-right: 15px;
 }
 
-/* menu list */
+/* "delete post" popup in createnew page header */
 .css-r6z5ec {
   z-index: 100;
 }
 
-.container {
-  /* margin: 0 auto; */
-  padding: 5rem 0 2rem 0;
-  /* width: 90vw; */
-}
 
 /* HOME PAGE */
 
@@ -308,23 +196,11 @@ div:focus {
   width: 89%;
   max-width: 1310px;
   margin: 0 auto;
+  margin-bottom: 1rem;
 }
 
-.list-view-icon {
-  height: 2rem;
-  width: 2rem;
-  color: #9e9e9e;
-  cursor: pointer;
-}
 
-.ascending-icon {
-  margin-top: 4px;
-  margin-right: 1rem;
-  height: 1.8rem;
-  width: 1.8rem;
-  color: #9e9e9e;
-  cursor: pointer;
-}
+
 
 @media screen and (max-width: 1517px) {
   .grid-view {

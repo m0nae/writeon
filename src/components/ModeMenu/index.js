@@ -1,7 +1,9 @@
+import styles from "./mode-menu.module.scss"
 import {
   Box,
   Button,
   Center,
+  IconButton,
   Menu,
   MenuButton,
   MenuCommand,
@@ -23,11 +25,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MdChevronRight, MdExpandMore } from "react-icons/md";
+import { IoOptions } from "react-icons/io5";
 import React, { useContext } from "react";
 
 import { ModeContext } from "../../contexts/ModeContext";
-import { ModeMenuItem } from "./ModeMenuItem.js";
-import { ModeModal } from "./ModeModal.js";
+import { ModeMenuItem } from "./ModeMenuItem/ModeMenuItem.js";
+import { ModeModal } from "./ModeModal/ModeModal.js";
 import { PromptMode } from "../WritingModes/PromptMode";
 import { TimeLimitContext } from "../../contexts/TimeLimitContext";
 import { TimeLimitMode } from "../WritingModes/TimeLimitMode";
@@ -42,20 +45,21 @@ export function DropdownModeMenu() {
       <Menu
         closeOnSelect={false}
         closeOnBlur={isModalOpen ? false : true}
-        className="dropdown"
         >
         {( {isOpen} ) => (
           <>
+        
         <MenuButton
           as={Button}
           isActive={isOpen}
           variant="outline"
           rightIcon={isOpen ? <MdExpandMore /> : <MdChevronRight />}
+          className={styles['dropdown-menu']}
         >
           Modes
         </MenuButton>
-        <MenuList className="dropdown">
-          <div className="main-menu">
+        <MenuList>
+          <div>
             <ModeMenuItem
               currentMode="timeLimitMode"
               onOpen={onOpen}

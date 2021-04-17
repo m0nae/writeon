@@ -1,3 +1,5 @@
+import styles from "./home.module.scss";
+
 import {
   Box,
   Center,
@@ -10,25 +12,42 @@ import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
-import { GET_ALL_POSTS } from "../gql";
-import { Layout } from "../Layout";
+import { GET_ALL_POSTS, DELETE_POST } from "../../gql";
+import { Layout } from "../../Layout";
 import { MdList } from "react-icons/md";
+import { RiLayoutGridFill } from "react-icons/ri";
 import { HiSortDescending, HiSortAscending } from "react-icons/hi";
-import { ModeContext } from "../contexts/ModeContext";
-import { NoteCard } from "../components/NoteCard";
-import { UserContext } from "../contexts/UserContext";
+import { ModeContext } from "../../contexts/ModeContext";
+import { NoteCard } from "../../components/NoteCard";
+import { UserContext } from "../../contexts/UserContext";
 import { useHistory } from "react-router-dom";
+import { Loading } from "../Loading";
+import { SearchContext } from "../../contexts/SearchContext";
+import { SearchResults } from "../SearchResults";
+
+import { AlertDialog } from "../../components/AlertDialog";
+import { OptionsMenuContext } from "../../contexts/OptionsMenuContext";
 
 export function Home(props) {
   const { user } = useContext(UserContext);
+  const { initialState, modeDispatch } = useContext(ModeContext);
+  const { searchBarFocused, searchInput, setSearchInput } = useContext(SearchContext);
+  const { isDeleteAlertOpen, deleteAlertRef, closeDeleteAlert, deletePostErrorT } = useContext(OptionsMenuContext)
+
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
   const history = useHistory();
-  const { initialState, modeDispatch } = useContext(ModeContext);
 
   const [gridView, setGridView] = useState(true);
   const [sortBy, setSortBy] = useState("dateModified");
   const [sortOrder, setSortOrder] = useState("descending");
+
+  const [refresh, setRefresh] = useState(false);
+
+  const [clickedPostId, setClickedPostId] = useState();
+
+
+  // const clickedPostId = x;
 
   const {error: allPostsError, loading: allPostsLoading, data: allPostsData, refetch: refetchAllPosts} = useQuery(GET_ALL_POSTS, {
     onCompleted: (GET_ALL_POSTS) => {
@@ -36,29 +55,18 @@ export function Home(props) {
       setPosts(GET_ALL_POSTS.posts);
       setLoading(false);
       console.log(GET_ALL_POSTS.posts);
+      
     },
-    fetchPolicy: "network-only"
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true
   });
 
-  useEffect(() => {
-    if (!user) {
-      history.push("/login");
+  const [deletePost, {error: deletePostError} ] = useMutation(DELETE_POST, {
+    variables: { id: clickedPostId },
+    onCompleted: (deletePost) => {
+      console.log('Post deleted!');
     }
-  }, [user]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
-  }, [])
-
-  // useEffect(() => {
-  //   refetchAllPosts();
-  // }, [])
-
-  // useEffect(() => {
-  //   refetchAllPosts();
-  // }, [props.location])
+  })
 
   function sortPosts(a, b, property) {
     if (property === "title") {
@@ -79,6 +87,48 @@ export function Home(props) {
       return (sortOrder === "ascending" ? date1 - date2 : date2 - date1);
     }
   }
+
+  async function handleDelete() {
+    await deletePost({
+      variables: {
+        id: clickedPostId
+      }
+    });
+
+    closeDeleteAlert();
+
+    if (deletePostError) {
+      deletePostErrorT();
+    }
+
+    refetchAllPosts();
+  }
+
+  useEffect(() => {
+    if (!user) {
+      history.push("/login");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      setSearchInput("");
+    }
+  }, [])
+
+  // useEffect(() => {
+  //   refetchAllPosts();
+  // }, [])
+
+  // useEffect(() => {
+  //   refetchAllPosts();
+  // }, [props.location])
 
  
   
@@ -113,17 +163,9 @@ export function Home(props) {
 
   return (
     <>
-      {loading ? 
+      {loading || posts === null ? 
       (
-        <Center mt="50vh">
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
-        </Center>
+        <Loading />
       )
       :
       (
@@ -131,14 +173,22 @@ export function Home(props) {
           <Box
             className="home-layout"
           >
+
+          <AlertDialog 
+            isOpen={isDeleteAlertOpen}
+            leastDestructiveRef={deleteAlertRef}
+            onClose={closeDeleteAlert}
+            isCentered
+            deleteAlertRef={deleteAlertRef}
+            closeDeleteAlert={() => closeDeleteAlert()}
+            handleDelete={() => handleDelete()}
+          />
           
-              
           <Flex mb="1rem" justifyContent="flex-end" className="view-menu">
             <Select 
             width="180px" 
             justifySelf="end" 
             mr="1rem" 
-            
             onChange={(e) => setSortBy(e.target.value)}
             >
               <option value="dateModified">Date Last Edited</option>
@@ -149,15 +199,26 @@ export function Home(props) {
               onClick={sortOrder === "ascending" ? () => setSortOrder("descending") : () => setSortOrder("ascending")}
             >
               {sortOrder === "ascending" 
-              ? <HiSortAscending className="ascending-icon" />
-              : <HiSortDescending className="ascending-icon"
+              ? <HiSortAscending aria-label="Ascending" title="Ascending" className={styles['ascending-icon']} />
+              : <HiSortDescending aria-label="Descending" title="Descending" className={styles['ascending-icon']}
               />
             }
             </Box>
             <Box>
-              <MdList onClick={() => setGridView(!gridView)} className="list-view-icon" />
+              {
+                gridView ?
+                <MdList aria-label="List view" title="List view" onClick={() => setGridView(!gridView)} className={styles['list-view-icon']} />
+                :
+                <RiLayoutGridFill aria-label="Grid view" title="Grid view" onClick={() => setGridView(!gridView)} className={styles['grid-view-icon']} />  
+              }
             </Box>
           </Flex>
+          {searchInput && searchInput.length > 2 ? 
+            <SearchResults
+            posts={posts}
+            gridView={gridView}
+            />
+          :
           <Box className={gridView ? "grid-view" : "list-view"}>
               { posts && posts.map((post) => {
                 
@@ -166,11 +227,13 @@ export function Home(props) {
                   _id={post._id}
                   title={post.title}
                   textContent={post.textContent && post.textContent}
-                  // onClick={onClick}
+                  gridView={gridView}
+                  setClickedPostId={setClickedPostId}
                 />
               })
               }
             </Box>
+          }
          
           </Box>
         </Layout>

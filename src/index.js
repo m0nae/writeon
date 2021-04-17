@@ -7,6 +7,7 @@ import {
 } from "@apollo/client";
 
 import App from "./App";
+import "focus-visible/dist/focus-visible";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ModeProvider } from "./contexts/ModeContext";
 import { SearchProvider } from "./contexts/SearchContext";

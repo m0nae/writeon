@@ -1,9 +1,12 @@
+import styles from "../writing-modes.module.scss"
 import {
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Text,
+  HStack
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
@@ -21,8 +24,9 @@ export function PromptMode() {
   
   return (
     <>
-      <div className="words-list-wrapper">
+      <HStack>
         <NumberInput
+          className={styles['number-input']}
           allowMouseWheel
           size="md"
           maxW={24}
@@ -37,9 +41,9 @@ export function PromptMode() {
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
-        <p>words</p>
+        <Text>words</Text>
         {promptModeError && <p>{promptModeError.errorMessage}</p>}
-      </div>
+        </HStack>
     </>
   );
 }

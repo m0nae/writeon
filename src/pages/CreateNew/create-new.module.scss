@@ -1,0 +1,37 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  backface-visibility: hidden;
+  // display: flex;
+}
+
+.editor-container {
+  max-width: 840px;
+  padding-top: 3rem;
+  margin: 0 auto;
+  // align-self: center;
+  // justify-self: center;
+  @media (max-width: 1280px) {
+    margin: 0 18vw;
+  }
+
+  @media (max-width: 768px) {
+    margin: 0 15vw;
+  }
+}
+
+.time-limit-circle {
+  position: fixed !important;
+  bottom: 30px;
+  right: 40px;
+  z-index: 100;
+  /* left: 50px; */
+  /* margin-left: 94vw; */
+  /* margin-top: 68vh; */
+  // font-size: 9rem;
+
+  @media (max-width: 320px) {
+    right: 15px;
+  }
+}
