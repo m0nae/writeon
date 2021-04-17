@@ -1,5 +1,4 @@
-// removes the warnings from the terminal
-
+const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
 
