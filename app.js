@@ -1,9 +1,9 @@
-// remove the warnings from the terminal
-process.removeAllListeners('warning')
-const util = require('util');
+// removes the warnings from the terminal
+process.removeAllListeners("warning");
+const util = require("util");
 
 const dotenv = require("dotenv");
-const colors = require('colors');
+const colors = require("colors");
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ const typeDefs = require("./schema/schema");
 const resolvers = require("./resolvers/index");
 const { graphqlHTTP } = require("express-graphql");
 
-const { makeExecutableSchema } = require('graphql-tools')
+const { makeExecutableSchema } = require("graphql-tools");
 
 const app = express();
 
@@ -47,19 +47,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.post("/login", (req, res, next) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  let username = req.body.username.trim();
+  let password = req.body.password.trim();
 
   User.findOne({ username: username }, async (err, user) => {
     try {
       if (err) {
-        throw err;
+        throw new Error(err);
       }
 
       if (!user) {
-        throw `There is no user with that username.`;
+        res.redirect("http://localhost:3000/login");
+        throw new Error(`There is no user with that username.`);
       }
-      if (!(await bcrypt.compare(password, user.password))) {
+
+      if (
+        !(
+          password === user.password ||
+          (await bcrypt.compare(password, user.password))
+        )
+      ) {
+        res.redirect("http://localhost:3000/login");
         throw `Incorrect password!`;
       } else {
         let privateKey = process.env.SECRET_JWT_KEY;
@@ -67,7 +75,6 @@ app.post("/login", (req, res, next) => {
           { username: user._doc.username, _id: user._doc._id },
           privateKey
         );
-        // console.log(token);
         res.cookie("jwt", token, { httpOnly: true });
         res.redirect("http://localhost:3000");
       }
@@ -80,8 +87,11 @@ app.post("/login", (req, res, next) => {
 app.get("/logout", (req, res, next) => {
   try {
     if (req.cookies.jwt) {
-      res.clearCookie("jwt", { domain: "localhost", path: "/", httpOnly: true })
-      console.log('cookie deleted!');
+      res.clearCookie("jwt", {
+        domain: "localhost",
+        path: "/",
+        httpOnly: true,
+      });
       res.sendStatus(200);
     } else {
       throw new Error("There is no logged in user!");
@@ -89,40 +99,33 @@ app.get("/logout", (req, res, next) => {
   } catch (err) {
     throw err;
   }
-})
+});
 
-// turn this jwt.verify into its own fn so i can use it inside of /current AND /graphql
 app.get("/current", function (req, res) {
-  console.log(`/current endpoint accessed`);
-
   let token = req.cookies.jwt;
   if (!token) {
     return res.json(false);
   } else {
     let payload = jwt.verify(token, process.env.SECRET_JWT_KEY);
-    console.log(`JWT payload: ${util.inspect(payload)}`);
     return res.json(payload);
   }
-  // let user = req.user
 });
 
-app.use('/graphql', (req, res, next) => {
+app.use("/graphql", (req, res, next) => {
   try {
     let token = req.cookies.jwt;
     if (!token) {
-      throw new Error('No user is logged in.');
+      throw new Error("No user is logged in.");
     } else {
       let payload = jwt.verify(token, process.env.SECRET_JWT_KEY);
       let { username, _id } = payload;
       req.user = { username, _id };
-      console.log(req.user);
       next();
     }
-
   } catch (err) {
     throw err;
   }
-})
+});
 
 const schema = makeExecutableSchema({
   typeDefs,
@@ -130,10 +133,10 @@ const schema = makeExecutableSchema({
 });
 
 app.use(
-  '/graphql',
+  "/graphql",
   graphqlHTTP({
     schema: schema,
-    graphiql: true
+    graphiql: true,
   })
 );
 
