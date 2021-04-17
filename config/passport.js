@@ -31,12 +31,18 @@ module.exports = function usePassport(passport) {
 
   passport.serializeUser(function (user, done) {
     console.log("I serialized!");
+    console.log(user);
     done(null, user._id);
+    console.log("I serialized (afer)");
   });
 
   passport.deserializeUser(function (id, done) {
     console.log("I deserialized!");
     User.findById(id, function (err, user) {
+      user = {
+        username: user.username,
+        _id: user._id,
+      };
       done(err, user);
     });
   });

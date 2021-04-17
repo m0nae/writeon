@@ -7,13 +7,13 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  htmlContent: {
+  textContent: {
     type: String,
-    required: true,
+    required: false,
   },
   deltaContent: {
     type: String,
-    required: true,
+    required: false,
   },
   dateCreated: {
     type: String,

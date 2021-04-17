@@ -1,185 +1,164 @@
-const bcrypt = require("bcrypt");
-const validateUserInput = require("../utils/utils");
 const User = require("../models/User");
 const Post = require("../models/Post");
 
-const passport = require("passport");
+const resolvers = {
+  Query: {
+    getPostById: async (obj, { id }, context, info) => {
+      let post = await Post.findById(id).exec();
 
-const user = async (userId) => {
-  try {
-    let user = await User.findById(userId).exec();
-    return {
-      ...user._doc,
-      createdPosts: posts.bind(this, user.createdPosts),
-    };
-  } catch (err) {
-    throw err;
-  }
-};
-
-const posts = async (postIds) => {
-  try {
-    let posts = await Post.find({ _id: { $in: eventIds } }).exec();
-    posts.map((post) => {
-      return {
-        ...post._doc,
-        _id: post.id,
-        author: user.bind(this, post.author),
-      };
-    });
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports = {
-  posts: async (args, request) => {
-    try {
-      if (!request.user) {
-        throw `You must be logged in to view posts.`;
+      if (!post) {
+        throw new Error("This post does not exist");
       }
 
-      let posts = await Post.find({ author: request.user._id });
-      return posts.map((post) => {
-        return {
-          ...post._doc,
-          author: user.bind(this, post._doc.author),
+      let { author } = post._doc;
+      author = author.toString();
+
+      if (author !== context.user._id) {
+        throw new Error("You are not authorized to view this post.");
+      }
+
+      return post._doc;
+    },
+
+    posts: (obj, args, context, info) => {
+      try {
+        let authorId = context.user._id;
+        let posts = Post.find({ author: authorId }).exec();
+
+        return posts;
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
+
+  Mutation: {
+    createPost: async (obj, { title }, context) => {
+      console.log("CREATE POST MUTATION RAN");
+      try {
+        if (title.length > 80) {
+          throw new Error(
+            "Title is too long. Maximum length is 80 characters."
+          );
+        }
+
+        if (title.length <= 0) {
+          throw new Error(
+            "Title is too short. Titles must be at least 1 character."
+          );
+        }
+
+        let post = new Post({
+          title: title,
+          author: context.user._id,
+          dateCreated: new Date(new Date().toISOString()),
+        });
+        let newPost = await post.save();
+        let author = await User.findById(context.user._id).exec();
+
+        author.createdPosts.push(post);
+        author.save();
+
+        return newPost;
+      } catch (err) {
+        throw err;
+      }
+    },
+
+    updatePost: async (obj, args, request) => {
+      try {
+        let post = await Post.findById(args.id).exec();
+        let { author } = post._doc;
+        author = author.toString();
+
+        if (author !== request.user._id) {
+          throw new Error("You are not authorized to update this note.");
+        }
+
+        if (args.postInput.length > 20000) {
+          throw new Error(
+            "Post too long. It must be less than 20,000 characters."
+          );
+        }
+        let postInput = {
+          ...args.postInput,
+          dateModified: new Date(new Date().toISOString()),
         };
-      });
-    } catch (err) {
-      throw err;
-    }
-  },
 
-  getPostById: async (args) => {
-    try {
-      let post = await Post.findOne({ _id: args.id });
-      return {
-        ...post._doc,
-        author: user.bind(this, post._doc.author),
-      };
-    } catch (err) {
-      throw err;
-    }
-  },
+        let updatedPost = await Post.findOneAndUpdate(
+          { _id: args.id },
+          postInput
+        );
 
-  createPost: async (args, request) => {
-    try {
-      if (!request.user) {
-        throw `You must be logged in to create an entry.`;
+        return updatedPost._doc;
+      } catch (err) {
+        throw err;
       }
-      let post = new Post({
-        title: args.postInput.title,
-        htmlContent: args.postInput.htmlContent,
-        deltaContent: args.postInput.deltaContent,
-        dateCreated: new Date(new Date().toISOString()),
-        author: request.user._id,
-      });
+    },
 
-      let createdPost = post.save();
-      createdPost = {
-        ...post._doc,
-        author: user.bind(this, post._doc.author),
-        dateCreated: new Date(post._doc.dateCreated).toISOString(),
-      };
+    deletePost: async (obj, { id }, request) => {
+      try {
+        let post = await Post.findById(id).exec();
+        let { author } = post._doc;
+        author = author.toString();
 
-      let author = await User.findById(request.user._id).exec();
-      author.createdPosts.push(post);
-      author.save();
+        if (author !== request.user._id) {
+          throw new Error("You are not authorized to delete this note.");
+        } else {
+          let removedPost = await Post.findByIdAndRemove(id).exec();
 
-      return createdPost;
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  updatePost: async (args, request) => {
-    try {
-      let newInput = {
-        ...args.postInput,
-        dateModified: new Date(new Date().toISOString()),
-      };
-
-      let updatedPost = await Post.findOneAndUpdate({ _id: args.id }, newInput);
-
-      if (updatedPost.author._id !== request.user._id) {
-        throw `You are not authorized to edit this post.`;
+          return removedPost._doc;
+        }
+      } catch (err) {
+        throw err;
       }
-
-      return updatedPost;
-    } catch (err) {
-      throw err;
-    }
+    },
   },
 
-  deletePost: async (args) => {
-    try {
-      let deletedPost = Post.findByIdAndRemove(args.id);
-      return deletedPost;
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  createUser: async (args) => {
-    let inputs = {
-      email: args.userInput.email,
-      username: args.userInput.username,
-      password: args.userInput.password,
-    };
-
-    const userInput = new validateUserInput(inputs);
-
-    try {
-      userInput.areInputsFilled();
-      userInput.isPasswordStrong();
-      userInput.isUsernameLengthValid();
-      await userInput.isUsernameAvailable();
-      await userInput.isEmailAvailable();
-
-      let user = {
-        email: inputs.email,
-        username: inputs.username,
-        password: inputs.password,
-      };
-
-      let hashedPassword = await bcrypt.hash(user.password, 12);
-      user.dateCreated = new Date(new Date().toISOString());
-      user.dateModified = user.dateCreated;
-
-      user = await new User({
-        ...user,
-        password: hashedPassword,
-      });
-
-      let createdUser = await user.save();
-
-      createdUser = {
-        ...user._doc,
-      };
-      return createdUser;
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  login: async (args, request) => {
-    try {
-      passport.authenticate("local");
-      const user = await User.findOne({ username: args.login.username });
-
-      if (!user) {
-        throw `There is no user with that username.`;
+  User: {
+    createdPosts: (author) => {
+      try {
+        return ["post 1", "post 2", "post 3"];
+      } catch (err) {
+        throw err;
       }
+    },
+  },
 
-      if (!(await bcrypt.compare(args.login.password, user.password))) {
-        throw `Incorrect password.`;
+  Post: {
+    __resolveType(obj, context, info) {
+      if (obj.dateModified) {
+        return "ExistingPost";
       } else {
-        request.login({ ...user._doc }, (error) => (error ? error : user));
-        return user;
+        return "NewPost";
       }
-    } catch (err) {
-      throw err;
-    }
+    },
+  },
+
+  ExistingPost: {
+    author: async (post) => {
+      try {
+        let authorId = post.author;
+        let user = await User.findById(authorId).exec();
+        return user._doc;
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
+
+  NewPost: {
+    author: async (post) => {
+      try {
+        let authorId = post.author;
+        let user = await User.findById(authorId).exec();
+
+        return user._doc;
+      } catch (err) {
+        throw err;
+      }
+    },
   },
 };
+
+module.exports = resolvers;

@@ -1,65 +1,50 @@
-const { buildSchema } = require("graphql");
+const typeDefs = `
 
-module.exports = buildSchema(`
-type Post {
-  _id: ID!
-  title: String!
-  htmlContent: String!
-  deltaContent: String!
-  dateCreated: String!
-  dateModified: String
-  author: User
-}
+  type NewPost {
+    _id: ID!
+    title: String!
+    dateCreated: String!
+    author: User!
+  }
+  
+  type ExistingPost {
+    _id: ID!
+    title: String!
+    author: User!
+    dateCreated: String!
+    dateModified: String
+    deltaContent: String
+    textContent: String
+  }
+  
+  union Post = NewPost | ExistingPost
+  
+  type User {
+    _id: ID!
+    username: String!
+    password: String
+    email: String!
+    createdPosts: [Post]
+    savedPosts: [Post]
+  }
 
-type User {
-  _id: ID!
-  username: String!
-  password: String
-  email: String!
-  createdPosts: [Post!]
-  savedPosts: [Post!]
-}
+  input UpdatePostInput {
+    title: String
+    textContent: String
+    deltaContent: String
+  }
+  
+  type Query {
+    getPostById(id: ID!): Post!
+    posts: [Post!]!
+  }
+  
+  type Mutation {
+    createPost(title: String!): NewPost!
+    updatePost(postInput: UpdatePostInput, id: ID!): ExistingPost!
+    deletePost(id: ID!): Post!
+  }
+ 
+`;
 
-input CreatePostInput {
-  title: String!
-  htmlContent: String!
-  deltaContent: String!
-}
-
-input UpdatePostInput {
-  title: String
-  htmlContent: String
-  deltaContent: String
-}
-
-input CreateUserInput {
-  username: String!
-  password: String!
-  email: String!
-}
-
-input LoginInput {
-  username: String!
-  password: String!
-}
-
-type RootQuery {
-  getPostById(id: ID!): Post
-  posts: [Post!]!
-  savedPosts: [Post]!
-  me: User!
-}
-
-type RootMutation {
-  createUser(userInput: CreateUserInput): User
-  login(login: LoginInput): User
-  createPost(postInput: CreatePostInput): Post
-  updatePost(postInput: UpdatePostInput, id: ID!): Post
-  deletePost(id: ID!): Post
-}
-
-schema {
-  query: RootQuery,
-  mutation: RootMutation
-}
-`);
+module.exports = typeDefs;
