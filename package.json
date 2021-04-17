@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "15.x"
+  },
   "scripts": {
     "start": "node app.js",
     "test": "jest"
@@ -31,5 +34,8 @@
   "devDependencies": {
     "colors": "^1.4.0",
     "nodemon": "^2.0.7"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
