@@ -39,10 +39,8 @@ export function Home() {
     GET_ALL_POSTS,
     {
       onCompleted: (GET_ALL_POSTS) => {
-        console.log('get all posts query ran');
         setPosts(GET_ALL_POSTS.posts);
         setLoading(false);
-        console.log(GET_ALL_POSTS.posts);
       },
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true
@@ -50,10 +48,7 @@ export function Home() {
   );
 
   const [deletePost, { error: deletePostError }] = useMutation(DELETE_POST, {
-    variables: { id: clickedPostId },
-    onCompleted: () => {
-      console.log('Post deleted!');
-    }
+    variables: { id: clickedPostId }
   });
 
   function sortPosts(a, b, property) {
@@ -119,15 +114,12 @@ export function Home() {
           let sortedCreatedDates = posts
             .slice()
             .sort((a, b) => sortPosts(a, b, 'dateCreated'));
-          console.log(sortedCreatedDates);
           setPosts(sortedCreatedDates);
           break;
         case 'dateModified':
           let sortedModifiedDates = posts
             .slice()
             .sort((a, b) => sortPosts(a, b, 'dateModified'));
-          console.log(sortedModifiedDates);
-          console.log(sortOrder);
           setPosts(sortedModifiedDates);
           break;
         default:

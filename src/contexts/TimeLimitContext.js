@@ -32,7 +32,6 @@ export function TimeLimitProvider(props) {
         return;
       }
       timeLimitDispatch({ type: 'count', payload: count - 1 });
-      console.log(count);
     },
     count > 0 ? 1000 : null
   );

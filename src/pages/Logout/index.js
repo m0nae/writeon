@@ -5,8 +5,6 @@ import { Redirect } from 'react-router-dom';
 export function Logout() {
   const { user, setUser, loading } = useContext(UserContext);
 
-  //todo: if server error, display that error to user
-
   useEffect(() => {
     if (user) {
       fetch('http://localhost:5000/logout', { credentials: 'include' });

@@ -11,7 +11,6 @@
 
   .logo {
     font-family: 'Montserrat', sans-serif;
-    // background-size: 40px 60px;
     height: 80px;
     width: 120px;
     font-weight: 800;
@@ -46,10 +45,6 @@
 
 .header-menu-btn {
   font-size: 2rem !important;
-
-  &:hover {
-    // background-color: unset;
-  }
 }
 
 .modal-error {

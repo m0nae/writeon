@@ -13,20 +13,10 @@
     max-width: 1600px;
     margin: 0 auto;
 
-    // outline: 1px solid red;
-
     @media (max-width: 570px) {
       border-bottom: 2px solid whitesmoke;
       padding: 0 1.5rem 0 2rem;
     }
-
-    // @media (max-width: 370px) {
-    //   .css-17xejub {
-    //     display: none;
-    //   }
-    //   justify-content: center;
-    //   padding: 0 0.3rem;
-    // }
   }
 
   .landing-header-top {
@@ -37,9 +27,6 @@
 
 .writeon-landing {
   height: auto;
-  // width: 14vw;
-  // min-width: 14vw;
-  // max-width: 110px;
 
   @media (max-width: 400px) {
     display: none;
@@ -51,9 +38,6 @@
 }
 
 .writeon-logo {
-  // === FOR MAX-WIDTH 1440PX ===
-  // max-height: 158px;
-  // max-width: 210px;
   max-height: 123.24px;
   min-height: 123.24px;
   min-width: 163.8px;
@@ -64,14 +48,7 @@
   }
 }
 
-//whatever the width and heights are NOW are the MAXIMUM width and heights
-// figure what they are in terms of % or vw/vh
-
 .login {
-  // === FOR MAX-WIDTH 1440PX ===
-  // width: 154px;
-  // height: 65px;
-  // font-size: 32px;
   width: 120px;
   height: 50.65px;
   font-size: 25px;
@@ -97,11 +74,6 @@
 }
 
 .signup {
-  // === FOR MAX-WIDTH 1440PX ===
-  // width: 179px;
-  // height: 65px;
-  // font-size: 32px;
-
   width: 140px;
   height: 50.65px;
   font-size: 25px;
@@ -145,15 +117,12 @@
   width: 100%;
   background-color: #fff;
   border-bottom: 2px solid whitesmoke;
-  // display: none;
-  // position: sticky;
   position: fixed;
   top: 100px;
 
   .signup-mobile {
     width: 90%;
     height: 50px;
-    // outline: none;
     border: 2px solid #1d1b1b;
     border-radius: 6px;
     background-color: white;
@@ -162,8 +131,6 @@
     font-weight: 600;
 
     font-size: 1.1rem;
-
-    // margin-bottom: 1rem;
   }
 
   .login-mobile {
@@ -193,25 +160,20 @@
 .container {
   margin: 0 auto;
   width: 80%;
-  // max-height: 791px;
 }
 
 .header {
   font-family: 'Roboto', sans-serif;
-  // font-size: 5.5rem;
   line-height: 1;
   margin-bottom: 1rem;
   font-size: clamp(3.3rem, 6vw, 5.5rem);
   font-weight: 700;
   margin-top: 100px;
   text-align: center;
-  // display: absolute;
-  // line-height: 112.5px;
 }
 
 .subtitle {
   font-family: 'Roboto', sans-serif;
-  // font-size: 39px;
   font-size: clamp(2rem, 2.5vw, 2.45rem);
   font-weight: 400;
   text-align: center;
@@ -221,14 +183,11 @@
 }
 
 .hero {
-  // max-height: 1024px;
-  // overflow-y: hidden;
 }
 
 .hero-img {
   width: 93%;
   max-width: 1053px;
-  // height: 558px;
   border: 1px solid rgba(0, 0, 0, 0.21);
   border-radius: 5px;
   margin: 0 auto;
@@ -241,14 +200,6 @@
 
 .features {
   padding: 165px 0;
-  // background-color: #1d1d1b;
-
-  // p,
-  // h1,
-  // h2,
-  // h3 {
-  //   color: white;
-  // }
 }
 
 .features-container {
@@ -258,10 +209,8 @@
 }
 
 .feature {
-  // max-width: 987px;
   display: flex;
   margin-bottom: 104px;
-  // margin-right: 150px;
 
   @media (max-width: 990px) {
     flex-direction: column;
@@ -274,9 +223,7 @@
   max-width: 540px;
   width: 41.7%;
   max-height: 307px;
-  // height: 307px;
   height: auto;
-  // height: 90%;
   margin-right: 62px;
   border: 1px solid rgba(0, 0, 0, 0.21);
   border-radius: 5px;
@@ -287,7 +234,6 @@
   }
 
   @media (max-width: 569px) {
-    // max-width: 100px;
     min-width: 80%;
   }
 }

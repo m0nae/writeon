@@ -30,7 +30,6 @@ import {
   useDisclosure,
   useToast
 } from '@chakra-ui/react';
-import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { BsThreeDots } from 'react-icons/bs';
 import { generatePath } from 'react-router';
 import { Redirect } from 'react-router-dom';
@@ -43,7 +42,6 @@ import { CREATE_POST } from './gql.js';
 
 export function Layout({ children }) {
   const [redirectToLogout, setRedirectToLogout] = useState(false);
-  const createPostErrorToast = useToast();
   const { setNewPost } = useContext(NewPostContext);
   const { setSearchInput, setSearchBarFocused } = useContext(SearchContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -59,31 +57,11 @@ export function Layout({ children }) {
   });
 
   async function createNewPost() {
-    //todo: check post length. if too long or short, do yo thang and show them errors
     //todo: throw in an OnChange. if title length is < x, disable the button. but once long enough, enable the "Create note" button
     const newTitle = postTitleInput.current.value.toString();
 
     createPost({ variables: { title: newTitle } });
-
-    // if (createPostError) {
-    //   return createPostErrorToast({
-    //     title: 'An error has occurred.',
-    //     description: 'There was an issue creating your note. Please try again.',
-    //     status: 'error',
-    //     duration: 3000,
-    //     isClosable: true
-    //   });
-    // }
   }
-
-  // function logout() {
-  //   fetch("http://localhost:5000/logout")
-  //     .then(res => {
-  //       if (res.status(200)) {
-  //         setRed
-  //       }
-  //     })
-  // }
 
   function handleInput(e) {
     setSearchInput(e.target.value);

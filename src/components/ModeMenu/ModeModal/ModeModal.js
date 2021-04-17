@@ -61,10 +61,8 @@ export function ModeModal({ isOpen, onClose, mode, quillEditor }) {
             {mode === 'wordCountMode' && 'Word Count Mode'}
             {mode === 'promptMode' && 'Random Words Mode'}
           </ModalHeader>
-          {/* <ModalCloseButton /> */}
           <Divider style={{ width: '90%', margin: '0 auto' }} />
           <ModalBody pt="1rem" pb="1rem">
-            {/* Try making this into just one component and have them change based on currently active mode */}
             {mode === 'timeLimitMode' && (
               <div>
                 <Text m="0 auto">

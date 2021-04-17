@@ -1,6 +1,5 @@
 import './styles.scss';
 
-import { Center, Spinner } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 

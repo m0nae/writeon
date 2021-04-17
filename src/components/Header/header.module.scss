@@ -1,3 +1,10 @@
+:global {
+  .css-d27oew {
+    margin-left: 8rem;
+    display: absolute !important;
+  }
+}
+
 .header {
   justify-content: space-between;
   width: 100%;
@@ -65,8 +72,6 @@
 }
 
 .save-btn {
-  // padding: 0rem 2rem;
-  // margin-left: 1rem;
   justify-self: center;
   align-self: center;
   @media (max-width: 569px) {
@@ -105,11 +110,4 @@
 .menu-icon {
   font-size: 1.8rem;
   margin-left: 0.5rem;
-}
-
-:global {
-  .css-d27oew {
-    margin-left: 8rem;
-    display: absolute !important;
-  }
 }

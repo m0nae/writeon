@@ -66,7 +66,6 @@ export function CreateNew() {
     { error: updatePostError, loading: updatePostLoading }
   ] = useMutation(UPDATE_POST, {
     onCompleted: () => {
-      console.log('Post updated!');
       updatePostSuccessToast({
         title: 'Post saved!',
         status: 'success',
@@ -89,7 +88,6 @@ export function CreateNew() {
   const [deletePost, { error: deletePostError }] = useMutation(DELETE_POST, {
     variables: { id: currentPostId },
     onCompleted: () => {
-      console.log('Post deleted!');
       setRedirectToHome(true);
     }
   });
@@ -170,10 +168,6 @@ export function CreateNew() {
     if (deletePostError) {
       deletePostErrorT();
     }
-
-    // else {
-    //   setRedirectToHome(true);
-    // }
   }
 
   function goBack() {
@@ -191,18 +185,11 @@ export function CreateNew() {
 
     if (words) {
       modeDispatch({ type: 'wordCount', payload: words.length });
-    } else {
-      console.log('0 words');
     }
   }
 
-  //TODO: in the return statement... am I rendering two components at once if I redirect the user to dashboard, since I'd render both the <Redirect to=""> AND the other contents of the damn CreateNew component? :O
-  //! test this out immediately and figure it out. fix it/do a ternary operator instead!!!
-
-  //todo: and plus, if there's an error, redirect to an error page!
   return (
     <>
-      {/* if there's an error, redirect to an error page instead */}
       {(redirectToHome || currentPostError) && (
         <Redirect push to="/dashboard" />
       )}

@@ -22,19 +22,9 @@ const httpLink = createHttpLink({
   credentials: 'include'
 });
 
-//todo: THIS ERROR LINK IS FOR DEBUGGING PURPOSES, remove for production
-const errorLink = onError(({ graphQLErrors }) => {
-  if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-});
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([errorLink, httpLink])
+  link: ApolloLink.from([httpLink])
 });
 
 export default function Compose(props) {

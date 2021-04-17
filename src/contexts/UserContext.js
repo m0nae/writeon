@@ -6,7 +6,6 @@ export function UserProvider(props) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(!user);
 
-  //todo: the code below should still work as intended
   useEffect(() => {
     setLoading(user === null ? true : false);
   }, [user]);
@@ -19,7 +18,6 @@ export function UserProvider(props) {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setUser(data);
       });
   }, []);
