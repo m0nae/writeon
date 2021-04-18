@@ -16,11 +16,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { TimeLimitProvider } from "./contexts/TimeLimitContext";
 import { UserProvider } from "./contexts/UserContext";
-import { onError } from 'apollo-link-error'
+import { onError } from "apollo-link-error";
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
-  credentials: 'include'
+  uri: "https://writeon-app.herokuapp.com/graphql",
+  credentials: "include",
 });
 
 //! ERROR LINK FOR DEBUGGING PURPOSES
@@ -31,11 +31,11 @@ const errorLink = onError(({ graphQLErrors, networkError, response }) => {
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
     );
-})
+});
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([errorLink, httpLink])
+  link: ApolloLink.from([errorLink, httpLink]),
 });
 
 export default function Compose(props) {
@@ -59,7 +59,7 @@ ReactDOM.render(
           ModeProvider,
           SearchProvider,
           TimeLimitProvider,
-          NewPostProvider
+          NewPostProvider,
         ]}
       >
         <App />

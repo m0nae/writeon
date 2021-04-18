@@ -17,7 +17,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { HiOutlinePencilAlt } from "react-icons/hi"
+import { HiOutlinePencilAlt } from "react-icons/hi";
 import React, { useContext, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 
@@ -25,30 +25,33 @@ import { CREATE_POST } from "./gql.js";
 import { Header } from "./components/Header";
 import { NewPostContext } from "./contexts/NewPostContext";
 import { SearchContext } from "./contexts/SearchContext";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { generatePath } from "react-router";
 import writeOn from "./components/Header/writeon.svg";
 
 export function Layout({ children }) {
   const { newPost, setNewPost } = useContext(NewPostContext);
-  const { setSearchInput, searchBarFocused, setSearchBarFocused } = useContext(SearchContext);
+  const { setSearchInput, searchBarFocused, setSearchBarFocused } = useContext(
+    SearchContext
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
   const postTitleInput = useRef();
-  const [createPost, {error: createPostError, loading, data, called }] = useMutation(CREATE_POST, {
+  const [
+    createPost,
+    { error: createPostError, loading, data, called },
+  ] = useMutation(CREATE_POST, {
     onCompleted: (createPost) => {
-
       if (!createPostError) {
-       onClose();
+        onClose();
       }
-      
-      setNewPost({id: createPost.createPost._id});
-      
-    }
+
+      setNewPost({ id: createPost.createPost._id });
+    },
   });
 
   async function createNewPost() {
     const newTitle = postTitleInput.current.value.toString();
-    
+
     createPost({ variables: { title: newTitle } });
 
     if (createPostError) {
@@ -58,7 +61,7 @@ export function Layout({ children }) {
         status: "error",
         duration: 3000,
         isClosable: true,
-      })
+      });
     }
   }
 
@@ -68,42 +71,56 @@ export function Layout({ children }) {
 
   return (
     <>
-    { called && data && <Redirect push to={generatePath("/write/:id", {
-      id: data.createPost._id
-    }
-    )} /> }
-      <Header className={styles['header']}>
-        <Box as="a" href="http://localhost:3000/" className="logo">
-          <img src={writeOn} className={styles['writeon']} />
+      {called && data && (
+        <Redirect
+          push
+          to={generatePath("/write/:id", {
+            id: data.createPost._id,
+          })}
+        />
+      )}
+      <Header className={styles["header"]}>
+        <Box as="a" href="https://writeon-app.herokuapp.com/" className="logo">
+          <img src={writeOn} className={styles["writeon"]} />
         </Box>
         <InputGroup width="70%">
-            <Input 
-              placeholder="Search" 
-              bg="#efefef" 
-              border="none" 
-              width="70%" 
-              maxW="1000px" 
-              m="0 auto" 
-              size="lg"
-              onChange={(e) => handleInput(e)}
-              onFocus={(e) => setSearchBarFocused(true)}
-              onBlur={(e) => setSearchBarFocused(false)}
-              _focus={{
-                backgroundColor: "#ffffff",
-                shadow: "xs"
-              }} 
-            />
-          </InputGroup>
+          <Input
+            placeholder="Search"
+            bg="#efefef"
+            border="none"
+            width="70%"
+            maxW="1000px"
+            m="0 auto"
+            size="lg"
+            onChange={(e) => handleInput(e)}
+            onFocus={(e) => setSearchBarFocused(true)}
+            onBlur={(e) => setSearchBarFocused(false)}
+            _focus={{
+              backgroundColor: "#ffffff",
+              shadow: "xs",
+            }}
+          />
+        </InputGroup>
         {/* <Spacer /> */}
         <Box>
-          <IconButton aria-label="Create New Note" title="Create New Note" isRound icon={<HiOutlinePencilAlt />} onClick={onOpen} />
+          <IconButton
+            aria-label="Create New Note"
+            title="Create New Note"
+            isRound
+            icon={<HiOutlinePencilAlt />}
+            onClick={onOpen}
+          />
         </Box>
       </Header>
-      <div className={styles['container']}>
-        {children}
-      </div>
+      <div className={styles["container"]}>{children}</div>
 
-      <Modal size="sm" initialFocusRef={postTitleInput} isOpen={isOpen} onClose={onClose} isCentered >
+      <Modal
+        size="sm"
+        initialFocusRef={postTitleInput}
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create New Note</ModalHeader>
@@ -111,24 +128,22 @@ export function Layout({ children }) {
           <ModalCloseButton />
           <ModalBody>
             <div style={{ marginTop: "1rem" }}>
-            {!loading ? 
-              <div>
-              <p>Title</p>
-              <Input ref={postTitleInput} size="lg" />
-              {createPostError && <p>Error: Please try again.</p>}
-              </div>
-              :
-              
-              <Center>
-                <Spinner 
-                  thickness="4px"
-                  speed="0.65s"
-                  color="#9e9e9e"
-                  size="xl"
-                />
-              </Center>
-              
-            }
+              {!loading ? (
+                <div>
+                  <p>Title</p>
+                  <Input ref={postTitleInput} size="lg" />
+                  {createPostError && <p>Error: Please try again.</p>}
+                </div>
+              ) : (
+                <Center>
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    color="#9e9e9e"
+                    size="xl"
+                  />
+                </Center>
+              )}
             </div>
           </ModalBody>
 
@@ -149,7 +164,7 @@ export function Layout({ children }) {
 export function CreateNewLayout(props) {
   return (
     <>
-      <div className={styles['wrapper']}>{props.children}</div>
+      <div className={styles["wrapper"]}>{props.children}</div>
     </>
   );
 }
