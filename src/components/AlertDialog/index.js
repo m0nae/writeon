@@ -6,14 +6,13 @@ import {
   AlertDialogFooter,
   AlertDialogContent,
   Button
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export function AlertDialog(props) {
   const {
     isOpen,
     leastDestructiveRef,
     onClose,
-    isCentered,
     deleteAlertRef,
     closeDeleteAlert,
     handleDelete
@@ -34,7 +33,8 @@ export function AlertDialog(props) {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure you want to delete this post? This action cannot be undone!
+              Are you sure you want to delete this post? This action cannot be
+              undone!
             </AlertDialogBody>
 
             <AlertDialogFooter>
@@ -49,5 +49,5 @@ export function AlertDialog(props) {
         </AlertDialogOverlay>
       </ChakraAlertDialog>
     </>
-  )
+  );
 }

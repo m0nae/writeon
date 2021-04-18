@@ -1,3 +1,10 @@
+:global {
+  .css-d27oew {
+    margin-left: 8rem;
+    display: absolute !important;
+  }
+}
+
 .header {
   justify-content: space-between;
   width: 100%;
@@ -32,6 +39,10 @@
     height: 0;
     background: transparent;
   }
+
+  @media (min-width: 800px) {
+    max-width: 70%;
+  }
 }
 
 .word-tag {
@@ -42,7 +53,7 @@
   display: inline-block;
   width: fit-content;
   background-color: #edf2f7;
-  cursor: pointer;
+  // cursor: pointer;
   ::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -53,7 +64,6 @@
 .words-list {
   overflow: scroll;
 
-
   ::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -61,10 +71,7 @@
   }
 }
 
-
 .save-btn {
-  // padding: 0rem 2rem;
-  // margin-left: 1rem;
   justify-self: center;
   align-self: center;
   @media (max-width: 569px) {
@@ -78,7 +85,7 @@
 
 .save-btn-mobile {
   margin-left: 1rem;
-  margin-right: 5px; 
+  margin-right: 5px;
   @media (min-width: 570px) {
     display: none !important;
   }
@@ -86,6 +93,7 @@
 
 .left-header {
   display: flex;
+  margin-right: 5px;
 }
 
 .right-header {
@@ -102,11 +110,4 @@
 .menu-icon {
   font-size: 1.8rem;
   margin-left: 0.5rem;
-}
-
-:global {
-  .css-d27oew {
-    margin-left: 8rem;
-    display: absolute !important;
-  }
 }

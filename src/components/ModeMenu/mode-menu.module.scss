@@ -1,4 +1,3 @@
-
 // MODE MENU ITEM
 .toggle-container {
   position: absolute;
@@ -8,31 +7,27 @@
 
 // MODE MODAL
 .modal-body {
-  // text-align: center;
   margin-top: 1.25rem;
 }
 
 .dropdown-menu {
   text-align: center;
+
   & > i {
     display: none;
   }
+
   @media (max-width: 570px) {
     .button-text {
       display: none;
     }
-
-    // & > span {
-    //   display: none;
-    // }
   }
 }
 
 .dropdown-menu-mobile {
   text-align: left;
-  
+
   @media (min-width: 570px) {
     display: none;
-    
   }
 }

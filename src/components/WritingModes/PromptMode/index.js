@@ -1,27 +1,23 @@
-import styles from "../writing-modes.module.scss"
+import React, { useContext } from 'react';
+import styles from '../writing-modes.module.scss';
 import {
+  HStack,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Text,
-  HStack
-} from "@chakra-ui/react";
-import React, { useContext } from "react";
-
-import { ModeContext } from "../../../contexts/ModeContext";
+  Text
+} from '@chakra-ui/react';
+import { ModeContext } from '../../../contexts/ModeContext';
 
 export function PromptMode() {
-  const {
-    modeDispatch,
-    promptModeError,
-  } = useContext(ModeContext);
+  const { modeDispatch, promptModeError } = useContext(ModeContext);
 
   function changeNumberOfWords(value) {
-    modeDispatch({ type: "numberOfWords", payload: Number(value) });
+    modeDispatch({ type: 'numberOfWords', payload: Number(value) });
   }
-  
+
   return (
     <>
       <HStack>
@@ -43,7 +39,7 @@ export function PromptMode() {
         </NumberInput>
         <Text>words</Text>
         {promptModeError && <p>{promptModeError.errorMessage}</p>}
-        </HStack>
+      </HStack>
     </>
   );
 }

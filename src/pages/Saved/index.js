@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
-
+import { PostContext } from '../../contexts/PostContext';
 import { Layout } from './Layout';
 import { Post } from '../../components/Posts';
-import { PostContext } from '../../contexts/PostContext';
 
 export function Saved() {
   return (

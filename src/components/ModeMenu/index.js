@@ -1,40 +1,10 @@
-import styles from "./mode-menu.module.scss"
-import {
-  Box,
-  Button,
-  Center,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuCommand,
-  MenuDivider,
-  MenuGroup,
-  MenuIcon,
-  MenuItem,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Switch,
-  Text,
-} from "@chakra-ui/react";
-import { MdChevronRight, MdExpandMore } from "react-icons/md";
-import { IoOptions } from "react-icons/io5";
-import React, { useContext } from "react";
-
-import { ModeContext } from "../../contexts/ModeContext";
-import { ModeMenuItem } from "./ModeMenuItem/ModeMenuItem.js";
-import { ModeModal } from "./ModeModal/ModeModal.js";
-import { PromptMode } from "../WritingModes/PromptMode";
-import { TimeLimitContext } from "../../contexts/TimeLimitContext";
-import { TimeLimitMode } from "../WritingModes/TimeLimitMode";
-import { WordCountMode } from "../WritingModes/WordCountMode";
+import React, { useContext } from 'react';
+import styles from './mode-menu.module.scss';
+import { Button, Menu, MenuButton, MenuList } from '@chakra-ui/react';
+import { MdChevronRight, MdExpandMore } from 'react-icons/md';
+import { ModeContext } from '../../contexts/ModeContext';
+import { ModeMenuItem } from './ModeMenuItem/ModeMenuItem.js';
+import { ModeModal } from './ModeModal/ModeModal.js';
 
 export function DropdownModeMenu() {
   const { mode, isOpen, onOpen, onClose } = useContext(ModeContext);
@@ -42,48 +12,43 @@ export function DropdownModeMenu() {
 
   return (
     <>
-      <Menu
-        closeOnSelect={false}
-        closeOnBlur={isModalOpen ? false : true}
-        >
-        {( {isOpen} ) => (
+      <Menu closeOnSelect={false} closeOnBlur={isModalOpen ? false : true}>
+        {({ isOpen }) => (
           <>
-        
-        <MenuButton
-          as={Button}
-          isActive={isOpen}
-          variant="outline"
-          rightIcon={isOpen ? <MdExpandMore /> : <MdChevronRight />}
-          className={styles['dropdown-menu']}
-        >
-          Modes
-        </MenuButton>
-        <MenuList>
-          <div>
-            <ModeMenuItem
-              currentMode="timeLimitMode"
-              onOpen={onOpen}
-              text="Time Limit Mode"
-            />
+            <MenuButton
+              as={Button}
+              isActive={isOpen}
+              variant="outline"
+              rightIcon={isOpen ? <MdExpandMore /> : <MdChevronRight />}
+              className={styles['dropdown-menu']}
+            >
+              Modes
+            </MenuButton>
+            <MenuList>
+              <div>
+                <ModeMenuItem
+                  currentMode="timeLimitMode"
+                  onOpen={onOpen}
+                  text="Time Limit Mode"
+                />
 
-            <ModeMenuItem
-              currentMode="wordCountMode"
-              onOpen={onOpen}
-              text="Word Count Mode"
-            />
+                <ModeMenuItem
+                  currentMode="wordCountMode"
+                  onOpen={onOpen}
+                  text="Word Count Mode"
+                />
 
-            <ModeMenuItem
-              currentMode="promptMode"
-              onOpen={onOpen}
-              text="Prompt Mode"
-            />
-          </div>
-        </MenuList>
-        </>
+                <ModeMenuItem
+                  currentMode="promptMode"
+                  onOpen={onOpen}
+                  text="Prompt Mode"
+                />
+              </div>
+            </MenuList>
+          </>
         )}
       </Menu>
       <ModeModal mode={mode} isOpen={isOpen} onClose={onClose} />
     </>
   );
 }
-

@@ -1,23 +1,10 @@
-import styles from "./login.module.scss";
-import React, { useContext, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
-
-import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input,
-} from "@chakra-ui/react";
-
-import { UserContext } from "../../contexts/UserContext";
-import { useHistory } from "react-router-dom";
+import React, { useContext } from 'react';
+import styles from './login.module.scss';
+import { Box, Center, Input } from '@chakra-ui/react';
+import { Redirect } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 
 export function Login() {
-  const history = useHistory();
   const { user } = useContext(UserContext);
 
   return (
@@ -25,18 +12,18 @@ export function Login() {
       {user ? (
         <Redirect push to="/dashboard" />
       ) : (
-        <Center className={styles["wrapper"]}>
-          <Box m="3rem" className={styles["login"]}>
+        <Center className={styles['wrapper']}>
+          <Box m="3rem" className={styles['login']}>
             <div>
               <Center>
-                <a href="#" className={styles["write-on"]}>
+                <a href="#" className={styles['write-on']}>
                   WriteOn
                 </a>
               </Center>
               <form
                 action="https://writeon-app.herokuapp.com/login"
                 method="POST"
-                className={styles["form"]}
+                className={styles['form']}
               >
                 <label htmlFor="username">Username</label>
                 <Input
@@ -53,15 +40,15 @@ export function Login() {
                   name="password"
                   size="lg"
                 />
-                <button type="submit" className={styles["login-btn"]}>
+                <button type="submit" className={styles['login-btn']}>
                   Login
                 </button>
-                <div className={styles["or"]}>
-                  <div className={styles["line"]}></div>
+                <div className={styles['or']}>
+                  <div className={styles['line']}></div>
                   <span>or</span>
-                  <div className={styles["line"]}></div>
+                  <div className={styles['line']}></div>
                 </div>
-                <button className={styles["signup-btn"]}>
+                <button className={styles['signup-btn']}>
                   Sign Up (Coming Soon!)
                 </button>
               </form>

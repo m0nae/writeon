@@ -1,4 +1,76 @@
+:global {
+  .grid-view {
+    /* min-width: 50vw; */
+    /* max-width: 100%; */
+    max-width: 1350px;
+    width: 90%;
+    min-width: 250px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+  }
 
+  .list-view {
+    max-width: 700px;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .list-view > div {
+    margin-right: 0;
+    width: 700px;
+    max-width: 700px;
+    width: 90%;
+  }
+
+  @media screen and (max-width: 1517px) {
+    .grid-view {
+      max-width: 1080px;
+    }
+    .view-menu {
+      max-width: 1040px;
+    }
+  }
+
+  @media screen and (max-width: 1217px) {
+    .grid-view {
+      max-width: 810px;
+    }
+    .view-menu {
+      max-width: 770px;
+    }
+  }
+
+  @media screen and (max-width: 917px) {
+    .grid-view {
+      max-width: 540px;
+    }
+    .view-menu {
+      max-width: 500px;
+    }
+  }
+
+  @media screen and (max-width: 617px) {
+    .grid-view {
+      max-width: 70%;
+    }
+    .grid-view > div {
+      width: 100%;
+    }
+
+    .view-menu {
+      max-width: 63%;
+    }
+
+    .view-menu > .list-view-icon {
+      width: 32px;
+    }
+
+    .list-view-icon {
+      display: none;
+    }
+  }
+}
 
 .ascending-icon {
   margin-top: 7px;
@@ -22,4 +94,12 @@
   margin-top: 3px;
   height: 2rem;
   width: 2rem;
+}
+
+.view-menu {
+  /* max-width: 1300px; */
+  width: 89%;
+  max-width: 1310px;
+  margin: 0 auto;
+  margin-bottom: 1rem;
 }

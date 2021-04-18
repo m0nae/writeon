@@ -1,6 +1,5 @@
-import React, { createContext, useReducer, useRef } from "react";
-
-import { useDisclosure } from "@chakra-ui/react";
+import React, { createContext, useReducer, useRef } from 'react';
+import { useDisclosure } from '@chakra-ui/react';
 
 export const ModeContext = createContext();
 
@@ -9,8 +8,8 @@ export function ModeProvider(props) {
   const numberInputRef = useRef();
 
   const initialState = {
-    mode: "",
-    wordCountGoal: "",
+    mode: '',
+    wordCountGoal: '',
     wordCount: 0,
     timeLimitMode: false,
     wordCountMode: false,
@@ -18,7 +17,7 @@ export function ModeProvider(props) {
     words: [],
     numberOfWords: 0,
     promptModeError: null,
-    toggledSwitches: [],
+    toggledSwitches: []
   };
 
   const [state, modeDispatch] = useReducer(reducer, initialState);
@@ -31,16 +30,16 @@ export function ModeProvider(props) {
   function getWords() {
     if (numberOfWords > 10) {
       return modeDispatch({
-        type: "promptModeError",
-        payload: { errorMessage: "Number must be below 10." },
+        type: 'promptModeError',
+        payload: { errorMessage: 'Number must be below 10.' }
       });
     } else {
-      modeDispatch({ type: "promptModeError", payload: null });
+      modeDispatch({ type: 'promptModeError', payload: null });
     }
 
     fetch(`https://random-word-api.herokuapp.com/word?number=${numberOfWords}`)
       .then((response) => response.json())
-      .then((data) => modeDispatch({ type: "words", payload: data }));
+      .then((data) => modeDispatch({ type: 'words', payload: data }));
   }
 
   const {
@@ -53,7 +52,7 @@ export function ModeProvider(props) {
     words,
     numberOfWords,
     promptModeError,
-    toggledSwitches,
+    toggledSwitches
   } = state;
 
   return (
@@ -75,7 +74,7 @@ export function ModeProvider(props) {
         toggledSwitches: toggledSwitches,
         numberInputRef: numberInputRef,
         modeDispatch: modeDispatch,
-        initialState: initialState,
+        initialState: initialState
       }}
     >
       {props.children}

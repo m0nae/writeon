@@ -1,43 +1,16 @@
-import React, { useContext } from "react";
-import styles from "../mode-menu.module.scss"
-
-import {
-  Box,
-  Button,
-  Center,
-  Menu,
-  MenuButton,
-  MenuCommand,
-  MenuDivider,
-  MenuGroup,
-  MenuIcon,
-  MenuItem,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Switch,
-  Text,
-} from "@chakra-ui/react";
-
-import { ModeContext } from "../../../contexts/ModeContext";
-import { TimeLimitContext } from "../../../contexts/TimeLimitContext";
+import React, { useContext } from 'react';
+import styles from '../mode-menu.module.scss';
+import { Box, MenuItem, Switch, Text } from '@chakra-ui/react';
+import { ModeContext } from '../../../contexts/ModeContext';
+import { TimeLimitContext } from '../../../contexts/TimeLimitContext';
 
 export function ModeMenuItem({ onOpen, currentMode, text }) {
   const { modeDispatch, toggledSwitches } = useContext(ModeContext);
-  const { timeLimitDispatch } = useContext(
-    TimeLimitContext
-  );
+  const { timeLimitDispatch } = useContext(TimeLimitContext);
 
   function handleClick() {
     if (isToggled) {
-      modeDispatch({ type: "mode", payload: currentMode });
+      modeDispatch({ type: 'mode', payload: currentMode });
       onOpen();
     } else {
       return;
@@ -51,8 +24,8 @@ export function ModeMenuItem({ onOpen, currentMode, text }) {
   function handleToggle() {
     if (!toggledSwitches.includes(currentMode)) {
       modeDispatch({
-        type: "toggledSwitches",
-        payload: [...toggledSwitches, currentMode],
+        type: 'toggledSwitches',
+        payload: [...toggledSwitches, currentMode]
       });
 
       handleClick();
@@ -61,21 +34,27 @@ export function ModeMenuItem({ onOpen, currentMode, text }) {
         (toggledSwitch) => toggledSwitch !== currentMode
       );
 
-      modeDispatch({ type: "toggledSwitches", payload: newToggledSwitches });
+      modeDispatch({
+        type: 'toggledSwitches',
+        payload: newToggledSwitches
+      });
 
       switch (currentMode) {
-        case "wordCountMode":
-          modeDispatch({ type: "wordCountGoal", payload: null });
+        case 'wordCountMode':
+          modeDispatch({ type: 'wordCountGoal', payload: null });
           break;
-        case "timeLimitMode":
-          timeLimitDispatch({ type: "timeLimit", payload: null });
-          timeLimitDispatch({ type: "isCountdownActive", payload: false });
-          timeLimitDispatch({ type: "count", payload: null });
+        case 'timeLimitMode':
+          timeLimitDispatch({ type: 'timeLimit', payload: null });
+          timeLimitDispatch({
+            type: 'isCountdownActive',
+            payload: false
+          });
+          timeLimitDispatch({ type: 'count', payload: null });
           break;
-        case "promptMode":
-          modeDispatch({ type: "words", payload: [] });
-          modeDispatch({ type: "promptModeError", payload: null });
-          modeDispatch({ type: "numberOfWords", payload: 0 });
+        case 'promptMode':
+          modeDispatch({ type: 'words', payload: [] });
+          modeDispatch({ type: 'promptModeError', payload: null });
+          modeDispatch({ type: 'numberOfWords', payload: 0 });
           break;
         default:
           break;

@@ -3,15 +3,12 @@
   height: 100vh;
   overflow-x: hidden;
   backface-visibility: hidden;
-  // display: flex;
 }
 
 .editor-container {
   max-width: 840px;
   padding-top: 3rem;
   margin: 0 auto;
-  // align-self: center;
-  // justify-self: center;
   @media (max-width: 1280px) {
     margin: 0 18vw;
   }
@@ -26,12 +23,28 @@
   bottom: 30px;
   right: 40px;
   z-index: 100;
-  /* left: 50px; */
-  /* margin-left: 94vw; */
-  /* margin-top: 68vh; */
-  // font-size: 9rem;
 
   @media (max-width: 320px) {
     right: 15px;
   }
+}
+
+.word-count {
+  position: sticky;
+  top: 100px;
+  left: 93vw;
+  right: 0;
+  width: fit-content;
+  margin: 0;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: #bdbdbd;
+}
+
+.word-count-progress-bar {
+  position: sticky !important;
+  z-index: 90;
+  top: 80px;
+  width: 100%;
 }

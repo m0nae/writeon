@@ -1,0 +1,29 @@
+:global {
+  /* for the text inside quill editor */
+  .ql-editor {
+    min-height: 70vh !important;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0px 40px !important;
+    margin-top: 14px;
+    margin-left: -25px;
+  }
+
+  .quill {
+    z-index: -100;
+  }
+}
+
+.post-title {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  /* font-family: 'Arial'; */
+  z-index: 100;
+}
+
+.post-title,
+div:focus {
+  outline: none;
+}
