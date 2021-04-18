@@ -48,7 +48,7 @@ export function Landing() {
           >
             <Box
               as="a"
-              href="http://localhost:3000/"
+              href="https://writeon.ink/"
               className={styles['writeon-logo']}
             >
               <img src={writeOn} className={styles['writeon-landing']} />
