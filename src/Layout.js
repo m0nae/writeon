@@ -59,7 +59,7 @@ export function Layout({ children }) {
   async function createNewPost() {
     //todo: throw in an OnChange. if title length is < x, disable the button. but once long enough, enable the "Create note" button
     const newTitle = postTitleInput.current.value.toString();
-
+    
     createPost({ variables: { title: newTitle } });
   }
 
@@ -81,7 +81,7 @@ export function Layout({ children }) {
       )}
       {redirectToLogout && <Redirect push to="/logout" />}
       <Header className={styles['header']}>
-        <Box as="a" href="http://localhost:3000/" className="logo">
+        <Box as="a" href="https://writeon-app.herokuapp.com/" className="logo">
           <img src={writeOn} className={styles['writeon']} />
         </Box>
         <InputGroup width="50%">
@@ -120,7 +120,7 @@ export function Layout({ children }) {
               Actions
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => setRedirectToLogout(true)}>
+              <MenuItem onClick={() => settToLogout(true)}>
                 Log out
               </MenuItem>
             </MenuList>
@@ -184,7 +184,7 @@ export function Layout({ children }) {
 export function CreateNewLayout(props) {
   return (
     <>
-      <div className={styles['wrapper']}>{props.children}</div>
+      <div className={styles["wrapper"]}>{props.children}</div>
     </>
   );
 }

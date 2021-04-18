@@ -21,7 +21,7 @@ export function Login() {
                 </a>
               </Center>
               <form
-                action="http://localhost:5000/login"
+                action="https://writeon-app.herokuapp.com/login"
                 method="POST"
                 className={styles['form']}
               >

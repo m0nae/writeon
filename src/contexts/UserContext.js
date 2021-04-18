@@ -11,7 +11,7 @@ export function UserProvider(props) {
   }, [user]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/current', {
+    fetch('https://writeon-app.herokuapp.com/current', {
       credentials: 'include'
     })
       .then((response) => {
