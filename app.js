@@ -27,7 +27,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://writeon.ink",
+    origin: "https://www.writeon.ink",
     credentials: true,
   })
 );
@@ -54,7 +54,7 @@ app.post("/login", (req, res, next) => {
       }
 
       if (!user) {
-        res.redirect("https://writeon.ink/login");
+        res.redirect("https://www.writeon.ink/login");
         throw new Error(`There is no user with that username.`);
       }
 
@@ -64,7 +64,7 @@ app.post("/login", (req, res, next) => {
           (await bcrypt.compare(password, user.password))
         )
       ) {
-        res.redirect("https://writeon.ink/login");
+        res.redirect("https://www.writeon.ink/login");
         throw `Incorrect password!`;
       } else {
         let privateKey = process.env.SECRET_JWT_KEY;
@@ -73,7 +73,7 @@ app.post("/login", (req, res, next) => {
           privateKey
         );
         res.cookie("jwt", token, { httpOnly: true });
-        res.redirect("https://writeon.ink");
+        res.redirect("https://www.writeon.ink");
       }
     } catch (err) {
       return err;
@@ -85,7 +85,7 @@ app.get("/logout", (req, res, next) => {
   try {
     if (req.cookies.jwt) {
       res.clearCookie("jwt", {
-        domain: "https://writeon.ink",
+        domain: "https://www.writeon.ink",
         path: "/",
         httpOnly: true,
       });
