@@ -1,6 +1,7 @@
 {
   "name": "the-blog",
   "version": "1.0.0",
+  "homepage": "https://writeon.ink",
   "description": "",
   "keywords": [],
   "main": "src/index.js",
