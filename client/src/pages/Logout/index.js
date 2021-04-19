@@ -7,7 +7,9 @@ export function Logout() {
 
   useEffect(() => {
     if (user) {
-      fetch('https://writeon-app.herokuapp.com/logout', { credentials: 'include' });
+      fetch('https://writeon-app.herokuapp.com/api/logout', {
+        credentials: 'include'
+      });
       setUser(false);
     } else {
       return;

@@ -18,8 +18,8 @@ import { TimeLimitProvider } from './contexts/TimeLimitContext';
 import { UserProvider } from './contexts/UserContext';
 
 const httpLink = createHttpLink({
-  uri: "https://writeon-app.herokuapp.com/graphql",
-  credentials: "include",
+  uri: 'https://writeon-app.herokuapp.com/api/graphql',
+  credentials: 'include'
 });
 
 const client = new ApolloClient({
@@ -48,7 +48,7 @@ ReactDOM.render(
           ModeProvider,
           SearchProvider,
           TimeLimitProvider,
-          NewPostProvider,
+          NewPostProvider
         ]}
       >
         <App />

@@ -37,13 +37,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "../client/build")));
+// app.use(express.static(path.join(__dirname, "../client/build")));
 
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
+// app.get("/", function (req, res) {
+//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
+// });
 
-app.post("/login", (req, res, next) => {
+app.post("/api/login", (req, res, next) => {
   let username = req.body.username.trim();
   let password = req.body.password.trim();
 
@@ -81,7 +81,7 @@ app.post("/login", (req, res, next) => {
   });
 });
 
-app.get("/logout", (req, res, next) => {
+app.get("/api/logout", (req, res, next) => {
   try {
     if (req.cookies.jwt) {
       res.clearCookie("jwt", {
@@ -98,7 +98,7 @@ app.get("/logout", (req, res, next) => {
   }
 });
 
-app.get("/current", function (req, res) {
+app.get("/api/current", function (req, res) {
   let token = req.cookies.jwt;
   if (!token) {
     return res.json(false);
@@ -108,7 +108,7 @@ app.get("/current", function (req, res) {
   }
 });
 
-app.use("/graphql", (req, res, next) => {
+app.use("/api/graphql", (req, res, next) => {
   try {
     let token = req.cookies.jwt;
     if (!token) {
@@ -130,7 +130,7 @@ const schema = makeExecutableSchema({
 });
 
 app.use(
-  "/graphql",
+  "/api/graphql",
   graphqlHTTP({
     schema: schema,
     graphiql: true,

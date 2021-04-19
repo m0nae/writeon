@@ -21,7 +21,7 @@ export function Login() {
                 </a>
               </Center>
               <form
-                action="https://writeon-app.herokuapp.com/login"
+                action="https://writeon-app.herokuapp.com/api/login"
                 method="POST"
                 className={styles['form']}
               >
