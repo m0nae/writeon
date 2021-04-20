@@ -1,3 +1,5 @@
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || `http://localhost:3000`;
+
 import styles from './landing.module.scss';
 import writeOnDemo from './writeon-demo.png';
 import searchDemo from './writeon-search-demo.gif';
@@ -48,7 +50,7 @@ export function Landing() {
           >
             <Box
               as="a"
-              href="https://writeon.ink/"
+              href={`${CLIENT_DOMAIN}`}
               className={styles['writeon-logo']}
             >
               <img src={writeOn} className={styles['writeon-landing']} />
@@ -80,7 +82,9 @@ export function Landing() {
                 : styles['mobile-menu-hidden']
             }
           >
-            <button className={styles['login-mobile']}>Login</button>
+            <button className={styles['login-mobile']}>
+              <a href="/login">Login</a>
+            </button>
             <button className={styles['signup-mobile']} disabled>
               Sign Up
             </button>

@@ -25,13 +25,9 @@
   }
 }
 
-.writeon-landing {
-  height: auto;
-
-  @media (max-width: 400px) {
-    display: none;
-  }
-}
+// .writeon-landing {
+//   height: auto;
+// }
 
 .header-right {
   display: flex;
@@ -39,12 +35,13 @@
 
 .writeon-logo {
   max-height: 123.24px;
-  min-height: 123.24px;
-  min-width: 163.8px;
+  // min-height: 123.24px;
+  // min-width: 163.8px;
   max-width: 163.8px;
 
   @media (max-width: 400px) {
-    display: none;
+    height: auto;
+    width: 100%;
   }
 }
 
@@ -68,7 +65,7 @@
     transform: translateY(-3px);
   }
 
-  @media (max-width: 569px) {
+  @media (max-width: 680px) {
     display: none;
   }
 }
@@ -90,7 +87,7 @@
     transform: translateY(-3px);
   }
 
-  @media (max-width: 569px) {
+  @media (max-width: 680px) {
     display: none;
   }
 }
@@ -99,12 +96,21 @@
 
 .mobile-menu-icon {
   display: none;
+
   * {
     font-size: 3rem;
   }
 
-  @media (max-width: 569px) {
+  @media (max-width: 680px) {
     display: unset;
+  }
+
+  @media (max-width: 320px) {
+    margin-left: 3.5rem;
+
+    * {
+      font-size: 2.5rem;
+    }
   }
 }
 
@@ -160,16 +166,24 @@
 .container {
   margin: 0 auto;
   width: 80%;
+
+  @media (max-width: 400px) {
+    width: 90%;
+  }
 }
 
 .header {
   font-family: 'Roboto', sans-serif;
   line-height: 1;
   margin-bottom: 1rem;
-  font-size: clamp(3.3rem, 6vw, 5.5rem);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
   font-weight: 700;
   margin-top: 100px;
   text-align: center;
+
+  @media (max-width: 810px) {
+    font-size: clamp(3rem, 10vw, 4.5rem);
+  }
 }
 
 .subtitle {
@@ -180,9 +194,6 @@
   color: #737373;
   margin-top: -18px;
   margin-bottom: 70px;
-}
-
-.hero {
 }
 
 .hero-img {
@@ -206,6 +217,10 @@
   margin: 0 auto;
   width: 75%;
   max-width: 1050px;
+
+  @media (max-width: 400px) {
+    width: 90%;
+  }
 }
 
 .feature {
@@ -221,7 +236,7 @@
 .feature-img {
   min-width: 540px;
   max-width: 540px;
-  width: 41.7%;
+  min-width: 41.7%;
   max-height: 307px;
   height: auto;
   margin-right: 62px;
@@ -233,7 +248,7 @@
     margin: 0 auto;
   }
 
-  @media (max-width: 569px) {
+  @media (max-width: 700px) {
     min-width: 80%;
   }
 }
@@ -295,5 +310,18 @@
 
   .footer-right:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 680px) {
+    padding: 0 2.5rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 1.2rem;
+    padding: 0 1.5rem;
+  }
+
+  @media (max-width: 300px) {
+    font-size: 0.95rem;
   }
 }

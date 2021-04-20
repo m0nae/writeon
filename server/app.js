@@ -2,8 +2,9 @@ const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const connectDB = require("./config/db");
+const DOMAIN = process.env.CLIENT_DOMAIN || `http://localhost:3000`;
 
+const connectDB = require("./config/db");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -27,7 +28,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://www.writeon.ink",
+    origin: `${DOMAIN}`,
     credentials: true,
   })
 );
@@ -54,7 +55,7 @@ app.post("/api/login", (req, res, next) => {
       }
 
       if (!user) {
-        res.redirect("https://www.writeon.ink/login");
+        res.redirect(`${DOMAIN}/login`);
         throw new Error(`There is no user with that username.`);
       }
 
@@ -64,7 +65,7 @@ app.post("/api/login", (req, res, next) => {
           (await bcrypt.compare(password, user.password))
         )
       ) {
-        res.redirect("https://www.writeon.ink/login");
+        res.redirect(`${DOMAIN}/login`);
         throw `Incorrect password!`;
       } else {
         let privateKey = process.env.SECRET_JWT_KEY;
@@ -73,7 +74,7 @@ app.post("/api/login", (req, res, next) => {
           privateKey
         );
         res.cookie("jwt", token, { httpOnly: true });
-        res.redirect("https://www.writeon.ink");
+        res.redirect(`${DOMAIN}`);
       }
     } catch (err) {
       return err;
@@ -85,7 +86,7 @@ app.get("/api/logout", (req, res, next) => {
   try {
     if (req.cookies.jwt) {
       res.clearCookie("jwt", {
-        domain: "https://www.writeon.ink",
+        domain: `${DOMAIN}`,
         path: "/",
         httpOnly: true,
       });
@@ -137,6 +138,6 @@ app.use(
   })
 );
 
-app.listen(process.env.PORT, () =>
-  console.log(`Listening on port ${process.env.PORT}`.cyan)
+app.listen(process.env.PORT || 5000, () =>
+  console.log(`Listening on port ${process.env.PORT || 5000}`.cyan)
 );

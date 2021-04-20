@@ -1,3 +1,4 @@
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || `http://localhost:3000`;
 import React, { useContext, useRef, useState } from 'react';
 import styles from './layout.module.scss';
 import {
@@ -81,7 +82,7 @@ export function Layout({ children }) {
       )}
       {redirectToLogout && <Redirect push to="/logout" />}
       <Header className={styles['header']}>
-        <Box as="a" href="https://writeon.ink" className="logo">
+        <Box as="a" href={`${CLIENT_DOMAIN}`} className="logo">
           <img src={writeOn} className={styles['writeon']} />
         </Box>
         <InputGroup width="50%">

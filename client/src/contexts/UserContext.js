@@ -1,3 +1,5 @@
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
+
 import React, { createContext, useEffect, useState } from 'react';
 
 export const UserContext = createContext({});
@@ -11,7 +13,7 @@ export function UserProvider(props) {
   }, [user]);
 
   useEffect(() => {
-    fetch('https://writeon-app.herokuapp.com/api/current', {
+    fetch(`${SERVER_DOMAIN}/api/current`, {
       credentials: 'include'
     })
       .then((response) => {
