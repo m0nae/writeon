@@ -1,3 +1,4 @@
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'focus-visible/dist/focus-visible';
@@ -18,7 +19,7 @@ import { TimeLimitProvider } from './contexts/TimeLimitContext';
 import { UserProvider } from './contexts/UserContext';
 
 const httpLink = createHttpLink({
-  uri: 'https://writeon-app.herokuapp.com/api/graphql',
+  uri: `${SERVER_DOMAIN}/api/graphql`,
   credentials: 'include'
 });
 

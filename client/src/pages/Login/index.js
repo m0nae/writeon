@@ -1,3 +1,4 @@
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
 import React, { useContext } from 'react';
 import styles from './login.module.scss';
 import { Box, Center, Input } from '@chakra-ui/react';
@@ -21,7 +22,7 @@ export function Login() {
                 </a>
               </Center>
               <form
-                action="https://writeon-app.herokuapp.com/api/login"
+                action={`${SERVER_DOMAIN}/api/login`}
                 method="POST"
                 className={styles['form']}
               >

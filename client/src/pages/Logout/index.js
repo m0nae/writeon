@@ -1,3 +1,4 @@
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
 import React, { useEffect, useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { Redirect } from 'react-router-dom';
@@ -7,7 +8,7 @@ export function Logout() {
 
   useEffect(() => {
     if (user) {
-      fetch('https://writeon-app.herokuapp.com/api/logout', {
+      fetch(`${SERVER_DOMAIN}/api/logout`, {
         credentials: 'include'
       });
       setUser(false);
