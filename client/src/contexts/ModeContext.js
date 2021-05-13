@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
 
 import React, { createContext, useReducer, useRef } from 'react';
 import { useDisclosure } from '@chakra-ui/react';

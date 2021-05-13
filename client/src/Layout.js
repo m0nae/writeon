@@ -1,4 +1,4 @@
-const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || `http://localhost:3000`;
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN;
 import React, { useContext, useRef, useState } from 'react';
 import styles from './layout.module.scss';
 import {

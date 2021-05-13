@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
 import React, { useEffect, useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { Redirect } from 'react-router-dom';

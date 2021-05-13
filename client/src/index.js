@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'focus-visible/dist/focus-visible';

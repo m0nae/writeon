@@ -2,7 +2,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const DOMAIN = process.env.CLIENT_DOMAIN || `http://localhost:3000`;
+const DOMAIN = process.env.CLIENT_DOMAIN;
 
 const connectDB = require("./config/db");
 const express = require("express");
