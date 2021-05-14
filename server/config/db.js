@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const connectDB = () =>
   mongoose.connect(
-    `mongodb+srv://@cluster0.lqubo.mongodb.net/WriteOnDB?retryWrites=true&w=majority&authSource=admin`,
+    `mongodb+srv://@cluster0.ixq3w.mongodb.net/WriteOnDB?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
-      user: "admin",
+      user: process.env.MONGO_USER,
       pass: process.env.MONGO_PASSWORD,
     }
   );
