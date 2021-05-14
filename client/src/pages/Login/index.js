@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.SERVER_DOMAIN || `http://localhost:5000`;
+const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 import React, { useContext } from 'react';
 import styles from './login.module.scss';
 import { Box, Center, Input } from '@chakra-ui/react';

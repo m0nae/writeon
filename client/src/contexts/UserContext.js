@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.SERVER_DOMAIN;
+const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
 
 import React, { createContext, useEffect, useState } from 'react';
 

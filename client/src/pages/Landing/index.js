@@ -1,4 +1,4 @@
-const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN;
+const CLIENT_DOMAIN = process.env.REACT_APP_CLIENT_DOMAIN;
 
 import styles from './landing.module.scss';
 import writeOnDemo from './writeon-demo.png';
