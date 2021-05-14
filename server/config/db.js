@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const connectDB = async () =>
+const connectDB = () =>
   mongoose.connect(
     `mongodb+srv://@cluster0.lqubo.mongodb.net/WriteOnDB?retryWrites=true&w=majority`,
     {
