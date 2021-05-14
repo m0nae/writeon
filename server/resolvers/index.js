@@ -34,7 +34,6 @@ const resolvers = {
 
   Mutation: {
     createPost: async (obj, { title }, context) => {
-      console.log("CREATE POST MUTATION RAN");
       try {
         if (title.length > 80) {
           throw new Error(

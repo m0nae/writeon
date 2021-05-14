@@ -132,6 +132,10 @@ app.use(
   })
 );
 
-app.listen(process.env.PORT || 5000, () =>
-  console.log(`Listening on port ${process.env.PORT || 5000}`.cyan)
-);
+app.listen(process.env.PORT || 5000, (err) => {
+  if (err) {
+    return console.err(err);
+  } else {
+    console.log(`Listening on port ${process.env.PORT || 5000}`);
+  }
+});
