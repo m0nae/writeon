@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const connectDB = () =>
+const connectDB = async () =>
   mongoose.connect(
     `mongodb+srv://@cluster0.ixq3w.mongodb.net/WriteOnDB?retryWrites=true&w=majority`,
     {
@@ -11,6 +11,6 @@ const connectDB = () =>
       pass: process.env.MONGO_PASSWORD,
     }
   );
-console.log("MongoDB Connected".cyan);
+console.log("MongoDB Connected");
 
 module.exports = connectDB;

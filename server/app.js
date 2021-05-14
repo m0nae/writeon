@@ -26,12 +26,14 @@ const { makeExecutableSchema } = require("graphql-tools");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: `${DOMAIN}`,
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: `${DOMAIN}`,
+//     credentials: true,
+//   })
+// );
+
+app.use(cors());
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -132,6 +134,10 @@ app.use(
   })
 );
 
-app.listen(process.env.PORT || 5000, () =>
-  console.log(`Listening on port ${process.env.PORT || 5000}`.cyan)
-);
+app.listen(process.env.PORT || 5000, (err) => {
+  if (err) {
+    return console.err(err);
+  } else {
+    console.log(`Listening on port ${process.env.PORT || 5000}`);
+  }
+});
