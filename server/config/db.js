@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const connectDB = () =>
   mongoose.connect(
-    `mongodb+srv://@cluster0.lqubo.mongodb.net/WriteOnDB?retryWrites=true&w=majority`,
+    `mongodb+srv://@cluster0.lqubo.mongodb.net/WriteOnDB?retryWrites=true&w=majority&authSource=admin`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
