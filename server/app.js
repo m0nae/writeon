@@ -67,7 +67,8 @@ app.post("/api/login", (req, res, next) => {
           { username: user.username, _id: user._id },
           privateKey
         );
-        res.cookie("jwt", token, { httpOnly: true });
+
+        res.cookie("jwt", token);
         res.redirect(`${DOMAIN}`);
       }
     } catch (err) {
@@ -82,7 +83,6 @@ app.get("/api/logout", (req, res, next) => {
       res.clearCookie("jwt", {
         domain: `${DOMAIN}`,
         path: "/",
-        httpOnly: true,
       });
       res.sendStatus(200);
     } else {
