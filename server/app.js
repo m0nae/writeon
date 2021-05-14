@@ -64,7 +64,7 @@ app.post("/api/login", (req, res, next) => {
       } else {
         let privateKey = process.env.SECRET_JWT_KEY;
         let token = jwt.sign(
-          { username: user._doc.username, _id: user._doc._id },
+          { username: user.username, _id: user._id },
           privateKey
         );
         res.cookie("jwt", token, { httpOnly: true });
