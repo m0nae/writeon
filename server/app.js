@@ -83,6 +83,8 @@ app.get("/api/logout", (req, res, next) => {
       res.clearCookie("jwt", {
         domain: `${DOMAIN}`,
         path: "/",
+        secure: true,
+        sameSite: "none",
       });
       res.sendStatus(200);
     } else {
