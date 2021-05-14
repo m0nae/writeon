@@ -68,7 +68,7 @@ app.post("/api/login", (req, res, next) => {
           privateKey
         );
 
-        res.cookie("jwt", token);
+        res.cookie("jwt", token, { secure: true, sameSite: "none" });
         res.redirect(`${DOMAIN}`);
       }
     } catch (err) {
