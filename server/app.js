@@ -26,14 +26,12 @@ const { makeExecutableSchema } = require("graphql-tools");
 
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: `${DOMAIN}`,
-//     credentials: true,
-//   })
-// );
-
-app.use(cors());
+app.use(
+  cors({
+    origin: `${DOMAIN}`,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(bodyParser.json());
