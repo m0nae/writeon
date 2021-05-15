@@ -121,7 +121,9 @@ export function Layout({ children }) {
               Actions
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => setToLogout(true)}>Log out</MenuItem>
+              <MenuItem onClick={() => setRedirectToLogout(true)}>
+                Log out
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>
