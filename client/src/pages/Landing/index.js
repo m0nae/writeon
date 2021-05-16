@@ -57,9 +57,10 @@ export function Landing() {
             </Box>
             <Spacer className={styles['header-spacer']} />
             <Box>
-              <button className={styles['login']}>
-                <a href="/login">Login</a>
-              </button>
+              <a href="/login" className={styles['login']}>
+                Login
+              </a>
+
               <button className={styles['signup']} disabled>
                 Sign Up
               </button>
@@ -82,9 +83,9 @@ export function Landing() {
                 : styles['mobile-menu-hidden']
             }
           >
-            <button className={styles['login-mobile']}>
-              <a href="/login">Login</a>
-            </button>
+            <a href="/login" className={styles['login-mobile']}>
+              Login
+            </a>
             <button className={styles['signup-mobile']} disabled>
               Sign Up
             </button>

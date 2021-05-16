@@ -46,9 +46,11 @@
 }
 
 .login {
-  width: 120px;
+  width: 140px;
   height: 50.65px;
   font-size: 25px;
+
+  padding: 0.645rem 2.1rem;
 
   background-color: #1d1b1b;
   color: white;
@@ -61,10 +63,6 @@
   margin-right: 28px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-  &:hover {
-    transform: translateY(-3px);
-  }
-
   @media (max-width: 680px) {
     display: none;
   }
@@ -75,17 +73,16 @@
   height: 50.65px;
   font-size: 25px;
 
+  background-color: #d7d7d7;
   border-radius: 6px;
-  border: 2px solid #1d1b1b;
+  // border: 2px solid #1d1b1b;
+  color: #8c8c8c;
 
   font-family: 'Inter', sans-serif;
   font-weight: 600;
+  cursor: unset;
 
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-  &:hover {
-    transform: translateY(-3px);
-  }
+  // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   @media (max-width: 680px) {
     display: none;
@@ -127,6 +124,9 @@
   top: 100px;
 
   .signup-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 90%;
     height: 50px;
     border: 2px solid #1d1b1b;
