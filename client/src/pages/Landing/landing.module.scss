@@ -123,6 +123,10 @@
   position: fixed;
   top: 100px;
 
+  @media (min-width: 680px) {
+    display: none;
+  }
+
   .signup-mobile {
     display: flex;
     align-items: center;
