@@ -3,10 +3,6 @@
     height: auto;
     width: 18vw;
     max-width: 110px;
-
-    // @media (max-width: 570px) {
-    //   display: none;
-    // }
   }
 
   .logo {
@@ -14,6 +10,10 @@
     height: 80px;
     width: 120px;
     font-weight: 800;
+
+    @media (max-width: 740px) {
+      display: none;
+    }
   }
 }
 
@@ -39,7 +39,29 @@
   font-family: 'Inter', sans-serif;
   font-weight: 600;
 
+  @media (max-width: 569px) {
+    display: none;
+  }
+
   &:hover {
+  }
+}
+
+.create-new-btn-mobile {
+  display: none;
+  font-size: 2.3rem;
+  cursor: pointer;
+  margin-right: 1rem;
+
+  @media (max-width: 569px) {
+    margin-left: 1.5rem;
+    display: unset;
+  }
+
+  @media (max-width: 285px) {
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+    font-size: 1.7rem;
   }
 }
 

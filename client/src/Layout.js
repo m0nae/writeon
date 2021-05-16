@@ -32,6 +32,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { BsThreeDots } from 'react-icons/bs';
+import { FiPlusCircle } from 'react-icons/fi';
 import { generatePath } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { NewPostContext } from './contexts/NewPostContext';
@@ -111,6 +112,7 @@ export function Layout({ children }) {
           >
             Create Note
           </button>
+          <FiPlusCircle className={styles['create-new-btn-mobile']} />
           <Menu>
             <MenuButton
               as={IconButton}

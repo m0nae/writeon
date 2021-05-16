@@ -15,10 +15,15 @@
   background: white;
   border-bottom: 1px solid whitesmoke;
   height: 82px;
-  padding: 0 4rem;
+  padding: 0 2rem;
 
-  @media (max-width: 570px) {
-    padding: 0 2rem;
+  @media (max-width: 740px) {
+    justify-content: space-evenly;
+    padding: 0;
+  }
+
+  @media (max-width: 569px) {
+    justify-content: center;
   }
 
   @media (max-width: 320px) {
