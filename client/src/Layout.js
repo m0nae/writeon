@@ -112,7 +112,11 @@ export function Layout({ children }) {
           >
             Create Note
           </button>
-          <FiPlusCircle className={styles['create-new-btn-mobile']} />
+          <FiPlusCircle
+            aria-label="Create Note"
+            onClick={onOpen}
+            className={styles['create-new-btn-mobile']}
+          />
           <Menu>
             <MenuButton
               as={IconButton}
