@@ -81,8 +81,6 @@ app.get("/api/logout", (req, res, next) => {
   try {
     if (req.cookies.jwt) {
       res.clearCookie("jwt", {
-        domain: `${DOMAIN}`,
-        path: "/",
         secure: true,
         sameSite: "none",
       });
