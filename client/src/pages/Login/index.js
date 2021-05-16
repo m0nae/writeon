@@ -14,7 +14,7 @@ export function Login() {
         <Redirect push to="/dashboard" />
       ) : (
         <Center className={styles['wrapper']}>
-          <Box m="3rem" className={styles['login']}>
+          <Box className={styles['login']}>
             <div>
               <Center>
                 <a href="#" className={styles['write-on']}>
@@ -49,9 +49,7 @@ export function Login() {
                   <span>or</span>
                   <div className={styles['line']}></div>
                 </div>
-                <button className={styles['signup-btn']}>
-                  Sign Up (Coming Soon!)
-                </button>
+                <button className={styles['signup-btn']}>Sign Up</button>
               </form>
             </div>
           </Box>

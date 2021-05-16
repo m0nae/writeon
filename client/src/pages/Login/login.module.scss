@@ -7,7 +7,7 @@
 .login {
   height: 100%;
   width: 100%;
-  max-width: 450px;
+  max-width: 430px;
   max-height: 490px;
   background-color: #fff;
   border-radius: 0.7rem;
@@ -15,6 +15,20 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.01);
   padding: 2.5rem 2.5rem;
+  margin: 3rem;
+
+  @media (max-width: 400px) {
+    border: none;
+    box-shadow: unset;
+    margin: unset;
+    padding: 2.5rem 2rem;
+  }
+
+  @media (max-width: 320px) {
+    max-width: unset;
+    // width: 98%;
+    border: none;
+  }
 }
 
 .form {
@@ -72,10 +86,10 @@
 }
 
 .write-on {
-  font-size: 1.3rem;
-  font-family: 'Open Sans';
+  font-size: 1.6rem;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 800;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .line {
