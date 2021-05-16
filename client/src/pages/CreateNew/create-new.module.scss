@@ -16,6 +16,10 @@
   @media (max-width: 768px) {
     margin: 0 15vw;
   }
+
+  @media (max-width: 500px) {
+    margin: 0 7vw;
+  }
 }
 
 .time-limit-circle {
@@ -23,6 +27,13 @@
   bottom: 30px;
   right: 40px;
   z-index: 100;
+
+  @media (max-width: 400px) {
+    > * {
+      height: 50px !important;
+      width: 50px !important;
+    }
+  }
 
   @media (max-width: 320px) {
     right: 15px;
