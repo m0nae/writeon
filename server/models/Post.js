@@ -21,7 +21,7 @@ const postSchema = new Schema({
   },
   dateModified: {
     type: String,
-    required: false,
+    required: true,
   },
   author: {
     type: Schema.Types.ObjectId,

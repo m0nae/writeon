@@ -117,6 +117,7 @@ export function Home() {
           setPosts(sortedCreatedDates);
           break;
         case 'dateModified':
+          // aka "Date Last Edited"
           let sortedModifiedDates = posts
             .slice()
             .sort((a, b) => sortPosts(a, b, 'dateModified'));

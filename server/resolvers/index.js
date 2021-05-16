@@ -51,6 +51,7 @@ const resolvers = {
           title: title,
           author: context.user._id,
           dateCreated: new Date(new Date().toISOString()),
+          dateModified: new Date(new Date().toISOString()),
         });
         let newPost = await post.save();
         let author = await User.findById(context.user._id).exec();
