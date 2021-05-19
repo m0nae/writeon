@@ -147,7 +147,7 @@ function Feature({ classname, heading, description, image, imageAlt }) {
             classname ? styles['feature-flipped-img'] : styles['feature-img']
           }
         >
-          <img src={image} alt={imageAlt} />
+          <img src={image} alt={imageAlt} height="307px" width="450px" />
         </div>
         <div className={styles['text-container']}>
           <h2 className={styles['feature-heading']}>{heading}</h2>
