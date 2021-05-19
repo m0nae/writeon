@@ -180,7 +180,7 @@
   font-family: 'Roboto', sans-serif;
   line-height: 1;
   margin-bottom: 1rem;
-  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-size: max(3em, min(4.5em, 6.5em));
   font-weight: 700;
   margin-top: 100px;
   text-align: center;
@@ -188,7 +188,7 @@
 
 .subtitle {
   font-family: 'Roboto', sans-serif;
-  font-size: clamp(2rem, 2.5vw, 2.45rem);
+  font-size: max(2em, min(1.5em, 4.5em));
   font-weight: 400;
   text-align: center;
   color: #737373;
