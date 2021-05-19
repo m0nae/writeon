@@ -184,6 +184,10 @@
   font-weight: 700;
   margin-top: 100px;
   text-align: center;
+
+  @media (max-width: 500px) {
+    margin-top: 80px;
+  }
 }
 
 .subtitle {
