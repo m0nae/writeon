@@ -2,8 +2,9 @@ const CLIENT_DOMAIN = process.env.REACT_APP_CLIENT_DOMAIN;
 
 import styles from './landing.module.scss';
 import writeOnDemo from './writeon-demo.png';
-import searchDemo from './writeon-search-demo.gif';
-import editorDemo from './writeon-editor-demo.gif';
+import searchDemo from './writeon-search-demo.png';
+import editorDemo from './writeon-editor-demo.png';
+import featuresDemo from './writeon-features.png';
 
 import React, { useContext, useState, useLayoutEffect } from 'react';
 import { Box, IconButton, Spacer, Button } from '@chakra-ui/react';
@@ -114,7 +115,7 @@ export function Landing() {
                 heading="Boost Your Creativity"
                 description="Set a word count goal, a time limit, or generate random words for inspiration."
                 classname={styles['feature-flipped']}
-                image="/"
+                image={featuresDemo}
                 imageAlt=""
               />
               <Feature
