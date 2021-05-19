@@ -109,20 +109,20 @@ export function Landing() {
                 description="Format text how you'd like. Insert quotes, links, and create
             headings."
                 image={editorDemo}
-                imageAlt=""
+                imageAlt="WriteOn editor with selected text and the popup bubble for formatting text"
               />
               <Feature
                 heading="Boost Your Creativity"
                 description="Set a word count goal, a time limit, or generate random words for inspiration."
                 classname={styles['feature-flipped']}
                 image={featuresDemo}
-                imageAlt=""
+                imageAlt="WriteOn's editor with the circle timer in the bottom right corner and word count bar at the top"
               />
               <Feature
                 heading="Instantly Find Notes"
                 description="Search through all of your notes. Get results as you type."
                 image={searchDemo}
-                imageAlt=""
+                imageAlt="The word 'banana' in the dashboard search bar and a single note called 'Shopping List' with the contents 'Eggs Bread Milk Bananas Tomatoes'"
               />
             </div>
           </section>
