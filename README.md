@@ -1,9 +1,13 @@
 <h1 align="center">✏️ WriteOn ✏️</h1>
-<p align="center">
-<img src="https://api.netlify.com/api/v1/badges/708e4652-e7ee-4240-9c82-81c67a52478d/deploy-status?style=for-the-badge" />
-</p>
 
-<p align="center">A website for writers.</p>
+<p align="center">
+    <a href="https://github.com/m0nae/writeon/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/m0nae/writeon?style=flat-square" /></a>
+    <a href="https://www.notion.so/cb7c52adc8744f83a1299de9c8e924d1?v=31ee023d6ca648e1987a584ebb3afeb2"><img alt="GitHub issues" src="https://img.shields.io/badge/kanban%20board-here-blue?style=flat-square" /></a>
+    
+</p>
+<p align="center">
+ A website for writers.
+</p>
 
 ## ✨ Features
 * Create and save notes
