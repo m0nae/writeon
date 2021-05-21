@@ -1,13 +1,13 @@
-<h1 align="center">✏️ WriteOn ✏️</h1>
+<h1 align="center"><img src="https://user-images.githubusercontent.com/74229895/119077771-8ae12a80-b9ba-11eb-8d8b-fdcb403d94a3.png" />
+</h1>
 
 <p align="center">
     <a href="https://github.com/m0nae/writeon/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/m0nae/writeon?style=flat-square" /></a>
     <a href="https://www.notion.so/cb7c52adc8744f83a1299de9c8e924d1?v=31ee023d6ca648e1987a584ebb3afeb2"><img alt="GitHub issues" src="https://img.shields.io/badge/kanban%20board-here-blue?style=flat-square" /></a>
     
 </p>
-<p align="center">
- A website for writers.
-</p>
+
+
 
 ## ✨ Features
 * Create and save notes
