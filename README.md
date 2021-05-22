@@ -43,7 +43,7 @@ Boy oh boy. Developing WriteOn has been quite the learning experience. Despite i
       * `CLIENT_DOMAIN` for the domain of the frontend, which should be `localhost:3000`
       * `SECRET_JWT_KEY` for the JWT
       * `PORT` for the port in which the server will run
-4. Go to `config/db.js` and change the connect string to your own database's connect string
+4. Go to `config/db.js` and change the connection string to your own database's connection string
 5. Start the server
     ````bash
     npm start
