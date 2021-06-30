@@ -39,7 +39,7 @@ export function ModeProvider(props) {
       modeDispatch({ type: 'promptModeError', payload: null });
     }
 
-    fetch(`${SERVER_DOMAIN}/word?number=${numberOfWords}`)
+    fetch(`https://random-word-api.herokuapp.com/word?number=${numberOfWords}`)
       .then((response) => response.json())
       .then((data) => modeDispatch({ type: 'words', payload: data }));
   }
