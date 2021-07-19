@@ -6,6 +6,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { CreateNew } from './pages/CreateNew';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+import { Signup } from './pages/Signup';
 import { NotFound } from './pages/NotFound';
 import { ProtectedRoute } from './ProtectedRoute';
 import { UserContext } from './contexts/UserContext';
@@ -26,6 +27,7 @@ export default function App() {
         <Router>
           <Switch>
             <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
             <Route exact path="/logout" component={Logout} />
             <OptionsMenuProvider>
               <ProtectedRoute

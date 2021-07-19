@@ -62,9 +62,7 @@ export function Landing() {
                 Login
               </a>
 
-              <button className={styles['signup']} disabled>
-                Sign Up
-              </button>
+              <button className={styles['signup']}>Sign Up</button>
               <button
                 className={styles['mobile-menu-icon']}
                 onClick={() => setToggleMobileMenu(!toggleMobileMenu)}

@@ -8,12 +8,12 @@
   height: 100%;
   width: 100%;
   max-width: 430px;
-  max-height: 490px;
+  max-height: 510px;
   background-color: #fff;
   border-radius: 0.7rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  box-shadow: 0 0 transparent, 0 0 transparent, 0 0 transparent, 0 0 transparent,
+    0 1px 2px 0 rgba(0, 0, 0, 0.05);
   padding: 2.5rem 2.5rem;
   margin: 3rem;
 
@@ -34,7 +34,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
   font-size: 1rem;
 
   label {
@@ -52,7 +52,7 @@
   border-radius: 0.375rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 250ms ease-in-out;
@@ -77,12 +77,10 @@
 .signup-btn {
   @extend .button;
 
-  border: none;
-  background-color: rgb(227, 227, 227);
+  border: 3px solid #1d1b1b;
+  background-color: #fff;
   color: rgb(24, 24, 24);
-  opacity: 0.4;
   box-shadow: none !important;
-  cursor: not-allowed !important;
 }
 
 .write-on {
