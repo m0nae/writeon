@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
+import config from '../../config';
 import React, { useContext } from 'react';
 import styles from '../Login/login.module.scss';
 import { Box, Center, Input } from '@chakra-ui/react';
@@ -14,7 +14,7 @@ export function Signup() {
         <Redirect push to="/dashboard" />
       ) : (
         <Center className={styles['wrapper']}>
-          <Box className={styles['login']}>
+          <Box className={styles['signup-container']}>
             <div>
               <Center>
                 <a href="#" className={styles['write-on']}>
@@ -22,10 +22,18 @@ export function Signup() {
                 </a>
               </Center>
               <form
-                action={`${SERVER_DOMAIN}/api/signup`}
+                action={config.SIGNUP}
                 method="POST"
                 className={styles['form']}
               >
+                <label htmlFor="email">Email</label>
+                <Input
+                  type="text"
+                  name="email"
+                  placeholder="Your email"
+                  mb="3"
+                  size="lg"
+                />
                 <label htmlFor="username">Username</label>
                 <Input
                   type="text"

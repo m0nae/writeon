@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
+import config from './config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'focus-visible/dist/focus-visible';
@@ -19,7 +19,7 @@ import { TimeLimitProvider } from './contexts/TimeLimitContext';
 import { UserProvider } from './contexts/UserContext';
 
 const httpLink = createHttpLink({
-  uri: `${SERVER_DOMAIN}/api/graphql`,
+  uri: config.GRAPHQL,
   credentials: 'include'
 });
 

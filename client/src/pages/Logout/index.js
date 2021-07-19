@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
+import config from '../../config';
 import React, { useEffect, useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { Redirect } from 'react-router-dom';
@@ -8,7 +8,7 @@ export function Logout() {
 
   useEffect(() => {
     if (user) {
-      fetch(`${SERVER_DOMAIN}/api/logout`, {
+      fetch(config.LOGOUT, {
         credentials: 'include'
       });
       setUser(false);

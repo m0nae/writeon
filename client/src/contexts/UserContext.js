@@ -1,5 +1,4 @@
-const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
-
+import config from '../config';
 import React, { createContext, useEffect, useState } from 'react';
 
 export const UserContext = createContext({});
@@ -13,7 +12,7 @@ export function UserProvider(props) {
   }, [user]);
 
   useEffect(() => {
-    fetch(`${SERVER_DOMAIN}/api/current`, {
+    fetch(config.CURRENT_USER, {
       credentials: 'include'
     })
       .then((response) => {

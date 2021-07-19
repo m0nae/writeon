@@ -1,4 +1,4 @@
-const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
+import config from '../../config';
 import React, { useContext } from 'react';
 import styles from './login.module.scss';
 import { Box, Center, Input } from '@chakra-ui/react';
@@ -22,7 +22,7 @@ export function Login() {
                 </a>
               </Center>
               <form
-                action={`${SERVER_DOMAIN}/api/login`}
+                action={config.LOGIN}
                 method="POST"
                 className={styles['form']}
               >

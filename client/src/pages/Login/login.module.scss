@@ -46,6 +46,12 @@
   }
 }
 
+.signup-container {
+  @extend .login;
+
+  max-height: 600px;
+}
+
 .button {
   outline: none;
   padding: 0.9rem 0.6rem !important;
