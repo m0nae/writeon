@@ -30,14 +30,12 @@ export function Login() {
                 <Input
                   type="text"
                   name="username"
-                  value="username"
                   mb="3"
                   size="lg"
                 />
                 <label htmlFor="password">Password</label>
                 <Input
                   type="password"
-                  value="password"
                   name="password"
                   size="lg"
                 />
