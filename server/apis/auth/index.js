@@ -38,22 +38,20 @@ router.post("/login", (req, res, next) => {
   User.findOne({ username: username }, async (err, user) => {
     try {
       if (err) {
-        throw new Error(err);
-      }
-
-      if (!user) {
-        res.redirect(`${DOMAIN}/login`);
-        throw new Error(`There is no user with that username.`);
-      }
-
-      if (
+        next(err);
+      } else if (!user) {
+        // res.redirect(`${DOMAIN}/login`);
+        // res.status(401).send("There is no user with that username.");
+        res.redirect(401, `${DOMAIN}`);
+        // next(`There is no user with that username.`);
+      } else if (
         !(
           password === user.password ||
           (await bcrypt.compare(password, user.password))
         )
       ) {
-        res.redirect(`${DOMAIN}/login`);
-        throw `Incorrect password!`;
+        // res.redirect(`${DOMAIN}/login`);
+        res.status(401).send("Incorrect Password");
       } else {
         let privateKey = process.env.SECRET_JWT_KEY;
         let token = jwt.sign(
@@ -62,7 +60,7 @@ router.post("/login", (req, res, next) => {
         );
 
         res.cookie("jwt", token, { secure: true, sameSite: "none" });
-        res.redirect(`${DOMAIN}`);
+        // res.redirect(`${DOMAIN}`);
       }
     } catch (err) {
       return err;
@@ -79,13 +77,9 @@ router.post("/signup", async (req, res, next) => {
   User.findOne({ username }, (err, user) => {
     try {
       if (err) {
-        throw new Error(err);
-      }
-
-      if (!user) {
-        throw new Error(
-          "There was a problem creating your account. Try again."
-        );
+        next(err);
+      } else if (!user) {
+        next("There was a problem creating your account. Try again.");
       } else {
         res.redirect(`${DOMAIN}`);
       }
