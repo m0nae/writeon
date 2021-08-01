@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from './mode-menu.module.scss';
 import { Button, Menu, MenuButton, MenuList } from '@chakra-ui/react';
 import { MdChevronRight, MdExpandMore } from 'react-icons/md';
 import { ModeContext } from '../../contexts/ModeContext';
-import { ModeMenuItem } from './ModeMenuItem/ModeMenuItem.js';
-import { ModeModal } from './ModeModal/ModeModal.js';
+import { ModeMenuItem } from './ModeMenuItem/ModeMenuItem.jsx';
+import { ModeModal } from './ModeModal/ModeModal.jsx';
 
 export function DropdownModeMenu() {
   const { mode, isOpen, onOpen, onClose } = useContext(ModeContext);

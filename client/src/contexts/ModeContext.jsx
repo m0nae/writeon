@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useRef } from 'react';
+import { createContext, useReducer, useRef } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 
 export const ModeContext = createContext();

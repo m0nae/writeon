@@ -1,5 +1,5 @@
 import config from '../../config';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from './login.module.scss';
 import { Box, Center, Input } from '@chakra-ui/react';
 import { Redirect, Link } from 'react-router-dom';
@@ -27,18 +27,9 @@ export function Login() {
                 className={styles['form']}
               >
                 <label htmlFor="username">Username</label>
-                <Input
-                  type="text"
-                  name="username"
-                  mb="3"
-                  size="lg"
-                />
+                <Input type="text" name="username" mb="3" size="lg" />
                 <label htmlFor="password">Password</label>
-                <Input
-                  type="password"
-                  name="password"
-                  size="lg"
-                />
+                <Input type="password" name="password" size="lg" />
                 <button type="submit" className={styles['login-btn']}>
                   Login
                 </button>

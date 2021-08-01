@@ -1,4 +1,4 @@
-import React, { createContext, useState, useRef } from 'react';
+import { createContext, useState, useRef } from 'react';
 
 export const SearchContext = createContext({});
 

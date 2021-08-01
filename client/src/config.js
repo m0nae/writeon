@@ -1,5 +1,5 @@
-const SERVER_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN;
-const CLIENT_DOMAIN = process.env.REACT_APP_CLIENT_DOMAIN;
+const SERVER_DOMAIN = process.env.VITE_SERVER_DOMAIN;
+const CLIENT_DOMAIN = process.env.VITE_CLIENT_DOMAIN;
 
 export default {
   CLIENT_DOMAIN,

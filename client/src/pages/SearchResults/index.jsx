@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { SearchContext } from '../../contexts/SearchContext';
 import { NoteCard } from '../../components/NoteCard';
 

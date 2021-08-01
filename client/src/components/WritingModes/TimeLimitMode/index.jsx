@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from '../writing-modes.module.scss';
 import {
   HStack,

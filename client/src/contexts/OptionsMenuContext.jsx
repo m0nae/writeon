@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useState } from 'react';
+import { createContext, useRef, useState } from 'react';
 import { createStandaloneToast } from '@chakra-ui/react';
 
 const deletePostErrorToast = createStandaloneToast();

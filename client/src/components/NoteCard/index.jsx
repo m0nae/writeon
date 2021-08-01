@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './note-card.module.scss';
 import { Box } from '@chakra-ui/react';
 import { BsThreeDots } from 'react-icons/bs';

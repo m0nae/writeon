@@ -6,7 +6,7 @@ import searchDemo from './writeon-search-demo.png';
 import editorDemo from './writeon-editor-demo.png';
 import featuresDemo from './writeon-features.png';
 
-import React, { useContext, useState, useLayoutEffect } from 'react';
+import { useContext, useState, useLayoutEffect } from 'react';
 import { Box, IconButton, Spacer, Button } from '@chakra-ui/react';
 import { UserContext } from '../../contexts/UserContext';
 import { Redirect } from 'react-router-dom';

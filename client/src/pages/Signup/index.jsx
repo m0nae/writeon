@@ -1,5 +1,5 @@
 import config from '../../config';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from '../Login/login.module.scss';
 import { Box, Center, Input } from '@chakra-ui/react';
 import { Redirect, Link } from 'react-router-dom';

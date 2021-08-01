@@ -1,5 +1,5 @@
 const CLIENT_DOMAIN = process.env.REACT_APP_CLIENT_DOMAIN;
-import React, { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import styles from './layout.module.scss';
 import {
   Box,

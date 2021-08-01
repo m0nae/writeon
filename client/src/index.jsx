@@ -1,5 +1,4 @@
 import config from './config';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import 'focus-visible/dist/focus-visible';
 import {

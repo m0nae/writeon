@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from '../mode-menu.module.scss';
 import { Box, MenuItem, Switch, Text } from '@chakra-ui/react';
 import { ModeContext } from '../../../contexts/ModeContext';

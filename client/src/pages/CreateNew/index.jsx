@@ -7,18 +7,18 @@ import {
   useBreakpointValue,
   useToast
 } from '@chakra-ui/react';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import 'react-quill/dist/quill.snow.css';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
-import { AlertDialog } from '../../components/AlertDialog/index.js';
-import { CreateNewHeader } from '../../components/Header/CreateNewHeader/index.js';
+import { AlertDialog } from '../../components/AlertDialog';
+import { CreateNewHeader } from '../../components/Header/CreateNewHeader';
 import { TextEditor } from '../../components/TextEditor';
 import { ModeContext } from '../../contexts/ModeContext';
 import { OptionsMenuContext } from '../../contexts/OptionsMenuContext';
 import { TimeLimitContext } from '../../contexts/TimeLimitContext';
 import { DELETE_POST, GET_POST, UPDATE_POST } from '../../gql.js';
-import { Loading } from '../Loading/index.js';
+import { Loading } from '../Loading';
 import styles from './create-new.module.scss';
 
 export function CreateNew() {
@@ -258,7 +258,7 @@ export function CreateNew() {
 
           {toggledSwitches.includes('timeLimitMode') && !isModalOpen && (
             <CircularProgress
-              value={count && count !== NaN ? count : 0}
+              value={count ? count : 0}
               min={0}
               max={timeLimit && timeLimit !== 0 ? timeLimit : 1}
               size={sizes}

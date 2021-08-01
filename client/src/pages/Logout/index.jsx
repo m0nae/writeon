@@ -1,5 +1,5 @@
 import config from '../../config';
-import React, { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { Redirect } from 'react-router-dom';
 

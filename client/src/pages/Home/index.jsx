@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './home.module.scss';
 import { Box, Flex, Select } from '@chakra-ui/react';
 import { HiSortAscending, HiSortDescending } from 'react-icons/hi';

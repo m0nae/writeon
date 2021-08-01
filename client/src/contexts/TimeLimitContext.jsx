@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useRef } from 'react';
+import { createContext, useContext, useReducer, useRef } from 'react';
 import { useInterval } from '../utils';
 import { ModeContext } from './ModeContext';
 
